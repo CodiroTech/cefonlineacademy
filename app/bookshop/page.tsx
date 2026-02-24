@@ -1,16 +1,14 @@
-import React from 'react';
-import { AboutHeader } from '@/components/common/aboutHeader';
-import CEFBOOKSHOP from './course';
-import BOOKDETAILS from './charProgram';
+import React from 'react'
+import { AboutHeader } from '@/components/common/aboutHeader'
+import BookshopContent from './BookshopContent'
 
 const Page = () => {
   return (
     <div>
       <AboutHeader title="CEF Bookshop" imageSrc="/1.png" />
-      <CEFBOOKSHOP />
-      <BOOKDETAILS />      
+      <BookshopContent />
     </div>
-  );
+  )
 }
 
-export default Page;
+export default Page

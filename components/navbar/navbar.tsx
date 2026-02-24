@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import {
   FaFacebookF,
   FaInstagram,
@@ -9,6 +10,7 @@ import {
 import { IoMdSearch } from 'react-icons/io'
 import { NavMenu } from './nav-menu'
 import { NavigationSheet } from './navigation-sheet'
+import { BookADemoPopup } from '@/components/demo/BookADemoPopup'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -23,21 +25,23 @@ type NavbarProps = {
     'insta-url'?: string
     'youtube-url'?: string
     'linkedin-url'?: string
+    'portal-url'?: string
   }
 }
 
 const Navbar01Page = ({ data }: NavbarProps) => {
   const pathname = usePathname()
   const isHomePage = pathname === '/'
+  const [demoOpen, setDemoOpen] = useState(false)
 
   const logoSrc = data?.['header-logo']?.full_url
 
   return (
     <nav className="h-16 mt-10 sm:h-20 md:h-24 bg-transparent navbar-shrink">
-      <div className="h-full flex items-center justify-between container mx-auto px-3 sm:px-4 lg:px-9 2xl:pr-8 2xl:pl-12">
+      <div className="h-full flex items-center justify-between container mx-auto px-2 sm:px-3 lg:px-5 2xl:pr-6 2xl:pl-6">
 
         {/* Logo */}
-        <div className={`shrink-0 mt-22 ${isHomePage ? 'ml-4 sm:ml-2 lg:ml-3' : 'ml-3 sm:ml-6 lg:ml-10'}`}>
+        <div className="shrink-0 mt-22 ml-[0.9rem]">
           <Link href="/" className="cursor-pointer">
             {logoSrc ? (
               <Image
@@ -92,20 +96,25 @@ const Navbar01Page = ({ data }: NavbarProps) => {
               <IoMdSearch className="hidden md:block w-5 h-5 lg:w-6 lg:h-6 text-primary cursor-pointer shrink-0" />
                
               <Link
-                href="https://cefonlineacademy.com/"
+                href={
+                  (() => {
+                    const u = data?.['portal-url']?.trim()
+                    return u && /^https?:\/\//i.test(u) ? u : 'https://cefonlineacademy.com/'
+                  })()
+                }
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Button variant="primarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Student Login</Button>
               </Link>
 
-              <Link
-                href="https://www.cef.org.pk/shop/"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Button
+                variant="secondarySmall"
+                className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!"
+                onClick={() => setDemoOpen(true)}
               >
-                <Button variant="secondarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Book a Demo</Button>
-              </Link>
+                Book a Demo
+              </Button>
 
               <Link
                 href="https://cefonlineacademy.com/"
@@ -131,10 +140,11 @@ const Navbar01Page = ({ data }: NavbarProps) => {
 
           {/* Mobile Menu */}
           <div className="lg:hidden ml-2">
-            <NavigationSheet data={data} />
+            <NavigationSheet data={data} onBookDemoOpen={() => setDemoOpen(true)} />
           </div>
         </div>
       </div>
+      <BookADemoPopup open={demoOpen} onOpenChange={setDemoOpen} />
     </nav>
   )
 }

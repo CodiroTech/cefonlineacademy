@@ -21,8 +21,10 @@ export const viewport: Viewport = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSiteSettings();
+  const settings = await getSiteSettings(0); // no cache so favicon is always fresh
   const data = buildSiteSettingsData(settings);
+  const faviconUrl = data.faviconUrl || "/favicon.ico";
+  // Use array form so external absolute URLs work reliably
   return {
     title: {
       default: "CEF - Character Education Foundation",
@@ -36,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
       follow: true,
     },
     icons: {
-      icon: data.faviconUrl || "/favicon.ico",
+      icon: faviconUrl.startsWith("http") ? [{ url: faviconUrl }] : faviconUrl,
     },
   };
 }
@@ -46,7 +48,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const settings = await getSiteSettings();
+  const settings = await getSiteSettings(0); // no cache so footer/favicon from API are fresh
   const siteData = buildSiteSettingsData(settings);
 
   const navbarData = {
@@ -55,6 +57,7 @@ export default async function RootLayout({
     "insta-url": siteData["insta-url"],
     "youtube-url": siteData["youtube-url"],
     "linkedin-url": siteData["linkedin-url"],
+    "portal-url": siteData["portal-url"],
   };
 
   const footerData = {

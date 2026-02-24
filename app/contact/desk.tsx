@@ -4,14 +4,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Heading } from '@/components/common/heading'
 import { Subtitle } from '@/components/common/subtitle'
+import type { HelpDeskItem } from '@/lib/api/homepage'
+import { mediaUrl } from '@/lib/headless'
 
-type HelpItem = {
+type LocalHelpItem = {
   image: string
   title: string
   link: string
 }
 
-const helpItems: HelpItem[] = [
+const fallbackItems: LocalHelpItem[] = [
   { image: '/Contact Us.svg', title: 'Contact Us', link: '/contact' },
   { image: '/Queries.svg', title: 'Queries', link: '/queries' },
   { image: '/Complaints.svg', title: 'Complaints', link: '/complaints' },
@@ -20,25 +22,32 @@ const helpItems: HelpItem[] = [
   { image: '/Careers.svg', title: 'Careers', link: '/hr-queries' },
 ]
 
-export const HelpDesk = () => {
+interface Props {
+  items?: HelpDeskItem[]
+}
+
+export const HelpDesk = ({ items }: Props) => {
+  const helpItems: LocalHelpItem[] = items && items.length > 0
+    ? items.map((item, i) => ({
+        image: mediaUrl(item.icon, fallbackItems[i]?.image ?? '/Contact Us.svg'),
+        title: item.title || fallbackItems[i]?.title || '',
+        link: (item as Record<string, unknown>).link as string || fallbackItems[i]?.link || '#',
+      }))
+    : fallbackItems
+
   return (
     <section className="pb-16">
-
-      {/* BACKGROUND CONTAINER */}
       <div className="bg-[#EAF4F6] rounded-3xl w-[92%] lg:w-[82%] mx-auto py-10 px-4 lg:px-10">
 
-        {/* HEADING */}
         <div className="text-center mb-6">
           <Heading textSize="text-3xl lg:text-[2.66rem]">
             Reach Our Help Desk
           </Heading>
-
           <Subtitle className="text-lg lg:text-xl">
             Click me
           </Subtitle>
         </div>
 
-        {/* ITEMS */}
         <div className="flex flex-wrap lg:flex-nowrap justify-center gap-1 w-full lg:w-[70%] mx-auto">
           {helpItems.map((item, index) => (
             <Link
@@ -63,7 +72,6 @@ export const HelpDesk = () => {
         </div>
 
       </div>
-
     </section>
   )
 }

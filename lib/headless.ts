@@ -30,7 +30,9 @@ export async function fetchCollection<T = Record<string, unknown>>(
     })
     if (!res.ok) return []
     const data = await res.json()
-    return Array.isArray(data) ? data : [data]
+    // Laravel ResourceCollection wraps in "data"; unwrap for consistent array of items
+    const items = Array.isArray(data) ? data : (data && Array.isArray(data.data) ? data.data : [data])
+    return items
   } catch {
     return []
   }

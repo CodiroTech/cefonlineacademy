@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 23, 2026 at 01:34 PM
+-- Generation Time: Feb 24, 2026 at 01:03 AM
 -- Server version: 11.8.3-MariaDB-log
 -- PHP Version: 7.2.34
 
@@ -208,7 +208,22 @@ INSERT INTO `collection_fields` (`id`, `type`, `label`, `name`, `description`, `
 (989, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 159, 989, '2026-02-23 13:12:13', '2026-02-23 13:12:13'),
 (990, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 160, 990, '2026-02-23 13:12:23', '2026-02-23 13:12:23'),
 (991, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 161, 991, '2026-02-23 13:12:32', '2026-02-23 13:12:32'),
-(992, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 162, 992, '2026-02-23 13:12:44', '2026-02-23 13:12:44');
+(992, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 162, 992, '2026-02-23 13:12:44', '2026-02-23 13:12:44'),
+(993, 'text', 'link', 'link', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 124, 993, '2026-02-23 20:35:05', '2026-02-23 20:35:05'),
+(994, 'text', 'variant', 'variant', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 124, 994, '2026-02-23 20:35:05', '2026-02-23 20:35:05'),
+(995, 'text', 'link', 'link', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 131, 995, '2026-02-23 20:35:05', '2026-02-23 20:35:05'),
+(996, 'media', 'image', 'image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 136, 996, '2026-02-23 20:35:05', '2026-02-23 20:35:05'),
+(997, 'text', 'video url', 'video-url', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 136, 997, '2026-02-23 20:35:05', '2026-02-23 20:35:05'),
+(998, 'text', 'video url', 'video-url', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 134, 998, '2026-02-23 20:35:05', '2026-02-23 20:35:05'),
+(999, 'media', 'background image', 'background-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 137, 999, '2026-02-23 20:35:05', '2026-02-23 20:35:05'),
+(1000, 'text', 'link', 'link', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 143, 1000, '2026-02-23 20:35:06', '2026-02-23 20:35:06'),
+(1001, 'media', 'Favicon', 'favicon', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1001, '2026-02-24 00:11:05', '2026-02-24 00:11:05'),
+(1002, 'text', 'Facebook', 'facebook', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1002, '2026-02-24 00:11:15', '2026-02-24 00:11:15'),
+(1003, 'text', 'Instagram', 'instagram', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1003, '2026-02-24 00:11:36', '2026-02-24 00:11:36'),
+(1004, 'text', 'Youtube', 'youtube', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1004, '2026-02-24 00:11:42', '2026-02-24 00:11:42'),
+(1005, 'text', 'LinkedIn', 'linkedin', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1005, '2026-02-24 00:11:49', '2026-02-24 00:11:49'),
+(1006, 'text', 'Tiktok', 'tiktok', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1006, '2026-02-24 00:11:58', '2026-02-24 00:11:58'),
+(1007, 'text', 'Footer Text', 'footer-text', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1007, '2026-02-24 00:18:30', '2026-02-24 00:18:30');
 
 -- --------------------------------------------------------
 
@@ -237,8 +252,8 @@ CREATE TABLE `content` (
 --
 
 INSERT INTO `content` (`id`, `project_id`, `collection_id`, `locale`, `form_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `published_at`, `published_by`, `deleted_at`, `sort_number`) VALUES
-(747, 3, 121, 'en', NULL, '2026-02-20 06:32:51', 1, '2026-02-20 06:32:51', NULL, NULL, NULL, NULL, 1),
-(748, 3, 122, 'en', NULL, '2026-02-20 06:38:41', 1, '2026-02-20 06:38:41', NULL, NULL, NULL, NULL, 2),
+(747, 3, 121, 'en', NULL, '2026-02-20 06:32:51', 1, '2026-02-24 00:19:11', 1, '2026-02-24 00:19:11', 1, NULL, 1),
+(748, 3, 122, 'en', NULL, '2026-02-20 06:38:41', 1, '2026-02-23 22:53:26', 1, '2026-02-23 22:53:26', 1, NULL, 2),
 (749, 3, 140, 'en', NULL, '2026-02-20 06:47:48', 1, '2026-02-20 06:47:48', NULL, NULL, NULL, NULL, 1),
 (750, 3, 140, 'en', NULL, '2026-02-20 06:48:36', 1, '2026-02-20 06:48:36', NULL, NULL, NULL, NULL, 2),
 (751, 3, 140, 'en', NULL, '2026-02-20 06:49:41', 1, '2026-02-20 06:49:41', NULL, NULL, NULL, NULL, 3),
@@ -271,7 +286,7 @@ INSERT INTO `content` (`id`, `project_id`, `collection_id`, `locale`, `form_id`,
 (778, 3, 132, 'en', NULL, '2026-02-20 09:35:36', 1, '2026-02-20 09:35:36', NULL, NULL, NULL, NULL, 1),
 (779, 3, 142, 'en', NULL, '2026-02-20 09:43:46', 1, '2026-02-20 09:43:46', NULL, NULL, NULL, NULL, 1),
 (780, 3, 142, 'en', NULL, '2026-02-20 09:44:49', 1, '2026-02-20 09:44:49', NULL, NULL, NULL, NULL, 2),
-(781, 3, 134, 'en', NULL, '2026-02-20 09:46:29', 1, '2026-02-20 09:46:29', NULL, NULL, NULL, NULL, 1),
+(781, 3, 134, 'en', NULL, '2026-02-20 09:46:29', 1, '2026-02-24 00:02:12', 1, '2026-02-24 00:02:12', 1, NULL, 1),
 (782, 3, 137, 'en', NULL, '2026-02-20 09:49:39', 1, '2026-02-20 09:49:39', NULL, NULL, NULL, NULL, 1),
 (783, 3, 143, 'en', NULL, '2026-02-20 09:52:06', 1, '2026-02-20 09:52:06', NULL, NULL, NULL, NULL, 1),
 (784, 3, 143, 'en', NULL, '2026-02-20 09:52:43', 1, '2026-02-20 09:52:43', NULL, NULL, NULL, NULL, 2),
@@ -307,7 +322,7 @@ INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `
 (5398, 3, 121, 747, 'site-logo', '1165', '2026-02-20 06:32:51', '2026-02-20 06:32:51', NULL),
 (5399, 3, 122, 748, 'sort_number', '2', '2026-02-20 06:38:41', '2026-02-20 06:38:41', NULL),
 (5400, 3, 122, 748, 'titla', 'Transforming Lives Globally— From Quran to Character', '2026-02-20 06:38:41', '2026-02-20 06:38:41', NULL),
-(5401, 3, 122, 748, 'description', '<p><strong>Illuminate Your Soul with Quran.</strong></p><p>At CEF Online Academy, we offer excellence in Nazirah and Fahm-ul-Quran, helping students recite, understand, and live the Quran. Our character-building courses blend modern skills with Quranic and Prophetic values, empowering youth to live purposefully, lead confidently, and serve the Ummah with excellence.</p>', '2026-02-20 06:38:41', '2026-02-20 06:38:41', NULL),
+(5401, 3, 122, 748, 'description', '<p><strong>Illuminate Your Soul with Quran.</strong></p><p>At the CEF Online Academy, we offer excellence in Nazirah and Fahm-ul-Quran, helping students recite, understand, and live the Quran. Our character-building courses blend modern skills with Quranic and Prophetic values, empowering youth to live purposefully, lead confidently, and serve the Ummah with excellence.</p>', '2026-02-20 06:38:41', '2026-02-23 22:53:26', NULL),
 (5402, 3, 122, 748, 'image', '1166', '2026-02-20 06:38:41', '2026-02-20 06:38:41', NULL),
 (5403, 3, 140, 749, 'sort_number', '1', '2026-02-20 06:47:48', '2026-02-20 06:47:48', NULL),
 (5404, 3, 140, 749, 'step', '1', '2026-02-20 06:47:48', '2026-02-20 06:47:48', NULL),
@@ -466,7 +481,34 @@ INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `
 (5557, 3, 143, 787, 'icon', '1205', '2026-02-20 09:54:47', '2026-02-20 09:54:47', NULL),
 (5558, 3, 143, 788, 'sort_number', '6', '2026-02-20 09:55:21', '2026-02-20 09:55:21', NULL),
 (5559, 3, 143, 788, 'title', 'Careers', '2026-02-20 09:55:21', '2026-02-20 09:55:21', NULL),
-(5560, 3, 143, 788, 'icon', '1206', '2026-02-20 09:55:21', '2026-02-20 09:55:21', NULL);
+(5560, 3, 143, 788, 'icon', '1206', '2026-02-20 09:55:21', '2026-02-20 09:55:21', NULL),
+(5561, 3, 124, 753, 'link', '/demo', '2026-02-23 20:39:34', '2026-02-23 20:39:34', NULL),
+(5562, 3, 124, 754, 'link', '/enroll', '2026-02-23 20:39:34', '2026-02-23 20:39:34', NULL),
+(5563, 3, 124, 755, 'link', '/login', '2026-02-23 20:39:34', '2026-02-23 20:39:34', NULL),
+(5564, 3, 124, 756, 'link', '/courses', '2026-02-23 20:39:34', '2026-02-23 20:39:34', NULL),
+(5565, 3, 124, 753, 'variant', 'green', '2026-02-23 20:39:43', '2026-02-23 20:39:43', NULL),
+(5566, 3, 124, 754, 'variant', 'green', '2026-02-23 20:39:43', '2026-02-23 20:39:43', NULL),
+(5567, 3, 124, 755, 'variant', 'blue', '2026-02-23 20:39:43', '2026-02-23 20:39:43', NULL),
+(5568, 3, 124, 756, 'variant', 'green', '2026-02-23 20:39:43', '2026-02-23 20:39:43', NULL),
+(5569, 3, 131, 773, 'link', '/offerings/weekly-sessions', '2026-02-23 20:39:51', '2026-02-23 20:39:51', NULL),
+(5570, 3, 131, 774, 'link', '/offerings/cef-series', '2026-02-23 20:39:51', '2026-02-23 20:39:51', NULL),
+(5571, 3, 131, 775, 'link', '/offerings/webinars', '2026-02-23 20:39:51', '2026-02-23 20:39:51', NULL),
+(5572, 3, 131, 776, 'link', '/offerings/workshops', '2026-02-23 20:39:51', '2026-02-23 20:39:51', NULL),
+(5573, 3, 131, 777, 'link', '/offerings/mentorship-circles', '2026-02-23 20:39:51', '2026-02-23 20:39:51', NULL),
+(5574, 3, 143, 783, 'link', '/contact', '2026-02-23 20:39:59', '2026-02-23 20:39:59', NULL),
+(5575, 3, 143, 784, 'link', '/queries', '2026-02-23 20:39:59', '2026-02-23 20:39:59', NULL),
+(5576, 3, 143, 785, 'link', '/complaints', '2026-02-23 20:39:59', '2026-02-23 20:39:59', NULL),
+(5577, 3, 143, 786, 'link', '/book-sales-queries', '2026-02-23 20:39:59', '2026-02-23 20:39:59', NULL),
+(5578, 3, 143, 787, 'link', '/donation-queries', '2026-02-23 20:39:59', '2026-02-23 20:39:59', NULL),
+(5579, 3, 143, 788, 'link', '/hr-queries', '2026-02-23 20:39:59', '2026-02-23 20:39:59', NULL),
+(5580, 3, 134, 781, 'video-url', 'https://youtube.com/cefonlineacademy.com', '2026-02-24 00:02:12', '2026-02-24 00:02:12', NULL),
+(5581, 3, 121, 747, 'footer-text', '© Copyright 2026 | CEF Online Academy | All Rights Reserved', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
+(5582, 3, 121, 747, 'tiktok', 'https://tiktok.com', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
+(5583, 3, 121, 747, 'linkedin', 'https://tiktok.com', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
+(5584, 3, 121, 747, 'youtube', 'https://tiktok.com', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
+(5585, 3, 121, 747, 'instagram', 'https://tiktok.com', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
+(5586, 3, 121, 747, 'facebook', 'https://tiktok.com', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
+(5587, 3, 121, 747, 'favicon', '1165', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL);
 
 -- --------------------------------------------------------
 
@@ -701,6 +743,13 @@ CREATE TABLE `personal_access_tokens` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `personal_access_tokens`
+--
+
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `created_at`, `updated_at`) VALUES
+(5, 'App\\Models\\Project', 3, 'Web Frontend', '770ec248b2e89f0c4023020c8584b869d6bf4d261bf98040f06ad58cb61fcc74', '[\"read\"]', NULL, '2026-02-23 23:06:41', '2026-02-23 23:13:27');
+
 -- --------------------------------------------------------
 
 --
@@ -726,7 +775,7 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`id`, `uuid`, `name`, `description`, `default_locale`, `locales`, `disk`, `public_api`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(3, '7c659eaece9c42a98b7030d402f04074', 'CEF ONLINE ACADEMY', 'At CEF Online Academy, we offer excellence in Nazirah and Fahm-ul-Quran, helping students recite, understand, and live the Quran.', 'en', 'en', 'local', 0, '2026-02-10 16:31:09', '2026-02-10 16:31:09', NULL);
+(3, '7c659eaece9c42a98b7030d402f04074', 'CEF ONLINE ACADEMY', 'At CEF Online Academy, we offer excellence in Nazirah and Fahm-ul-Quran, helping students recite, understand, and live the Quran.', 'en', 'en', 'local', 1, '2026-02-10 16:31:09', '2026-02-23 23:25:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -784,7 +833,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Codiro Admin', 'admin@admin.com', NULL, '$2y$10$CI3LPnGwFfgMaIDx2CfnvOOHCRR6pC3pDtc.seZAbgB6ZniaMrENi', 'JpE5a2tQAxvVOEREZylriquIMs8DqNaM5h8fK2bCH1uvxbZzXjvevkj1EUrp', '2023-01-28 17:53:35', '2023-09-07 09:29:43'),
+(1, 'Codiro Admin', 'admin@admin.com', NULL, '$2y$10$CI3LPnGwFfgMaIDx2CfnvOOHCRR6pC3pDtc.seZAbgB6ZniaMrENi', '5hPThTlXPa1mjUSHxTCOWrnKnA6IlMVRV1ht5vJGiZ3QwcOT1iFunX0lezUc', '2023-01-28 17:53:35', '2023-09-07 09:29:43'),
 (2, 'developer', 'developer@codiro.tech', NULL, '$2y$10$p28cf9Sd3O0IBuP116HxpeWYTGJ46uIFelhq5pW5v.DwUus6xdQaG', NULL, '2023-09-07 09:31:26', '2023-09-07 09:31:26'),
 (3, 'CEF', 'website@cef.org.pk', NULL, '$2y$10$e5yvwjgTf02g7NXJwTJRXO8WDD682.a3pxYyicAYMxaGROk.ZWQXq', NULL, '2025-12-16 10:06:43', '2025-12-16 10:06:43');
 
@@ -998,7 +1047,7 @@ ALTER TABLE `collections`
 -- AUTO_INCREMENT for table `collection_fields`
 --
 ALTER TABLE `collection_fields`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=993;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1008;
 
 --
 -- AUTO_INCREMENT for table `content`
@@ -1010,7 +1059,7 @@ ALTER TABLE `content`
 -- AUTO_INCREMENT for table `content_meta`
 --
 ALTER TABLE `content_meta`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5561;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5588;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1052,7 +1101,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `projects`

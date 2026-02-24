@@ -87,17 +87,8 @@ export const HallmarksOfExcellence = ({
         />
       </div>
 
-      {/* Need Help? Chat with Us -- mobile only, floating bottom right */}
-      <a
-        href="/contact"
-        className="fixed right-4 bottom-4 sm:bottom-5 z-50 flex items-center gap-2 rounded-full bg-[#8DC63F] px-4 py-3 text-white text-sm font-medium shadow-lg hover:bg-[#79ad3f] transition-colors lg:hidden"
-        aria-label="Need Help? Chat with Us"
-      >
-        <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden>
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v2h-2zm0 4h2v6h-2z" />
-        </svg>
-        <span className="hidden sm:inline">Need Help? Chat with Us</span>
-      </a>
+      {/* Need Help? Chat with Us — fixed bottom right, all screen sizes */}
+      
 
       <div className="relative z-10 container mx-auto px-4 lg:px-10 flex justify-center">
         {/* Mobile: stacked green cards */}

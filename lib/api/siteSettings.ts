@@ -10,6 +10,7 @@ export type SiteSettings = {
   linkedin?: string
   tiktok?: string
   'footer-text'?: string
+  'portal-url'?: string
 }
 
 const DEFAULT_LOGO = '/CEF Logo-01.png'
@@ -18,9 +19,20 @@ const DEFAULT_FACEBOOK = 'https://facebook.com/'
 const DEFAULT_INSTAGRAM = 'https://instagram.com/'
 const DEFAULT_YOUTUBE = 'https://youtube.com/'
 const DEFAULT_LINKEDIN = 'https://linkedin.com/'
+const DEFAULT_PORTAL_URL = 'https://cefonlineacademy.com/'
 
-export async function getSiteSettings() {
-  const raw = await fetchSingleContent<SiteSettings>('site-settings')
+/** Normalize URL: fix common typos (e.g. htps -> https) and ensure valid protocol */
+function normalizeUrl(url: string | undefined | null, defaultUrl: string): string {
+  const raw = (url ?? '').trim()
+  if (!raw) return defaultUrl
+  // Fix common typo "htps" -> "https"
+  const fixed = raw.replace(/^htps:\/\//i, 'https://')
+  if (!/^https?:\/\//i.test(fixed)) return defaultUrl
+  return fixed
+}
+
+export async function getSiteSettings(revalidate = 60) {
+  const raw = await fetchSingleContent<SiteSettings>('site-settings', revalidate)
   if (!raw) return null
   return raw
 }
@@ -40,6 +52,7 @@ export function buildSiteSettingsData(settings: SiteSettings | null) {
     'youtube-url': settings?.youtube?.trim() || DEFAULT_YOUTUBE,
     'linkedin-url': settings?.linkedin?.trim() || DEFAULT_LINKEDIN,
     'tiktok-url': settings?.tiktok?.trim() || '',
+    'portal-url': normalizeUrl(settings?.['portal-url'], DEFAULT_PORTAL_URL),
     faviconUrl: settings?.favicon
       ? mediaUrl(settings.favicon, DEFAULT_FAVICON)
       : DEFAULT_FAVICON,

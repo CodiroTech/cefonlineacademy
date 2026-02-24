@@ -65,8 +65,8 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
     : fallbackSteps
 
   return (
-    <section className="w-full px-4 lg:px-13 pt-1 pb-10">
-      <div className="container mx-auto bg-[#EAF7E5] rounded-[36px] px-4 sm:px-6 lg:px-10 pt-7 lg:pt-10 pb-3 lg:pb-6 flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0">
+    <section className="w-full px-3 sm:px-4 lg:px-6 pt-1 pb-10">
+      <div className="container mx-auto bg-[#EAF7E5] rounded-[36px] px-3 sm:px-4 lg:px-6 pt-7 lg:pt-10 pb-3 lg:pb-6 flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0">
 
         <div className="relative z-20 w-full lg:w-[53%] space-y-4 pt-15 lg:pt-23 sm:pt-23">
           <Heading

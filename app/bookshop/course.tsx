@@ -2,8 +2,23 @@
 
 import { Heading } from '@/components/common/heading'
 import { Text } from '@/components/common/text'
+import type { SortOption } from './BookshopContent'
 
-export default function CEFBOOKSHOP() {
+type CEFBOOKSHOPProps = {
+  searchQuery: string
+  onSearchChange: (value: string) => void
+  sort: SortOption
+  onSortChange: (value: SortOption) => void
+}
+
+const SORT_OPTIONS: { value: SortOption; label: string }[] = [
+  { value: 'newest', label: 'Newest' },
+  { value: 'oldest', label: 'Oldest' },
+  { value: 'price_asc', label: 'Price: low to high' },
+  { value: 'price_desc', label: 'Price: high to low' },
+]
+
+export default function CEFBOOKSHOP({ searchQuery, onSearchChange, sort, onSortChange }: CEFBOOKSHOPProps) {
   return (
     <section className="w-full bg-white px-4 lg:px-12 py-12 lg:pt-10 font-poppins">
       <div className="container mx-auto max-w-6xl text-center">
@@ -20,7 +35,7 @@ export default function CEFBOOKSHOP() {
           find meaningful resources that help you develop impeccable values, nurture meaningful life, and aspire to lead.
         </Text>
 
-        {/* SEARCH + FILTER */}
+        {/* SEARCH + SORT BY */}
         <div className="flex flex-wrap justify-center items-center gap-4">
 
           {/* SEARCH INPUT */}
@@ -28,12 +43,12 @@ export default function CEFBOOKSHOP() {
             <input
               type="text"
               placeholder="Search Book"
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
               className="w-full h-7 rounded-lg border border-gray-300
                          px-2 text-sm
                          focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
-
-            {/* SEARCH ICON */}
             <span
               className="absolute top-1/2 -translate-y-1/2 pointer-events-none"
               style={{ right: '6px' }}
@@ -56,19 +71,20 @@ export default function CEFBOOKSHOP() {
             </span>
           </div>
 
-          {/* FILTER */}
+          {/* SORT BY */}
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium text-gray-700">
-              Filter By
-            </span>
+            <span className="text-sm font-medium text-gray-700">Sort by</span>
             <select
+              value={sort}
+              onChange={(e) => onSortChange(e.target.value as SortOption)}
               className="h-7 rounded-lg border border-gray-300 px-3 text-sm
                          focus:outline-none focus:ring-2 focus:ring-blue-400"
             >
-              <option>All</option>
-              <option>Faith & Spirituality</option>
-              <option>Character Building</option>
-              <option>Quranic Reflection</option>
+              {SORT_OPTIONS.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
             </select>
           </div>
 

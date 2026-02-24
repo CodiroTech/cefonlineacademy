@@ -210,12 +210,12 @@ export const NavMenu = (props: NavigationMenuProps) => {
           {navigationItems.map((item) => (
             <li key={item.label} className={isVertical ? 'w-full' : 'relative'}>
               {item.hasDropdown ? (
-                <button className="text-primary font-semibold lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-bold cursor-pointer group inline-flex h-9 w-max items-center justify-center px-2 py-2">
+                <button className="text-primary font-medium lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-medium cursor-pointer group inline-flex h-9 w-max items-center justify-center px-2 py-2">
                   {item.label}
                 </button>
               ) : (
                 <Link
-                  className={`text-primary font-semibold cursor-pointer whitespace-nowrap lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-bold ${
+                  className={`text-primary font-medium cursor-pointer whitespace-nowrap lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-medium ${
                     isVertical ? 'w-full block p-3' : ''
                   }`}
                   href={item.to!}
@@ -241,7 +241,7 @@ export const NavMenu = (props: NavigationMenuProps) => {
             >
               {isVertical ? (
                 <button
-                  className="text-primary font-semibold lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-bold w-full text-left p-1 flex items-center justify-between cursor-pointer"
+                  className="text-primary font-medium lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-medium w-full text-left p-1 flex items-center justify-between cursor-pointer"
                   onClick={() =>
                     setExpandedMobileItem(
                       expandedMobileItem === item.label ? null : item.label,
@@ -256,7 +256,7 @@ export const NavMenu = (props: NavigationMenuProps) => {
                   />
                 </button>
               ) : (
-                <NavigationMenuTrigger className="text-primary font-semibold lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-bold cursor-pointer">
+                <NavigationMenuTrigger className="text-primary font-medium lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-medium cursor-pointer">
                   {item.label}
                 </NavigationMenuTrigger>
               )}
@@ -379,7 +379,7 @@ export const NavMenu = (props: NavigationMenuProps) => {
             >
               <NavigationMenuLink asChild>
                 <Link
-                  className={`text-primary font-semibold cursor-pointer whitespace-nowrap lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-bold ${
+                  className={`text-primary font-medium cursor-pointer whitespace-nowrap lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-medium ${
                     isVertical ? 'w-full block p-3' : ''
                   }`}
                   href={item.to!}

@@ -133,7 +133,7 @@ export const Footer = ({ data }: FooterProps) => {
                   </Link>
 
                   <p className="text-xs text-white/80 text-justify max-w-70">
-                    {data?.['footer-text'] || DEFAULT_FOOTER_TEXT}
+                    {DEFAULT_FOOTER_TEXT}
                   </p>
                 </div>
               </div>
@@ -205,7 +205,7 @@ export const Footer = ({ data }: FooterProps) => {
           {/* COPYRIGHT */}
           <div className="w-full bg-secondary">
             <div className="mx-auto max-w-7xl px-6 md:px-8 py-2 text-center text-xs">
-              © Copyright 2025 | CEF Online Academy | All Rights Reserved
+              {data?.['footer-text'] || '© Copyright 2025 | CEF Online Academy | All Rights Reserved'}
             </div>
           </div>
         </div>

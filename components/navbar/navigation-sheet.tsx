@@ -19,7 +19,7 @@ import {
   FaYoutube,
 } from 'react-icons/fa'
 
-type NavigationSheetProps = {
+export type NavigationSheetProps = {
   data?: {
     'header-logo'?: {
       full_url?: string
@@ -29,9 +29,10 @@ type NavigationSheetProps = {
     'youtube-url'?: string
     'linkedin-url'?: string
   }
+  onBookDemoOpen?: () => void
 }
 
-export const NavigationSheet = ({ data }: NavigationSheetProps) => {
+export const NavigationSheet = ({ data, onBookDemoOpen }: NavigationSheetProps) => {
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -124,13 +125,22 @@ export const NavigationSheet = ({ data }: NavigationSheetProps) => {
               </Link>
 
               {/* Book a Demo – GREEN */}
-              <Link href="/book-demo" className="w-full">
+              {onBookDemoOpen ? (
                 <Button
                   className="w-full py-2.5 text-sm bg-[#8BC34A] hover:bg-[#79ad3f] text-white cursor-pointer"
+                  onClick={onBookDemoOpen}
                 >
                   Book a Demo
                 </Button>
-              </Link>
+              ) : (
+                <Link href="/book-demo" className="w-full">
+                  <Button
+                    className="w-full py-2.5 text-sm bg-[#8BC34A] hover:bg-[#79ad3f] text-white cursor-pointer"
+                  >
+                    Book a Demo
+                  </Button>
+                </Link>
+              )}
 
               {/* CEF Bookshop – BLUE */}
               <Link

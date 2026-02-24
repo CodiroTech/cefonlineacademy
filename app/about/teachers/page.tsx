@@ -1,14 +1,25 @@
-import React from 'react';
-import { AboutHeader } from '@/components/common/aboutHeader';
-import { MeetOurTeachersSection } from './MeetOurTeachersSection';
+import { AboutHeader } from '@/components/common/aboutHeader'
+import { MeetOurTeachersSection } from './MeetOurTeachersSection'
+import { getTeachersPageData } from '@/lib/api/about'
+import { getAboutPageHeader } from '@/lib/api/pageHeaders'
+import { mediaUrl } from '@/lib/headless'
 
-const AboutPage = () => {
+export default async function TeachersPage() {
+  const [pageHeader, pageData] = await Promise.all([
+    getAboutPageHeader(),
+    getTeachersPageData(),
+  ])
+
   return (
     <div>
-      <AboutHeader title="Our Esteemed Teachers" imageSrc="/About Us Header.png" />
-      <MeetOurTeachersSection />
+      <AboutHeader
+        title={pageHeader?.title ?? 'Our Esteemed Teachers'}
+        imageSrc={mediaUrl(pageHeader?.['header-image'], '/About Us Header.png')}
+      />
+      <MeetOurTeachersSection
+        sectionHeader={pageData.sectionHeader}
+        teachers={pageData.teachers}
+      />
     </div>
-  );
+  )
 }
-
-export default AboutPage;

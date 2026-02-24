@@ -119,7 +119,7 @@ export const WhatsNewSection = ({ unlockNew, latestCourses }: WhatsNewSectionPro
                   </div>
 
                   <div className="px-5 pb-5 flex flex-col min-h-[7rem]">
-                    <h3 className="text-base sm:text-lg font-bold text-[#065D80] mb-2 text-center">
+                    <h3 className="text-sm sm:text-base font-bold text-[#065D80] mb-2 text-center line-clamp-2 break-words">
                       {course.title}
                     </h3>
 

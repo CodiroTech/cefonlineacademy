@@ -1,16 +1,22 @@
-import React from 'react'
-import Image from 'next/image'
 import { AboutHeader } from '@/components/common/aboutHeader'
 import { Podcasts } from './podcast'
-import { OurWeeklySessions } from '@/app/offerings/weeklySessions/weeklylearningSessions'
+import { getPodcastsPageData } from '@/lib/api/mediaCenter'
+import { getMediaCenterPageHeader } from '@/lib/api/pageHeaders'
+import { mediaUrl } from '@/lib/headless'
 
-const Page = () => {
+export default async function PodcastsPage() {
+  const [pageHeader, pageData] = await Promise.all([
+    getMediaCenterPageHeader(),
+    getPodcastsPageData(),
+  ])
+
   return (
     <div>
-      <AboutHeader title="Podcast" imageSrc="/Podcast.png" />
-      <Podcasts />
+      <AboutHeader
+        title={pageHeader?.title ?? 'Podcast'}
+        imageSrc={mediaUrl(pageHeader?.['header-image'], '/Podcast.png')}
+      />
+      <Podcasts items={pageData.podcasts} />
     </div>
   )
 }
-
-export default Page

@@ -88,7 +88,80 @@ This file is the **app-specific** reference for **cef-online-academy**. The work
 
 ---
 
-## 9) Forbidden in This App
+## 9) Implementation Status (Reference)
+
+*Summary of what is implemented for homepage, other pages, and site-wide content. Use for future work and debugging.*
+
+### Config and env
+
+- **`lib/config.ts`:** `headlessBaseUrl`, `headlessProjectId`, `backendBaseUrl`, `headlessApiToken`.
+- **`.env.local`:** `NEXT_PUBLIC_HEADLESS_BASE_URL`, `NEXT_PUBLIC_HEADLESS_PROJECT_ID`, `NEXT_PUBLIC_BACKEND_BASE_URL`, `HEADLESS_API_TOKEN`. All headless requests use Bearer token from env.
+
+### API layer (lib/)
+
+- **`lib/headless.ts`:** Generic `fetchCollection(slug)`, `fetchSingleContent(collection, id?)`. Sends `Authorization: Bearer <token>`. Used by all headless fetchers.
+- **`lib/backend.ts`:** `fetchBackend(path)` for cef-backend. Used for courses, blogs, products, search.
+- **`lib/api/homepage.ts`:** `getHomepageData()` — aggregates all homepage headless + backend calls; returns hero, steps, journey, excellence, offerings, missionKirdaar, listenLearn, quickActions, whyChooseUs, helpDesk, latestCourses (from backend). Logs full API URLs and response summaries for debugging.
+- **`lib/api/siteSettings.ts`:** `getSiteSettings()`, `buildSiteSettingsData()` — single content `site-settings` for logo, favicon, social links, footer text. Consumed by root layout and navbar/footer.
+- **`lib/api/pageHeaders.ts`:** `getAboutUsHeader()`, `getMediaCenterHeader()`, `getContactUsHeader()` — single content for `about-us` (158), `media-center` (159), `contact-us` (160) page headers (title, header-image).
+- **`lib/api/about.ts`:** Story, Vision/Mission/Values, Teachers section + teachers, Speakers section + speakers, Accreditations section + accreditations, Choose Us section. Collections: `our-story-section` (145), `vision-section` (146), `mission-section` (147), `values-section` (148), `our-teachers-section` (149), `teachers` (150), `our-speakers-section` (151), `speakers` (152), `our-accreditations-section` (153), `accreditations` (154), `choose-us-section` (155).
+- **`lib/api/mediaCenter.ts`:** Testimonials section header + testimonials (`testimonials-section` 133, `testimonial-items` 142), Listen & Learn / podcasts (`listen-and-learn` 136).
+- **`lib/api/contact.ts`:** Contact info single (`contact-us` 160), FAQs list (`faqs` 161). Help desk items still from homepage API (reused).
+
+### Homepage (`app/page.tsx`)
+
+- **Data:** Single call to `getHomepageData()` from `lib/api/homepage.ts`.
+- **From headless:** Hero (image, title, etc.), 4 Easy Steps, Journey steps, Hallmarks of Excellence, Our Courses section content, Other Offerings, Mission Kirdaar (media + optional video-url), Listen & Learn, Quick Actions, Why Choose Us counters, Help Desk items.
+- **From cef-backend:** "Unlock What's New" — latest 2 courses from `/api/academy/courses` (limit 2).
+- **Components:** All homepage sections receive props from page; each has fallbacks to original static content if API fails or is empty.
+
+### Site-wide (layout, navbar, footer)
+
+- **`app/layout.tsx`:** Async. Fetches `site-settings` via `getSiteSettings()` / `buildSiteSettingsData()`. Passes navbar data (header-logo, social links) and footer data (header-logo, footer-text) to `Navbar01Page` and `Footer`. `generateMetadata()` sets favicon from site-settings.
+- **Navbar:** Logo from `data['header-logo']?.full_url`, social links from same API; fallbacks to defaults.
+- **Footer:** Logo and footer text from API; fallbacks to defaults.
+
+### Other pages (content from headless)
+
+- **About**
+  - **`/about/vissionMissionValues`:** Page header (about-us) + our-story-section, vision-section, mission-section, values-section. Components: `AboutHeader`, `OurStorySection`, `VisionMissionValues`.
+  - **`/about/teachers`:** Page header + our-teachers-section (header) + teachers list. Component: `MeetOurTeachersSection`.
+  - **`/about/speakers`:** Page header + our-speakers-section (header) + speakers list. Component: `MeetOurSpeakers`.
+  - **`/about/programs`:** Page header + our-accreditations-section (header) + accreditations list. Component: `OurPrograms`.
+  - **`/about/whyChooseUs`:** Page header + choose-us-section (header) + Hallmarks of Excellence (same as homepage). Components: `ChooseUs`, `HallmarksOfExcellence`.
+- **Media Center**
+  - **`/media-center/testimonials`:** Page header (media-center) + testimonials-section (header) + testimonial-items. Components: `Testimonials`, `StudentTestimonials`.
+  - **`/media-center/podcasts`:** Page header + listen-and-learn collection (section title/description + items). Component: `Podcasts`.
+- **Contact**
+  - **`/contact`:** Page header (contact-us) + contact info (address, phone, email, description), FAQs list, Help Desk (from homepage API). Components: `AboutHeader`, `OfficeInfoSection` (contactHeader), `FAQSection`, `HelpDesk`, plus static contact form.
+
+### Backend API endpoints used (cef-backend)
+
+- **`GET /api/academy/courses`:** List courses (homepage uses `?limit=2` for latest).
+- **`GET /api/academy/blogs`:** (Planned for blog listing.)
+- **`GET /api/academy/products`:** (Planned for bookshop.)
+- **`GET /api/academy/search`:** (Planned for global search.)
+
+### Headless collections reference (project ID 3)
+
+- **Homepage:** site-settings (121), homepage-hero-section (122), how-it-works (124), journey (128), hallmarks-of-excellence (129), our-courses (130), offerings (131), mission-kirdaar (134), listen-and-learn (136), join-cef (137), why-choose-us (127), footer-help-desk (143), unlock-new (126) + homepage sections (141).
+- **Page headers:** about-us (158), media-center (159), contact-us (160).
+- **About:** our-story-section (145), vision-section (146), mission-section (147), values-section (148), our-teachers-section (149), teachers (150), our-speakers-section (151), speakers (152), our-accreditations-section (153), accreditations (154), choose-us-section (155).
+- **Media / Contact:** testimonials-section (133), testimonial-items (142), listen-and-learn (136), contact-us (160), faqs (161).
+
+### Reusable UI
+
+- **`components/common/VideoPopup.tsx`:** Modal for video playback (YouTube, Vimeo, Google Drive, direct MP4). Used by Mission Kirdaar when `video-url` is set; reusable site-wide.
+- **`lib/videoUrl.ts`:** `parseVideoUrl(url)` for embed/src URLs.
+
+### SQL / CMS data
+
+- **`missing-headless-fields.sql`:** Homepage-related missing fields (e.g. video-url, link on offerings, etc.).
+- **`remaining-pages-headless.sql`:** Missing fields for remaining pages (teachers/speakers/accreditations `link`, faqs `question`/`answer`, contact-us `address`/`phone`/`email`/`description`) and content entries (IDs 789–831) for page headers, story/vision/mission/values, teachers, speakers, accreditations, choose-us, testimonials header, contact info, FAQs, podcasts placeholder. Field IDs in that file start at 1008 (after 1001–1007 used by site-settings in current db).
+
+---
+
+## 10) Forbidden in This App
 
 - ❌ Hardcoding headless or cef-backend base URLs.
 - ❌ Putting business logic (enrollment rules, pricing, cart calculations) in the Next.js app; these live in cef-backend.
@@ -99,7 +172,7 @@ This file is the **app-specific** reference for **cef-online-academy**. The work
 
 ---
 
-## 10) Architecture Tag
+## 11) Architecture Tag
 
 Use in comments when editing this app:
 
