@@ -13,6 +13,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Heading } from '@/components/common/heading'
+import { useDonationCart } from '@/context/DonationCartContext'
+import { useToast } from '@/context/ToastContext'
+import { DonationCartModal } from '@/components/donations/DonationCartModal'
 
 export const Donate = () => {
   const [donationType, setDonationType] = useState('general')
@@ -24,7 +27,10 @@ export const Donate = () => {
     type: 'success' | 'fail'
   } | null>(null)
 
-  const handleDonate = () => {
+  const { addToCart, setCartModalOpen } = useDonationCart()
+  const { showToast } = useToast()
+
+  const handleDonate = async () => {
     const amt = amount.trim()
 
     if (!amt || isNaN(Number(amt)) || Number(amt) <= 0) {
@@ -33,12 +39,35 @@ export const Donate = () => {
       return
     }
 
-    setDonationMsg({ text: 'Donation Submitted (Demo)', type: 'success' })
-    setAmount('')
-    setTimeout(() => setDonationMsg(null), 3000)
+    const donationTypeMap: Record<string, string> = { general: 'general_donation', zakat: 'zakat', sadqah: 'general_donation' }
+    const purposeMap: Record<string, string> = { most: 'Wherever Most Needed', education: 'Education', health: 'Health' }
+    const toHash = (str: string) => str.split('').reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 0)
+
+    try {
+      await addToCart({
+        id: toHash(`quick-${amt}-${donationType}-${purpose}`),
+        title: purposeMap[purpose] || 'Wherever Most Needed',
+        amount: Number(amt),
+        paymentFrequency: 'one_time',
+        donationType: donationTypeMap[donationType] || 'general_donation',
+        quantity: 1,
+        image: '',
+        accordionId: 'wherever-needed',
+      })
+      showToast('Added to cart!', 'success')
+      setAmount('')
+      setCartModalOpen(true)
+    } catch {
+      setDonationMsg({ text: 'Could not add to cart', type: 'fail' })
+      setTimeout(() => setDonationMsg(null), 3000)
+    }
   }
 
+  const { isCartModalOpen } = useDonationCart()
+
   return (
+    <>
+    <DonationCartModal isOpen={isCartModalOpen} onOpenChange={setCartModalOpen} />
     <section className="w-full bg-[#EAF7E5] py-6">
       <div className="container mx-auto w-[90%]">
 
@@ -204,5 +233,6 @@ export const Donate = () => {
         </div>
       </div>
     </section>
+    </>
   )
 }

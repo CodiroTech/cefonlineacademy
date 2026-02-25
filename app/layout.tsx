@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar01Page from "@/components/navbar/navbar";
 import { Donate } from "@/components/common/donate";
 import { getSiteSettings, buildSiteSettingsData } from "@/lib/api/siteSettings";
+import { DonationProviders } from "@/context/DonationProviders";
 
 const poppins = Poppins({
   variable: "--font-poppins", // ✅ CLEAN & CLEAR
@@ -72,10 +73,12 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} font-sans antialiased bg-white`}>
-        <Navbar01Page data={navbarData} />
-        {children}
-        <Donate />
-        <Footer data={footerData} />
+        <DonationProviders>
+          <Navbar01Page data={navbarData} />
+          {children}
+          <Donate />
+          <Footer data={footerData} />
+        </DonationProviders>
       </body>
     </html>
   );
