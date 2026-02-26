@@ -6,19 +6,29 @@ import {
   DialogContent,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { isPossiblePhoneNumber } from 'react-phone-number-input'
 import { PhoneInputWrapper } from '@/components/ui/phone-input'
 import { CountrySelect } from '@/components/ui/country-select'
 import {
   getCountries,
   getCoursesByType,
+  getCoursesWithDetails,
   getTimeSlots,
   submitRegister,
   type CountryItem,
   type CourseItem,
+  type CourseWithDetails,
   type TimeSlotItem,
   type RegisterPayload,
 } from '@/lib/api/demo'
+import { mediaUrl, stripHtml } from '@/lib/headless'
 import { cn } from '@/lib/utils'
+
+function truncateToWords(text: string, maxWords: number): string {
+  const words = text.trim().split(/\s+/)
+  if (words.length <= maxWords) return text
+  return words.slice(0, maxWords).join(' ') + '…'
+}
 
 /** Map phone country ISO code to possible country names for syncing with backend country list */
 const ISO_TO_COUNTRY_NAMES: Record<string, string[]> = {
@@ -75,21 +85,34 @@ const SLIDES = [
   { title: "You're all set!", sub: 'We will be in touch' },
 ]
 
+export type PreselectedCourse = {
+  course_id: number
+  slug: string
+  title: string
+  image_url?: string | null
+  short_description?: string
+  courseType: 1 | 2
+}
+
 type Props = {
   open: boolean
   onOpenChange: (open: boolean) => void
+  preselectedCourse?: PreselectedCourse | null
 }
 
-export function BookADemoPopup({ open, onOpenChange }: Props) {
+export function BookADemoPopup({ open, onOpenChange, preselectedCourse }: Props) {
   const [step, setStep] = useState(1)
   const [slideIndex, setSlideIndex] = useState(0)
   const [countries, setCountries] = useState<CountryItem[]>([])
   const [courses, setCourses] = useState<CourseItem[]>([])
+  const [fullCourses, setFullCourses] = useState<CourseWithDetails[]>([])
   const [timeSlots, setTimeSlots] = useState<TimeSlotItem[]>([])
   const [loading, setLoading] = useState(false)
   const [submitLoading, setSubmitLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+
+  const isPreselected = !!preselectedCourse
 
   // Form state
   const [courseType, setCourseType] = useState<1 | 2>(1)
@@ -134,14 +157,38 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
 
   useEffect(() => {
     if (!open) return
-    resetForm()
+    if (preselectedCourse) {
+      setStep(3)
+      setCourseType(preselectedCourse.courseType)
+      setCourse(preselectedCourse.course_id)
+      setSlideIndex(2)
+      setFullname('')
+      setPhone('')
+      setEmail('')
+      setCity('')
+      setCountry('')
+      setAge('')
+      setSchoolGrade('')
+      setParentName('')
+      setPassword('')
+      setPasswordConfirm('')
+      setPreferredTeacher('')
+      setHowManyStudents('')
+      setPreferDate('')
+      setPreferSlot('')
+      setError(null)
+      setSuccess(false)
+    } else {
+      resetForm()
+    }
     setLoading(true)
-    Promise.all([getCountries(), getTimeSlots()]).then(([c, s]) => {
+    Promise.all([getCountries(), getTimeSlots(), getCoursesWithDetails(100)]).then(([c, s, fc]) => {
       setCountries(c)
       setTimeSlots(s)
+      setFullCourses(fc)
       setLoading(false)
     })
-  }, [open, resetForm])
+  }, [open, preselectedCourse, resetForm])
 
   // Default country to Pakistan when countries load (same as phone default)
   useEffect(() => {
@@ -164,13 +211,18 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
 
   useEffect(() => {
     if (!open) return
+    if (preselectedCourse) {
+      setCourses([{ course_id: preselectedCourse.course_id, course_name: preselectedCourse.title }])
+      setLoading(false)
+      return
+    }
     setLoading(true)
     getCoursesByType(courseType).then((list) => {
       setCourses(list)
       setCourse('')
       setLoading(false)
     })
-  }, [open, courseType])
+  }, [open, courseType, preselectedCourse])
 
   // Sync slide with step
   useEffect(() => {
@@ -188,9 +240,11 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
 
   const canNextStep1 = true
   const canNextStep2 = course !== ''
+  const isPhoneValid = phone.trim() === '' || isPossiblePhoneNumber(phone.trim().startsWith('+') ? phone.trim() : `+${phone.trim()}`)
   const canNextStep3 =
     fullname.trim() !== '' &&
     phone.trim() !== '' &&
+    isPhoneValid &&
     email.trim() !== '' &&
     city.trim() !== '' &&
     country !== '' &&
@@ -200,11 +254,16 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
 
   const handleNext = () => {
     setError(null)
+    if (step === 3 && phone.trim() !== '' && !isPossiblePhoneNumber(phone.trim().startsWith('+') ? phone.trim() : `+${phone.trim()}`)) {
+      setError('Please enter a valid phone number for the selected country.')
+      return
+    }
     if (step < 4) setStep((s) => s + 1)
   }
 
   const handlePrev = () => {
     setError(null)
+    if (isPreselected && step === 3) return
     if (step > 1) setStep((s) => s - 1)
   }
 
@@ -214,11 +273,16 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
       setError('Please complete all required fields.')
       return
     }
+    const phoneValue = phone.trim().startsWith('+') ? phone.trim() : `+${phone.trim()}`
+    if (!isPossiblePhoneNumber(phoneValue)) {
+      setError('Please enter a valid phone number for the selected country.')
+      return
+    }
     const payload: RegisterPayload = {
       course_type: courseType,
       course: Number(course),
       fullname: fullname.trim(),
-      phone: phone.trim().startsWith('+') ? phone.trim() : `+${phone.trim()}`,
+      phone: phoneValue,
       email: email.trim(),
       city: city.trim(),
       country: Number(country),
@@ -233,7 +297,7 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
       if (preferredTeacher) payload.preferred_teacher = preferredTeacher
       if (howManyStudents) payload.how_many_students = parseInt(howManyStudents, 10)
     }
-    if (typeof course === 'number') payload.slug = String(course)
+    if (preselectedCourse?.slug) payload.slug = preselectedCourse.slug
     setSubmitLoading(true)
     const res = await submitRegister(payload)
     setSubmitLoading(false)
@@ -241,10 +305,30 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
       setSuccess(true)
       setTimeout(() => onOpenChange(false), 2500)
     } else {
-      const msg =
+      const raw =
         res.message ||
-        (res.error && Object.values(res.error).flat().join(' ')) ||
-        'Registration failed. Please try again.'
+        (res.error && typeof res.error === 'object' && !Array.isArray(res.error) && res.error.message) ||
+        (res.error && Array.isArray(res.error) ? res.error.join(' ') : null) ||
+        (res.error && typeof res.error === 'object' && res.error.error ? Object.values(res.error.error).flat().join(' ') : null) ||
+        (typeof res.error === 'string' ? res.error : '')
+      const isServerError =
+        typeof raw === 'string' &&
+        (raw.includes('Symfony') ||
+          raw.includes('Dsn') ||
+          raw.includes('Argument #') ||
+          raw.includes('vendor') ||
+          raw.includes('.php') ||
+          raw.includes('::') ||
+          raw.includes('MailManager') ||
+          raw.includes('must be of type'))
+      const msg: string =
+        isServerError
+          ? 'Registration failed. Please try again.'
+          : typeof raw === 'string'
+            ? raw || 'Registration failed. Please try again.'
+            : Array.isArray(raw)
+              ? raw.join(' ') || 'Registration failed. Please try again.'
+              : 'Registration failed. Please try again.'
       setError(msg)
     }
   }
@@ -254,12 +338,12 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-w-4xl max-h-[90vh] overflow-hidden p-0 gap-0 border-0 rounded-2xl"
+        className="max-w-[95vw] sm:max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0 border-0 rounded-2xl"
         showCloseButton={true}
       >
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row min-h-0">
           {/* Left: Form */}
-          <div className="flex-1 p-6 md:p-8 overflow-y-auto">
+          <div className="flex-1 p-4 sm:p-6 md:p-8 overflow-y-auto min-w-0">
             <DialogTitle className="sr-only">Book a Demo / Sign Up</DialogTitle>
             <h2 className="text-lg font-bold text-[#065D80] mb-1">
               Let&apos;s get your journey started!
@@ -296,8 +380,8 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
               </div>
             )}
 
-            {/* Step 1: Course type */}
-            {step === 1 && (
+            {/* Step 1: Course type (hidden when preselected from course details) */}
+            {step === 1 && !isPreselected && (
               <div className="space-y-4">
                 <label className="block text-sm font-semibold text-gray-800">Course type</label>
                 <div className="flex gap-4">
@@ -325,8 +409,8 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
               </div>
             )}
 
-            {/* Step 2: Course */}
-            {step === 2 && (
+            {/* Step 2: Course (hidden when preselected from course details) */}
+            {step === 2 && !isPreselected && (
               <div className="space-y-4">
                 <label className="block text-sm font-semibold text-gray-800">Select course</label>
                 <select
@@ -415,28 +499,6 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">School grade (optional)</label>
-                    <input
-                      type="text"
-                      value={schoolGrade}
-                      onChange={(e) => setSchoolGrade(e.target.value)}
-                      className="w-full border rounded-lg px-3 py-2 text-sm"
-                      placeholder="School grade"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Parent name (optional)</label>
-                    <input
-                      type="text"
-                      value={parentName}
-                      onChange={(e) => setParentName(e.target.value)}
-                      className="w-full border rounded-lg px-3 py-2 text-sm"
-                      placeholder="Parent name"
-                    />
-                  </div>
-                </div>
                 {courseType === 1 && (
                   <>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -521,7 +583,7 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
             {step === 4 && (
               <div className="space-y-2 text-sm">
                 <p><strong>Course type:</strong> {courseType === 1 ? 'Live' : 'Self Learning'}</p>
-                <p><strong>Course:</strong> {courses.find((c) => c.course_id === course)?.course_name ?? '-'}</p>
+                <p><strong>Course:</strong> {preselectedCourse?.title ?? courses.find((c) => c.course_id === course)?.course_name ?? '-'}</p>
                 <p><strong>Name:</strong> {fullname}</p>
                 <p><strong>Email:</strong> {email}</p>
                 <p><strong>Phone:</strong> {phone}</p>
@@ -542,7 +604,7 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
                 onClick={handlePrev}
                 className={cn(
                   'px-4 py-2 rounded-lg text-sm font-medium',
-                  step === 1 ? 'invisible' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  step === 1 || (isPreselected && step === 3) ? 'invisible' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 )}
               >
                 Previous
@@ -572,36 +634,84 @@ export function BookADemoPopup({ open, onOpenChange }: Props) {
             </div>
           </div>
 
-          {/* Right: Sliding images / carousel */}
-          <div className="w-full md:w-72 shrink-0 bg-[#EAF7E5] rounded-r-2xl flex flex-col justify-center p-6">
-            <div className="relative h-48 md:h-64 rounded-xl overflow-hidden bg-gradient-to-br from-[#065D80] to-[#8DC63F]">
-              {SLIDES.map((s, i) => (
-                <div
-                  key={i}
-                  className={cn(
-                    'absolute inset-0 flex flex-col items-center justify-center text-white p-4 transition-opacity duration-500',
-                    i === slideIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                  )}
-                >
-                  <p className="text-lg font-bold text-center">{s.title}</p>
-                  <p className="text-sm opacity-90 mt-1">{s.sub}</p>
-                </div>
-              ))}
-            </div>
-            <div className="flex justify-center gap-1 mt-3">
-              {SLIDES.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  aria-label={`Slide ${i + 1}`}
-                  className={cn(
-                    'w-2 h-2 rounded-full transition-colors',
-                    i === slideIndex ? 'bg-[#065D80]' : 'bg-gray-300'
-                  )}
-                />
-              ))}
-            </div>
-          </div>
+          {/* Right: preselected course, or step 2 course preview, or slider */}
+          {(() => {
+            const displayCourse = preselectedCourse
+              ? {
+                  title: preselectedCourse.title,
+                  image_url: preselectedCourse.image_url,
+                  short_description: preselectedCourse.short_description,
+                  description: preselectedCourse.short_description,
+                }
+              : course !== ''
+                ? fullCourses.find((c) => c.id === Number(course))
+                : null
+            return (
+              <div className="w-full max-w-full md:w-72 shrink-0 bg-[#EAF7E5] rounded-b-2xl md:rounded-b-none md:rounded-r-2xl flex flex-col justify-center p-4 sm:p-6 min-h-[200px] md:min-h-0 min-w-0">
+                {displayCourse ? (
+                  <div className="flex flex-col gap-3">
+                    <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-gradient-to-br from-[#065D80]/20 to-[#8DC63F]/20">
+                      {displayCourse.image_url ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={typeof displayCourse.image_url === 'string' && displayCourse.image_url.startsWith('http') ? displayCourse.image_url : mediaUrl(displayCourse.image_url)}
+                          alt=""
+                          className="object-cover w-full h-full"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center text-[#065D80]/60 text-sm font-medium">
+                          {displayCourse.title}
+                        </div>
+                      )}
+                    </div>
+                    <h3 className="text-base font-semibold text-[#065D80] line-clamp-2">
+                      {displayCourse.title}
+                    </h3>
+                    <p className="text-[13px] leading-relaxed text-gray-700 line-clamp-4">
+                      {truncateToWords(
+                        stripHtml(
+                          displayCourse.short_description ||
+                            (displayCourse as CourseWithDetails).description ||
+                            ''
+                        ) || 'Explore this course.',
+                        40
+                      )}
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="relative h-40 sm:h-48 md:h-64 rounded-xl overflow-hidden bg-gradient-to-br from-[#065D80] to-[#8DC63F]">
+                      {SLIDES.map((s, i) => (
+                        <div
+                          key={i}
+                          className={cn(
+                            'absolute inset-0 flex flex-col items-center justify-center text-white p-4 transition-opacity duration-500',
+                            i === slideIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                          )}
+                        >
+                          <p className="text-base sm:text-lg font-bold text-center">{s.title}</p>
+                          <p className="text-xs sm:text-sm opacity-90 mt-1">{s.sub}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex justify-center gap-1 mt-3">
+                      {SLIDES.map((_, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          aria-label={`Slide ${i + 1}`}
+                          className={cn(
+                            'w-2 h-2 rounded-full transition-colors',
+                            i === slideIndex ? 'bg-[#065D80]' : 'bg-gray-300'
+                          )}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )
+          })()}
         </div>
       </DialogContent>
     </Dialog>

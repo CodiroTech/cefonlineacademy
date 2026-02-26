@@ -29,6 +29,12 @@ const Heading = ({ subtitle, title, subtitleClass = '', titleClass = '', classNa
   )
 }
 
+function truncateToWords(text: string, maxWords: number): string {
+  const words = text.trim().split(/\s+/)
+  if (words.length <= maxWords) return text
+  return words.slice(0, maxWords).join(' ') + '…'
+}
+
 const fallbackCourses: { title: string; description: string; image: string; link?: string }[] = [
   {
     title: 'Lorem ipsum',
@@ -65,7 +71,7 @@ export const WhatsNewSection = ({ unlockNew, latestCourses }: WhatsNewSectionPro
           title: c.title ?? '',
           description: stripHtml(c.short_description ?? c.description ?? '') || 'Explore this course.',
           image: c.image_url ?? '/Tajweed ul Quran.png',
-          link: c.slug ? `/courses/${c.slug}` : '/courses',
+          link: c.slug ? `/course-details/${c.slug}` : '/courses',
         }))
       : fallbackCourses
 
@@ -123,8 +129,8 @@ export const WhatsNewSection = ({ unlockNew, latestCourses }: WhatsNewSectionPro
                       {course.title}
                     </h3>
 
-                    <Text className="text-justify line-clamp-3">
-                      {course.description}
+                    <Text className="text-justify text-[13px]">
+                      {truncateToWords(course.description, 40)}
                     </Text>
                   </div>
                 </>

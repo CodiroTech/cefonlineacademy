@@ -2,8 +2,6 @@ import React from 'react';
 import { AboutHeader } from '@/components/common/aboutHeader';
 import QuranTutoringCoursesSection from './course';
 import TajweedCoursesSection from './tutorcourse';
-import FahmHifdhCoursesSection from './fahmhifdh';
-
 
 const Page = () => {
   return (
@@ -11,8 +9,6 @@ const Page = () => {
       <AboutHeader title="Quran Tutoring Courses" imageSrc="/Quran Tutoring.png" />
       <QuranTutoringCoursesSection />
       <TajweedCoursesSection />
-      <FahmHifdhCoursesSection />
-
     </div>
   );
 }

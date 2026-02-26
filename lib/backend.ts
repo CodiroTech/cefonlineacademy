@@ -6,12 +6,29 @@ export async function fetchBackend<T = unknown>(
 ): Promise<T | null> {
   if (!backendBaseUrl) return null
 
+  const isCourseDetail = path.includes('course/detail')
+  const debug = process.env.NODE_ENV === 'development' && isCourseDetail
+
   try {
     const url = `${backendBaseUrl}${path.startsWith('/') ? path : `/${path}`}`
     const res = await fetch(url, { next: { revalidate } })
-    if (!res.ok) return null
-    return await res.json()
-  } catch {
+    const data = await res.json().catch(() => null)
+    if (!res.ok) {
+      console.warn(`[backend] ${res.status} ${url}`, data ?? res.statusText)
+      if (debug) console.log('[backend] course-detail error body:', JSON.stringify(data))
+      return null
+    }
+    if (debug) {
+      const preview = Array.isArray(data)
+        ? `array[${data.length}]`
+        : typeof data === 'object' && data && 'message' in data
+          ? `object with message: ${(data as { message?: string }).message}`
+          : typeof data
+      console.log('[backend] course-detail success:', preview)
+    }
+    return data
+  } catch (e) {
+    console.warn('[backend] fetch failed', path, e)
     return null
   }
 }

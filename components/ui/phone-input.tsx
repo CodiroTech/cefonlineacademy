@@ -11,6 +11,8 @@ type PhoneInputWrapperProps = {
   placeholder?: string
   disabled?: boolean
   className?: string
+  /** Limit input length to country-specific max (default true) */
+  limitMaxLength?: boolean
 }
 
 export function PhoneInputWrapper({
@@ -20,6 +22,7 @@ export function PhoneInputWrapper({
   placeholder = 'Enter phone number',
   disabled,
   className,
+  limitMaxLength = true,
 }: PhoneInputWrapperProps) {
   return (
     <PhoneInput
@@ -30,6 +33,7 @@ export function PhoneInputWrapper({
       onCountryChange={onCountryChange}
       placeholder={placeholder}
       disabled={disabled}
+      limitMaxLength={limitMaxLength}
       className={cn(
         'flex rounded-lg border border-gray-300 overflow-hidden',
         'focus-within:ring-2 focus-within:ring-[#065D80]/50 focus-within:border-[#065D80]',

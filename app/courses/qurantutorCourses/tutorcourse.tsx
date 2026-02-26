@@ -1,158 +1,406 @@
 'use client'
 
-import { Card1 } from '@/components/common/card1'
+import { useCallback, useEffect, useState } from 'react'
+import { CourseCard } from '@/components/courses/CourseCard'
 import { Heading } from '@/components/common/heading'
 import { Text } from '@/components/common/text'
+import {
+  fetchCategories,
+  fetchCategoryCourses,
+  fetchFeaturedCourse,
+  type CategoryCourseItem,
+  type CategoryItem,
+  type CategoryCoursesFilters,
+} from '@/lib/api/categoryCourses'
+
+const RATING_OPTIONS = [
+  { value: 5, label: '5 star' },
+  { value: 4, label: '4 star or above' },
+  { value: 3, label: '3 star or above' },
+  { value: 2, label: '2 star or above' },
+  { value: 1, label: '1 star or above' },
+] as const
+
+const PRICE_OPTIONS = [
+  { value: 'free' as const, label: 'Free' },
+  { value: 'paid' as const, label: 'Paid' },
+]
+
+const DURATION_OPTIONS = [
+  { value: 1, label: 'Less than 24 Hours' },
+  { value: 2, label: '24 to 36 hours' },
+  { value: 3, label: '36 to 72 hours' },
+  { value: 4, label: 'Above 72 hours' },
+]
+
+const SORT_OPTIONS = [
+  { value: 1 as const, label: 'All' },
+  { value: 2 as const, label: 'Newest' },
+  { value: 3 as const, label: 'Oldest' },
+]
+
+type FilterState = {
+  keyword: string
+  sortBy_id: 1 | 2 | 3
+  categoryId: number | null
+  difficultyLevelId: number | null
+  ratingId: number | null
+  learnerAccessibilityType: 'free' | 'paid' | null
+  durationId: number | null
+}
+
+const defaultFilters: FilterState = {
+  keyword: '',
+  sortBy_id: 1,
+  categoryId: null,
+  difficultyLevelId: null,
+  ratingId: null,
+  learnerAccessibilityType: null,
+  durationId: null,
+}
 
 export default function TajweedCoursesSection() {
-  return (
-    <section className="w-full lg:pb-12 flex justify-center font-poppins">
-      <div className="w-full max-w-7xl px-0">
+  const [categories, setCategories] = useState<CategoryItem[]>([])
+  const [featuredCourse, setFeaturedCourse] = useState<CategoryCourseItem | null>(null)
+  const [filters, setFilters] = useState<FilterState>(defaultFilters)
+  const [keywordDebounced, setKeywordDebounced] = useState('')
+  const [firstCategoryCourses, setFirstCategoryCourses] = useState<CategoryCourseItem[]>([])
+  const [difficultyLevels, setDifficultyLevels] = useState<Array<{ id: number; name: string }>>([])
+  const [otherCategoryCourses, setOtherCategoryCourses] = useState<Record<string, CategoryCourseItem[]>>({})
+  const [loading, setLoading] = useState(true)
+  const [loadingOthers, setLoadingOthers] = useState(true)
 
-        {/* HEADING */}
+  const firstCategory = categories[0]
+
+  useEffect(() => {
+    const t = setTimeout(() => setKeywordDebounced(filters.keyword), 400)
+    return () => clearTimeout(t)
+  }, [filters.keyword])
+
+  const loadFirstCategory = useCallback(async () => {
+    if (!firstCategory) return
+    setLoading(true)
+    const params: CategoryCoursesFilters = {
+      category_slug: firstCategory.slug,
+      keyword: keywordDebounced || undefined,
+      sortBy_id: filters.sortBy_id,
+      limit: 4,
+    }
+    if (filters.categoryId != null) params.categoryId = filters.categoryId
+    if (filters.difficultyLevelId != null) params.difficultyLevelId = filters.difficultyLevelId
+    if (filters.ratingId != null) params.ratingId = filters.ratingId
+    if (filters.learnerAccessibilityType) params.learnerAccessibilityType = filters.learnerAccessibilityType
+    if (filters.durationId != null) params.durationId = filters.durationId
+
+    const data = await fetchCategoryCourses(params)
+    setLoading(false)
+    if (data) {
+      setFirstCategoryCourses(data.courses)
+      setDifficultyLevels(data.difficulty_levels)
+    } else {
+      setFirstCategoryCourses([])
+    }
+  }, [firstCategory, keywordDebounced, filters])
+
+  useEffect(() => {
+    if (firstCategory) {
+      loadFirstCategory()
+    }
+  }, [firstCategory?.slug, loadFirstCategory])
+
+  useEffect(() => {
+    let cancelled = false
+    async function run() {
+      const list = await fetchCategories()
+      if (cancelled) return
+      setCategories(list ?? [])
+      const featured = await fetchFeaturedCourse()
+      if (!cancelled) setFeaturedCourse(featured)
+      if (list && list.length > 1) {
+        setLoadingOthers(true)
+        const next: Record<string, CategoryCourseItem[]> = {}
+        await Promise.all(
+          list.slice(1).map(async (cat) => {
+            const data = await fetchCategoryCourses({ category_slug: cat.slug, limit: 4 })
+            if (!cancelled && data?.courses) next[cat.slug] = data.courses
+          })
+        )
+        if (!cancelled) {
+          setOtherCategoryCourses((p) => ({ ...p, ...next }))
+        }
+        setLoadingOthers(false)
+      }
+    }
+    run()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  const handleClear = () => {
+    setFilters(defaultFilters)
+    setKeywordDebounced('')
+  }
+
+  const getCoursesForCategory = (cat: CategoryItem) =>
+    cat.slug === firstCategory?.slug ? firstCategoryCourses : (otherCategoryCourses[cat.slug] ?? [])
+
+  const categoriesWithCourses = categories.filter(
+    (cat) => getCoursesForCategory(cat).length > 0
+  )
+  const firstCategoryWithCourses = categoriesWithCourses[0]
+
+  return (
+    <section className="w-full py-12 lg:pb-12 font-poppins">
+      <div className="container mx-auto">
+
         <div className="flex justify-center lg:ml-47 mb-8 text-center">
           <Heading textSize="text-3xl sm:text-4xl md:text-4xl">
-            Tajweed ul Quran Courses
+            {firstCategoryWithCourses ? firstCategoryWithCourses.name : firstCategory ? firstCategory.name : 'Tajweed ul Quran Courses'}
           </Heading>
         </div>
 
-        {/* MAIN LAYOUT */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          <div className="flex-1 min-w-[200px]">
+            <input
+              type="search"
+              placeholder="Search Course..."
+              value={filters.keyword}
+              onChange={(e) => setFilters((f) => ({ ...f, keyword: e.target.value }))}
+              onKeyDown={(e) => e.key === 'Enter' && loadFirstCategory()}
+              className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+              aria-label="Search Course"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <label htmlFor="filter-by" className="text-[12px] font-medium text-black whitespace-nowrap">
+              Filter by:
+            </label>
+            <select
+              id="filter-by"
+              value={filters.sortBy_id}
+              onChange={(e) => setFilters((f) => ({ ...f, sortBy_id: Number(e.target.value) as 1 | 2 | 3 }))}
+              className="rounded border border-gray-300 px-3 py-2 text-sm min-w-[120px]"
+              aria-label="Filter by"
+            >
+              {SORT_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
+            </select>
+          </div>
+          <button
+            type="button"
+            onClick={() => loadFirstCategory()}
+            className="rounded bg-gray-800 text-white px-4 py-2 text-sm font-medium hover:bg-gray-700"
+          >
+            Apply
+          </button>
+        </div>
+
         <div
           className="
-            grid gap-6
+            grid gap-5
             grid-cols-1
             md:grid-cols-2
-            xl:flex xl:flex-row
+            xl:flex xl:flex-row xl:gap-6
           "
         >
 
-          {/* ASIDE FILTERS */}
           <aside
             className="
               md:col-span-1
-              xl:w-auto
+              xl:w-auto xl:shrink-0
               font-medium leading-none
               relative
-
-              /* Mobile: centered block */
-              mx-auto w-full max-w-xs
-
-              /* Tablet */
-              md:mx-0 md:ml-10
-
-              /* Desktop */
-              xl:ml-4 xl:mr-5 xl:-mt-8
+              mx-auto md:mx-0 w-full max-w-xs
             "
           >
             <div className="flex flex-col items-start md:items-start">
-              <FilterBlock title="Categories" showClear>
-                <FilterItem label="Nazirah/Tajweed-ul-Quran" name="category" />
-                <FilterItem label="Fahm-ul-Quran" name="category" />
-                <FilterItem label="Customized & Essential Hifdh" name="category" />
+              <FilterBlock title="Categories" showClear onClear={handleClear}>
+                {categoriesWithCourses.length > 0 ? (
+                  categoriesWithCourses.map((c) => (
+                    <FilterItem
+                      key={c.id}
+                      name="category"
+                      label={c.name}
+                      value={c.id}
+                      checked={filters.categoryId === c.id}
+                      onChange={() => setFilters((f) => ({ ...f, categoryId: f.categoryId === c.id ? null : c.id }))}
+                    />
+                  ))
+                ) : (
+                  <span className="text-gray-500 text-[12px]">Loading…</span>
+                )}
               </FilterBlock>
 
               <FilterBlock title="Course Level">
-                <FilterItem label="Higher" name="level" />
-                <FilterItem label="Medium" name="level" />
+                {difficultyLevels.length > 0 ? (
+                  difficultyLevels.map((d) => (
+                    <FilterItem
+                      key={d.id}
+                      name="level"
+                      label={d.name}
+                      value={d.id}
+                      checked={filters.difficultyLevelId === d.id}
+                      onChange={() => setFilters((f) => ({ ...f, difficultyLevelId: f.difficultyLevelId === d.id ? null : d.id }))}
+                    />
+                  ))
+                ) : (
+                  <span className="text-gray-500 text-[12px]">Loading…</span>
+                )}
               </FilterBlock>
 
               <FilterBlock title="Rating">
-                <FilterItem label="5 star" name="rating" />
-                <FilterItem label="4 star or above" name="rating" />
-                <FilterItem label="3 star or above" name="rating" />
-                <FilterItem label="2 star or above" name="rating" />
-                <FilterItem label="1 star or above" name="rating" />
+                {RATING_OPTIONS.map((r) => (
+                  <FilterItem
+                    key={r.value}
+                    name="rating"
+                    label={r.label}
+                    value={r.value}
+                    checked={filters.ratingId === r.value}
+                    onChange={() => setFilters((f) => ({ ...f, ratingId: f.ratingId === r.value ? null : r.value }))}
+                  />
+                ))}
               </FilterBlock>
 
               <FilterBlock title="Price">
-                <FilterItem label="Free" name="price" />
-                <FilterItem label="Paid" name="price" />
+                {PRICE_OPTIONS.map((p) => (
+                  <FilterItem
+                    key={p.value}
+                    name="price"
+                    label={p.label}
+                    value={p.value}
+                    checked={filters.learnerAccessibilityType === p.value}
+                    onChange={() => setFilters((f) => ({ ...f, learnerAccessibilityType: f.learnerAccessibilityType === p.value ? null : p.value }))}
+                  />
+                ))}
               </FilterBlock>
 
               <FilterBlock title="Duration">
-                <FilterItem label="Less than 24 Hours" name="duration" />
-                <FilterItem label="24 to 36 hours" name="duration" />
-                <FilterItem label="36 to 72 hours" name="duration" />
-                <FilterItem label="Above 72 hours" name="duration" />
+                {DURATION_OPTIONS.map((d) => (
+                  <FilterItem
+                    key={d.value}
+                    name="duration"
+                    label={d.label}
+                    value={d.value}
+                    checked={filters.durationId === d.value}
+                    onChange={() => setFilters((f) => ({ ...f, durationId: f.durationId === d.value ? null : d.value }))}
+                  />
+                ))}
               </FilterBlock>
             </div>
           </aside>
 
-          {/* CARD 1 */}
-          <div className="mx-auto md:mx-0 md:col-span-1 min-w-0 overflow-hidden">
-            <Card1 images={['/Tajveed Ul Quran 1.png']} />
+          <div className="mx-auto md:mx-0 md:col-span-1 min-w-0 shrink-0 w-full max-w-[320px] xl:max-w-[290px]">
+            <div className="bg-[#EAF4F6] px-6 py-6 rounded-tr-[60px] rounded-bl-[60px]">
+              {loading && !featuredCourse ? (
+                <div className="min-h-[26rem] flex items-center justify-center text-gray-500 text-sm">Loading...</div>
+              ) : featuredCourse ? (
+                <CourseCard
+                  slug={featuredCourse.slug}
+                  title={featuredCourse.title}
+                  subtitle={featuredCourse.subtitle}
+                  languageName={featuredCourse.language_name}
+                  averageRating={String(featuredCourse.average_rating)}
+                  imageUrl={featuredCourse.image_url}
+                  price={featuredCourse.price}
+                  classes={featuredCourse.classes}
+                  currencySymbol={featuredCourse.currency_symbol}
+                />
+              ) : (
+                <div className="min-h-[26rem] flex items-center justify-center text-gray-500 text-sm">No featured course</div>
+              )}
+            </div>
           </div>
 
-          {/* CARD 2 */}
-          <div className="md:col-span-2 xl:col-span-auto min-w-0 overflow-hidden">
-
-            {/* Desktop */}
-            <div className="hidden xl:flex gap-2">
-              <Card1
-                images={[
-                  { src: '/Tajveed Ul Quran 2.png', width: 440, height: 220 },
-                  '/Recite Quran.png',
-                ]}
-                variant="light"
-                padding="px-5 py-6"
-                className="mx-auto"
-              />
+          <div className="md:col-span-2 xl:col-span-auto min-w-0 xl:flex-1 overflow-hidden flex justify-center">
+            <div className="bg-[#EAF7E5] px-6 py-6 rounded-tr-[60px] rounded-bl-[60px] w-fit">
+              {loading && !firstCategoryWithCourses ? (
+                <div className="flex flex-wrap justify-center gap-4">
+                  <div className="min-h-[26rem] w-[280px] max-w-full rounded-none bg-white/80 animate-pulse" />
+                  <div className="min-h-[26rem] w-[280px] max-w-full rounded-none bg-white/80 animate-pulse" />
+                  <div className="min-h-[26rem] w-[280px] max-w-full rounded-none bg-white/80 animate-pulse" />
+                </div>
+              ) : firstCategoryWithCourses ? (
+                <div className="flex flex-wrap justify-center gap-4">
+                  {getCoursesForCategory(firstCategoryWithCourses).map((course) => (
+                    <div key={course.id} className="w-[280px] max-w-full xl:w-[260px] 2xl:w-[280px]">
+                      <CourseCard
+                        slug={course.slug}
+                        title={course.title}
+                        subtitle={course.subtitle}
+                        languageName={course.language_name}
+                        averageRating={String(course.average_rating)}
+                        imageUrl={course.image_url}
+                        price={course.price}
+                        classes={course.classes}
+                        currencySymbol={course.currency_symbol}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 text-gray-500">No courses found.</div>
+              )}
             </div>
-
-            {/* Tablets */}
-            <div className="hidden sm:flex md:flex xl:hidden gap-4 px-4 sm:px-6 md:px-8 mx-auto">
-              <Card1
-                images={[
-                  { src: '/Tajveed Ul Quran 2.png', width: 440, height: 220 },
-                  '/Recite Quran.png',
-                ]}
-                variant="light"
-                padding="px-4 py-6"
-                className="mx-auto"
-              />
-            </div>
-
-            {/* Mobile */}
-            <div className="flex flex-col sm:hidden gap-4 px-4 mx-auto">
-              <Card1
-                images={[{ src: '/Tajveed Ul Quran 2.png', width: 440, height: 220 }]}
-                variant="light"
-                padding="px-4 py-6"
-                className="mx-auto"
-              />
-              <Card1
-                images={['/Recite Quran.png']}
-                variant="light"
-                padding="px-4 py-6"
-                className="mx-auto"
-              />
-            </div>
-
           </div>
 
+        </div>
+
+        <div className="xl:ml-80 xl:max-w-[calc(100%-20rem-1.5rem)] flex flex-col items-center">
+          {categoriesWithCourses.slice(1).map((cat) => (
+            <div key={cat.id} className="mt-12 w-full flex flex-col items-center">
+              <div className="flex justify-center lg:ml-47 mb-6 text-center">
+                <Heading textSize="text-3xl sm:text-4xl md:text-4xl">
+                  {cat.name}
+                </Heading>
+              </div>
+              <div className="bg-[#EAF7E5] px-6 py-6 rounded-tr-[60px] rounded-bl-[60px] w-fit">
+                <div className="flex flex-wrap justify-center gap-4">
+                  {getCoursesForCategory(cat).map((course) => (
+                    <div key={course.id} className="w-[280px] max-w-full xl:w-[260px] 2xl:w-[280px]">
+                      <CourseCard
+                        slug={course.slug}
+                        title={course.title}
+                        subtitle={course.subtitle}
+                        languageName={course.language_name}
+                        averageRating={String(course.average_rating)}
+                        imageUrl={course.image_url}
+                        price={course.price}
+                        classes={course.classes}
+                        currencySymbol={course.currency_symbol}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
   )
 }
 
-/* ---------------- FILTER COMPONENTS ---------------- */
-
 function FilterBlock({
   title,
   children,
   showClear = false,
+  onClear,
 }: {
   title: string
   children: React.ReactNode
   showClear?: boolean
+  onClear?: () => void
 }) {
   return (
     <div className="mb-3 w-full">
       <div className="flex items-center justify-between mb-1">
         <Text className="font-bold text-black text-[11px]">{title}</Text>
         {showClear && (
-          <button className="text-[9px] font-bold text-black">Clear</button>
+          <button type="button" onClick={onClear} className="text-[12px] font-bold text-black hover:underline">
+            Clear
+          </button>
         )}
       </div>
       <div className="space-y-1">{children}</div>
@@ -164,22 +412,32 @@ function FilterBlock({
 function FilterItem({
   label,
   name,
+  value,
+  checked,
+  onChange,
 }: {
   label: string
   name: string
+  value: number | string | null
+  checked: boolean
+  onChange: () => void
 }) {
+  const id = `${name}-${value ?? label.replace(/\s/g, '-')}`
   return (
-    <label className="flex items-center gap-1 text-gray-700 text-[9px] cursor-pointer">
+    <label className="flex items-center gap-1 text-gray-700 text-[12px] cursor-pointer">
       <input
         type="radio"
         name={name}
+        id={id}
+        value={value ?? ''}
+        checked={checked}
+        onChange={onChange}
         className="
           relative
           appearance-none
           w-3 h-3
           rounded-full
           bg-gray-400
-
           checked:after:content-['']
           checked:after:absolute
           checked:after:top-1/2

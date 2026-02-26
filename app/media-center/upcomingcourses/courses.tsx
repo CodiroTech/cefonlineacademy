@@ -45,7 +45,7 @@ const courses = [
     description:
       'CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each course is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.',
     image: '/Living a Purposeful.png',
-    link: '/courses/ayesha-khan',
+    link: '/course-details/ayesha-khan',
   },
   {
     title: 'Islamic Parenting',
@@ -53,7 +53,7 @@ const courses = [
     description:
       'CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each course is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.',
     image: '/Islamic Parenting.png',
-    link: '/courses/muhammad-ali',
+    link: '/course-details/muhammad-ali',
   },
   {
     title: 'Nurtuting Soul & Mind',
@@ -61,6 +61,6 @@ const courses = [
     description:
       'CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each course is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.',
     image: '/Nurtating.png',
-    link: '/courses/fatima-noor',
+    link: '/course-details/fatima-noor',
   }, 
 ]

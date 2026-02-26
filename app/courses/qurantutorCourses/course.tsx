@@ -80,7 +80,6 @@ export default function QuranTutoringCoursesSection() {
           </div>
 
         </div>
-
       </div>
     </section>
   )

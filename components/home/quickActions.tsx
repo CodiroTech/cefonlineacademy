@@ -100,19 +100,39 @@ export const QuickActions = ({ items: apiItems }: QuickActionsProps) => {
                     {item.title}
                   </Heading>
 
-                  <Link href={item.href}>
-                    <span
-                      className={`inline-block rounded-full border-2 px-3 py-1 text-[8px] font-bold transition-all duration-300 mt-0
-                        ${
-                          item.variant === 'green'
-                            ? 'bg-[#8DC63F] text-white border-[#8DC63F] hover:bg-white hover:text-[#8DC63F]'
-                            : 'bg-[#065D80] text-white border-[#065D80] hover:bg-white hover:text-[#065D80]'
-                        }
-                      `}
+                  {item.title === 'Student Login' ? (
+                    <button
+                      type="button"
+                      onClick={() => window.dispatchEvent(new CustomEvent('cef-open-login-popup'))}
+                      className="cursor-pointer border-0 bg-transparent p-0"
                     >
-                      {item.subtitle}
-                    </span>
-                  </Link>
+                      <span
+                        className={`inline-block rounded-full border-2 px-3 py-1 text-[8px] font-bold transition-all duration-300 mt-0
+                          ${
+                            item.variant === 'green'
+                              ? 'bg-[#8DC63F] text-white border-[#8DC63F] hover:bg-white hover:text-[#8DC63F]'
+                              : 'bg-[#065D80] text-white border-[#065D80] hover:bg-white hover:text-[#065D80]'
+                          }
+                        `}
+                      >
+                        {item.subtitle}
+                      </span>
+                    </button>
+                  ) : (
+                    <Link href={item.href}>
+                      <span
+                        className={`inline-block rounded-full border-2 px-3 py-1 text-[8px] font-bold transition-all duration-300 mt-0
+                          ${
+                            item.variant === 'green'
+                              ? 'bg-[#8DC63F] text-white border-[#8DC63F] hover:bg-white hover:text-[#8DC63F]'
+                              : 'bg-[#065D80] text-white border-[#065D80] hover:bg-white hover:text-[#065D80]'
+                          }
+                        `}
+                      >
+                        {item.subtitle}
+                      </span>
+                    </Link>
+                  )}
                 </div>
               </div>
 
@@ -128,7 +148,7 @@ export const QuickActions = ({ items: apiItems }: QuickActionsProps) => {
 
       <Link
         href="#"
-        className="fixed right-0 top-1/2 z-50 -translate-y-1/2 cursor-pointer"
+        className="fixed right-0 top-[calc(50%+20rem)] z-50 -translate-y-1/2 cursor-pointer"
       >
         <div
           className="flex items-center gap-3 rounded-l-full bg-[#8DC63F] px-4 py-3 text-white shadow-lg transition-all hover:bg-[#8DC63F]"

@@ -82,7 +82,7 @@ export const JourneyStepsSection = ({ steps: apiSteps }: JourneyStepsSectionProp
                 className="absolute inset-0 m-4
                            bg-white
                            rounded-tr-[3.5rem] rounded-bl-[3.5rem]
-                           shadow-[0_12px_28px_rgba(0,0,0,0.12),0_4px_10px_rgba(0,0,0,0.06)]
+                           shadow-[8px_8px_8px_rgba(138,188,197,0.50),12px_12px_8px_rgba(138,188,197,0.10)]
                            flex flex-col items-center justify-center
                            text-center px-4
                            z-15"

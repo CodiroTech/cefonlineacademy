@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   FaFacebookF,
   FaInstagram,
@@ -10,11 +10,18 @@ import {
 import { IoMdSearch } from 'react-icons/io'
 import { NavMenu } from './nav-menu'
 import { NavigationSheet } from './navigation-sheet'
-import { BookADemoPopup } from '@/components/demo/BookADemoPopup'
+import { BookADemoPopup, type PreselectedCourse } from '@/components/demo/BookADemoPopup'
+import { LoginPopup } from '@/components/auth/LoginPopup'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
+import { getAuthCookie } from '@/lib/auth-cookie'
+
+type LoginPopupDetail = {
+  stayOnPage?: boolean
+  courseForDemo?: PreselectedCourse
+}
 
 type NavbarProps = {
   data?: {
@@ -33,6 +40,32 @@ const Navbar01Page = ({ data }: NavbarProps) => {
   const pathname = usePathname()
   const isHomePage = pathname === '/'
   const [demoOpen, setDemoOpen] = useState(false)
+  const [loginOpen, setLoginOpen] = useState(false)
+  const [loginOptions, setLoginOptions] = useState<LoginPopupDetail | null>(null)
+  const [demoPreselectedCourse, setDemoPreselectedCourse] = useState<PreselectedCourse | null>(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  useEffect(() => {
+    setIsLoggedIn(!!getAuthCookie()?.token)
+  }, [])
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<LoginPopupDetail | undefined>)?.detail
+      if (detail && typeof detail === 'object') {
+        setLoginOptions({
+          stayOnPage: !!detail.stayOnPage,
+          courseForDemo: detail.courseForDemo ?? undefined,
+        })
+      } else {
+        setLoginOptions(null)
+      }
+      setLoginOpen(true)
+    }
+    window.addEventListener('cef-open-login-popup', handler)
+    return () => window.removeEventListener('cef-open-login-popup', handler)
+  }, [])
+  const portalUrl = (data?.['portal-url']?.trim() && /^https?:\/\//i.test(data['portal-url'].trim()))
+    ? data['portal-url'].trim()
+    : 'https://cefonlineacademy.com/'
 
   const logoSrc = data?.['header-logo']?.full_url
 
@@ -95,26 +128,38 @@ const Navbar01Page = ({ data }: NavbarProps) => {
             <div className="flex items-center gap-1 flex-wrap justify-end">
               <IoMdSearch className="hidden md:block w-5 h-5 lg:w-6 lg:h-6 text-primary cursor-pointer shrink-0" />
                
-              <Link
-                href={
-                  (() => {
-                    const u = data?.['portal-url']?.trim()
-                    return u && /^https?:\/\//i.test(u) ? u : 'https://cefonlineacademy.com/'
-                  })()
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button variant="primarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Student Login</Button>
-              </Link>
-
-              <Button
-                variant="secondarySmall"
-                className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!"
-                onClick={() => setDemoOpen(true)}
-              >
-                Book a Demo
-              </Button>
+              {isLoggedIn ? (
+                <Link
+                  href={portalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button variant="primarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Dashboard</Button>
+                </Link>
+              ) : (
+                <>
+                  <Button
+                    variant="primarySmall"
+                    className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!"
+                    onClick={() => {
+                      setLoginOptions(null)
+                      setLoginOpen(true)
+                    }}
+                  >
+                    Student Login
+                  </Button>
+                  <Button
+                    variant="secondarySmall"
+                    className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!"
+                    onClick={() => {
+                      setDemoPreselectedCourse(null)
+                      setDemoOpen(true)
+                    }}
+                  >
+                    Book a Demo
+                  </Button>
+                </>
+              )}
 
               <Link
                 href="https://cefonlineacademy.com/"
@@ -140,11 +185,44 @@ const Navbar01Page = ({ data }: NavbarProps) => {
 
           {/* Mobile Menu */}
           <div className="lg:hidden ml-2">
-            <NavigationSheet data={data} onBookDemoOpen={() => setDemoOpen(true)} />
+            <NavigationSheet
+              data={data}
+              onBookDemoOpen={() => {
+                setDemoPreselectedCourse(null)
+                setDemoOpen(true)
+              }}
+              onLoginOpen={() => {
+                setLoginOptions(null)
+                setLoginOpen(true)
+              }}
+              isLoggedIn={isLoggedIn}
+            />
           </div>
         </div>
       </div>
-      <BookADemoPopup open={demoOpen} onOpenChange={setDemoOpen} />
+      <BookADemoPopup
+        open={demoOpen}
+        onOpenChange={(open) => {
+          setDemoOpen(open)
+          if (!open) setDemoPreselectedCourse(null)
+        }}
+        preselectedCourse={demoPreselectedCourse}
+      />
+      <LoginPopup
+        open={loginOpen}
+        onOpenChange={setLoginOpen}
+        portalUrl={portalUrl}
+        stayOnPage={loginOptions?.stayOnPage ?? false}
+        onJoinNow={
+          loginOptions?.courseForDemo
+            ? () => {
+                setLoginOpen(false)
+                setDemoPreselectedCourse(loginOptions.courseForDemo!)
+                setDemoOpen(true)
+              }
+            : undefined
+        }
+      />
     </nav>
   )
 }

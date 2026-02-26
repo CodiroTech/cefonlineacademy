@@ -1,15 +1,6 @@
-import React from 'react';
-import { AboutHeader } from '@/components/common/aboutHeader';
-import CourseDescriptionSection from './description';
+import { redirect } from 'next/navigation'
 
-const Page = () => {
-  return (
-    <div>
-      <AboutHeader title="Course Description" imageSrc="/1.png" />
-      <CourseDescriptionSection />
-      
-    </div>
-  );
+/** Redirect legacy /desc to courses listing (per plan). */
+export default function DescPage() {
+  redirect('/courses')
 }
-
-export default Page;

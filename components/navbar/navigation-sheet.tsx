@@ -28,11 +28,14 @@ export type NavigationSheetProps = {
     'insta-url'?: string
     'youtube-url'?: string
     'linkedin-url'?: string
+    'portal-url'?: string
   }
   onBookDemoOpen?: () => void
+  onLoginOpen?: () => void
+  isLoggedIn?: boolean
 }
 
-export const NavigationSheet = ({ data, onBookDemoOpen }: NavigationSheetProps) => {
+export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn }: NavigationSheetProps) => {
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -115,17 +118,40 @@ export const NavigationSheet = ({ data, onBookDemoOpen }: NavigationSheetProps) 
           <div className="border-t border-gray-200 pt-6 mt-6">
             <div className="flex flex-col gap-3">
 
-              {/* Student Login – BLUE */}
-              <Link href="/login" className="w-full">
-                <Button
-                  className="w-full py-2.5 text-sm bg-[#0B5C6B] hover:bg-[#094a56] text-white cursor-pointer"
+              {/* Dashboard (when logged in) or Student Login + Book a Demo */}
+              {isLoggedIn ? (
+                <Link
+                  href={(data?.['portal-url']?.trim() && /^https?:\/\//i.test(data['portal-url'].trim())) ? data['portal-url'].trim()! : 'https://cefonlineacademy.com/'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full"
                 >
-                  Student Login
-                </Button>
-              </Link>
-
-              {/* Book a Demo – GREEN */}
-              {onBookDemoOpen ? (
+                  <Button
+                    className="w-full py-2.5 text-sm bg-[#0B5C6B] hover:bg-[#094a56] text-white cursor-pointer"
+                  >
+                    Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  {onLoginOpen ? (
+                    <Button
+                      className="w-full py-2.5 text-sm bg-[#0B5C6B] hover:bg-[#094a56] text-white cursor-pointer"
+                      onClick={onLoginOpen}
+                    >
+                      Student Login
+                    </Button>
+                  ) : (
+                    <Link href="/login" className="w-full">
+                      <Button
+                        className="w-full py-2.5 text-sm bg-[#0B5C6B] hover:bg-[#094a56] text-white cursor-pointer"
+                      >
+                        Student Login
+                      </Button>
+                    </Link>
+                  )}
+                  {/* Book a Demo – GREEN */}
+                  {onBookDemoOpen ? (
                 <Button
                   className="w-full py-2.5 text-sm bg-[#8BC34A] hover:bg-[#79ad3f] text-white cursor-pointer"
                   onClick={onBookDemoOpen}
@@ -142,7 +168,10 @@ export const NavigationSheet = ({ data, onBookDemoOpen }: NavigationSheetProps) 
                 </Link>
               )}
 
-              {/* CEF Bookshop – BLUE */}
+                </>
+              )}
+
+              {/* CEF Bookshop - BLUE */}
               <Link
                 href="https://www.cef.org.pk/shop/"
                 target="_blank"

@@ -96,7 +96,7 @@ export const WhyChooseUs = ({ stats: apiStats }: WhyChooseUsProps) => {
                   />
                 </div>
 
-                <div className="text-3xl sm:text-4xl lg:text-7xl font-normal text-[#065D80] leading-none">
+                <div className="text-3xl sm:text-4xl lg:text-7xl font-medium text-[#065D80] leading-none">
                   {counters[index]}+
                 </div>
 

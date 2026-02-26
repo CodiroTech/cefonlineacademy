@@ -52,7 +52,7 @@ const footerColumns: Array<FooterColumn> = [
     heading: 'Donate',
     links: [
       { label: 'Donate Now', href: '/donations' },
-      { label: 'Enroll Now', href: '/desc' },
+      { label: 'Enroll Now', href: '/courses' },
     ],
     showSocial: true,
   },

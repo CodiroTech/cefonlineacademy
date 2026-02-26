@@ -19,7 +19,13 @@ const DEFAULT_FACEBOOK = 'https://facebook.com/'
 const DEFAULT_INSTAGRAM = 'https://instagram.com/'
 const DEFAULT_YOUTUBE = 'https://youtube.com/'
 const DEFAULT_LINKEDIN = 'https://linkedin.com/'
-const DEFAULT_PORTAL_URL = 'https://cefonlineacademy.com/'
+const DEFAULT_PORTAL_URL = 'http://localhost:5174/'
+
+/** When set (e.g. in .env.local), overrides portal-url from API so local login redirects to your dashboard. */
+const PORTAL_URL_ENV =
+  typeof process !== 'undefined' && process.env.NEXT_PUBLIC_PORTAL_URL?.trim()
+    ? process.env.NEXT_PUBLIC_PORTAL_URL.trim()
+    : ''
 
 /** Normalize URL: fix common typos (e.g. htps -> https) and ensure valid protocol */
 function normalizeUrl(url: string | undefined | null, defaultUrl: string): string {
@@ -52,7 +58,9 @@ export function buildSiteSettingsData(settings: SiteSettings | null) {
     'youtube-url': settings?.youtube?.trim() || DEFAULT_YOUTUBE,
     'linkedin-url': settings?.linkedin?.trim() || DEFAULT_LINKEDIN,
     'tiktok-url': settings?.tiktok?.trim() || '',
-    'portal-url': normalizeUrl(settings?.['portal-url'], DEFAULT_PORTAL_URL),
+    'portal-url': PORTAL_URL_ENV
+      ? normalizeUrl(PORTAL_URL_ENV, DEFAULT_PORTAL_URL)
+      : normalizeUrl(settings?.['portal-url'], DEFAULT_PORTAL_URL),
     faviconUrl: settings?.favicon
       ? mediaUrl(settings.favicon, DEFAULT_FAVICON)
       : DEFAULT_FAVICON,
