@@ -171,7 +171,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
               )}
 
               <Link
-                href="https://cefonlineacademy.com/"
+                href={bookshopUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -179,7 +179,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
               </Link>
 
               <Link
-                href={bookshopUrl}
+                href="https://cef.org.pk"
                 target="_blank"
                 rel="noopener noreferrer"
               >

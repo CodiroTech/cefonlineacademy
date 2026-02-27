@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Heading } from '../common/heading'
 import { Text } from '../common/text'
 import type { HelpDeskItem } from '@/lib/api/homepage'
+import { cefOrgBaseUrl } from '@/lib/config'
 import { mediaUrl } from '@/lib/headless'
 
 type HelpItem = {
@@ -13,16 +14,8 @@ type HelpItem = {
   link: string
 }
 
-const fallbackItems: HelpItem[] = [
-  { image: '/Contact Us.svg', title: 'Contact Us', link: '/contact' },
-  { image: '/Queries.svg', title: 'Queries', link: '/queries' },
-  { image: '/Complaints.svg', title: 'Complaints', link: '/complaints' },
-  { image: '/Book Sales.svg', title: 'Book Sales Representative', link: '/book-sales-queries' },
-  { image: '/Donations.svg', title: 'Donation Representative', link: '/donation-queries' },
-  { image: '/Careers.svg', title: 'Careers', link: '/hr-queries' },
-]
-
-const linkMap: Record<string, string> = {
+/** Paths on cef.org.pk for Help Desk (same as cef.org.pk helpdesk2). Contact Us stays in-app. */
+const helpDeskPaths: Record<string, string> = {
   'Contact Us': '/contact',
   Queries: '/queries',
   Complaints: '/complaints',
@@ -30,6 +23,23 @@ const linkMap: Record<string, string> = {
   'Donation Representative': '/donation-queries',
   Careers: '/hr-queries',
 }
+
+const base = cefOrgBaseUrl.replace(/\/$/, '')
+
+function getHelpDeskLink(title: string): string {
+  const path = helpDeskPaths[title] ?? '#'
+  if (title === 'Contact Us') return path
+  return `${base}${path.startsWith('/') ? path : `/${path}`}`
+}
+
+const fallbackItems: HelpItem[] = [
+  { image: '/Contact Us.svg', title: 'Contact Us', link: '/contact' },
+  { image: '/Queries.svg', title: 'Queries', link: `${base}/queries` },
+  { image: '/Complaints.svg', title: 'Complaints', link: `${base}/complaints` },
+  { image: '/Book Sales.svg', title: 'Book Sales Representative', link: `${base}/book-sales-queries` },
+  { image: '/Donations.svg', title: 'Donation Representative', link: `${base}/donation-queries` },
+  { image: '/Careers.svg', title: 'Careers', link: `${base}/hr-queries` },
+]
 
 interface HelpDeskProps {
   items?: HelpDeskItem[]
@@ -42,7 +52,7 @@ export const HelpDesk = ({ items: apiItems }: HelpDeskProps) => {
         .map((item, i) => ({
           image: mediaUrl(item.icon, fallbackItems[i]?.image || '/Help Desk.svg'),
           title: item.title ?? '',
-          link: linkMap[item.title] ?? '#',
+          link: getHelpDeskLink(item.title ?? ''),
         }))
     : []
   const helpItems = mapped.length > 0 ? mapped : fallbackItems
@@ -61,7 +71,9 @@ export const HelpDesk = ({ items: apiItems }: HelpDeskProps) => {
       </div>
 
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-2 lg:gap-3 w-full lg:max-w-6xl mx-auto">
-        {helpItems.map((item, index) => (
+        {helpItems.map((item, index) => {
+          const isExternal = item.title !== 'Contact Us'
+          return (
           <div
             key={index}
             className="w-full sm:w-1/2 lg:w-35 flex justify-center"
@@ -69,6 +81,7 @@ export const HelpDesk = ({ items: apiItems }: HelpDeskProps) => {
             <Link
               href={item.link}
               className="flex flex-col items-center text-center gap-1 group"
+              {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
             >
               <div className="relative w-16 h-16">
                 <Image
@@ -84,7 +97,8 @@ export const HelpDesk = ({ items: apiItems }: HelpDeskProps) => {
               </span>
             </Link>
           </div>
-        ))}
+          )
+        })}
       </div>
 
     </section>

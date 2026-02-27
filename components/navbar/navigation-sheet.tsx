@@ -188,7 +188,7 @@ export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn 
 
               {/* CEF Website – GREEN */}
               <Link
-                href="https://cefonlineacademy.com"
+                href="https://cef.org.pk"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full"

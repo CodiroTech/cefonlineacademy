@@ -6,6 +6,7 @@ import { Heading } from '../common/heading'
 import { Text } from '../common/text'
 import { Button } from '../ui/button'
 import type { HeroSection, SliderStep } from '@/lib/api/homepage'
+import { bookshopUrl } from '@/lib/config'
 import { mediaUrl, stripHtml } from '@/lib/headless'
 
 const fallbackSteps = [
@@ -118,7 +119,7 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
               </button>
             </Link>
 
-            <Link href="/bookshop">
+            <Link href={bookshopUrl} target="_blank" rel="noopener noreferrer">
               <button type="button" className="rounded-full border bg-[#065D80] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer">
                 CEF Bookshop
               </button>
