@@ -32,7 +32,7 @@ const fallbackActions = [
     title: 'Our Courses',
     subtitle: 'VIEW COURSES',
     icon: '/Our Courses Icon.svg',
-    href: '/courses',
+    href: '/courses/qurantutorCourses',
     variant: 'green' as const,
   },
 ]
@@ -41,7 +41,7 @@ const linkMap: Record<string, { href: string; variant: 'green' | 'blue' }> = {
   Demo: { href: '/demo', variant: 'green' },
   Enroll: { href: '/enroll', variant: 'green' },
   'Student Login': { href: '/login', variant: 'blue' },
-  'Our Courses': { href: '/courses', variant: 'green' },
+  'Our Courses': { href: '/courses/qurantutorCourses', variant: 'green' },
 }
 
 interface QuickActionsProps {
@@ -118,6 +118,24 @@ export const QuickActions = ({ items: apiItems }: QuickActionsProps) => {
                         {item.subtitle}
                       </span>
                     </button>
+                  ) : item.title === 'Demo' || item.title === 'Enroll' ? (
+                    <button
+                      type="button"
+                      onClick={() => window.dispatchEvent(new CustomEvent('cef-open-demo-popup'))}
+                      className="cursor-pointer border-0 bg-transparent p-0"
+                    >
+                      <span
+                        className={`inline-block rounded-full border-2 px-3 py-1 text-[8px] font-bold transition-all duration-300 mt-0
+                          ${
+                            item.variant === 'green'
+                              ? 'bg-[#8DC63F] text-white border-[#8DC63F] hover:bg-white hover:text-[#8DC63F]'
+                              : 'bg-[#065D80] text-white border-[#065D80] hover:bg-white hover:text-[#065D80]'
+                          }
+                        `}
+                      >
+                        {item.subtitle}
+                      </span>
+                    </button>
                   ) : (
                     <Link href={item.href}>
                       <span
@@ -147,7 +165,7 @@ export const QuickActions = ({ items: apiItems }: QuickActionsProps) => {
       </div>
 
       <Link
-        href="#"
+        href="/contact"
         className="fixed right-0 top-[calc(50%+20rem)] z-50 -translate-y-1/2 cursor-pointer"
       >
         <div

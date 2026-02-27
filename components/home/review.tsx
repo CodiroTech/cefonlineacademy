@@ -154,7 +154,7 @@ export const TestimonialsSection = ({ items: apiItems }: TestimonialsSectionProp
 
                 <div className="mt-10">
                   <Link
-                    href="/mission-kirdaar"
+                    href="/media-center/testimonials"
                     className="inline-block px-7 py-2 text-sm font-semibold bg-[#065D80] text-white rounded-full border-2 border-[#065D80] transition-all duration-300 hover:bg-white hover:text-[#065D80]"
                   >
                     SEE ALL

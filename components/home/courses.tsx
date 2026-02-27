@@ -11,14 +11,14 @@ const fallbackCourses = [
     description:
       'CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.',
     image: '/Insight & Inspiration.png',
-    link: '/courses/quran-tutoring',
+    link: '/courses/qurantutorCourses',
   },
   {
     title: 'Other Courses',
     description:
       'CEF Online Academy offers free courses and paid programs for learners of all ages. The paid options include self-paced recorded lectures and live interactive sessions. Each course is part of Character Education Foundation\'s initiatives. The aim is to nurture minds, strengthen faith, and build character through learning rooted in the Quran, ethics, and community values.',
     image: '/Our Courses Boy.png',
-    link: '/courses/other',
+    link: '/courses/otherCourses',
   },
 ]
 
@@ -34,7 +34,7 @@ export const OurCoursesSection = ({ sections: apiSections }: OurCoursesSectionPr
           ? stripHtml(s['homepage-our-courses-section-description'])
           : fallbackCourses[i]?.description || '',
         image: mediaUrl(s['homepage-our-courses-section-image'], fallbackCourses[i]?.image || ''),
-        link: fallbackCourses[i]?.link || '/courses',
+        link: fallbackCourses[i]?.link || '/courses/qurantutorCourses',
       }))
     : fallbackCourses
 

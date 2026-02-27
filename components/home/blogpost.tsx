@@ -179,7 +179,7 @@ export const InsightsSection = () => {
 
         <div className="mt-8 text-center">
           <Link
-            href="/blogs"
+            href="/media-center/blogs"
             className="inline-block px-7 py-1 text-sm font-semibold bg-[#0B5C6B] text-white rounded-full border-2 border-[#0B5C6B] transition hover:bg-white hover:text-[#0B5C6B]"
           >
             SEE ALL

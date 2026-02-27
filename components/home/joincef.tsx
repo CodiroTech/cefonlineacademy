@@ -54,15 +54,16 @@ export const JoinCEFSection = ({ data }: JoinCEFSectionProps) => {
         </Text>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-          <Link
-            href="/enroll"
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('cef-open-demo-popup'))}
             className="inline-block px-10 py-3.5 text-base font-semibold bg-[#8DC63F] text-white rounded-full border-2 border-[#8BC34A] transition-all duration-300 hover:bg-white hover:text-[#8DC63F] shadow-md hover:shadow-lg min-w-45"
           >
             Enroll Now
-          </Link>
+          </button>
 
           <Link
-            href="/donate"
+            href="/donations"
             className="inline-block px-10 py-3.5 text-base font-semibold bg-[#EF4444] text-white rounded-full border-2 border-[#EF4444] transition-all duration-300 hover:bg-white hover:text-[#EF4444] shadow-md hover:shadow-lg min-w-45"
           >
             Donate Now

@@ -95,33 +95,37 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
 
           <br />
 
-          <Link href="/register" className="inline-block">
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('cef-open-demo-popup'))}
+            className="inline-block"
+          >
             <Button className="rounded-full px-3 sm:px-5 py-4 sm:py-5 text-xs lg:text-[16px] font-semibold bg-linear-to-r from-[#065D80] to-[#8DC63F] text-white hover:opacity-90 cursor-pointer">
               Register for Free Demo — Start Your Journey
             </Button>
-          </Link>
+          </button>
 
           <div className="flex flex-wrap gap-2 sm:gap-2 pt-1">
-            <Link href="/courses">
-              <button className="rounded-full border bg-[#065D80] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer">
+            <Link href="/courses/qurantutorCourses">
+              <button type="button" className="rounded-full border bg-[#065D80] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer">
                 Our Courses
               </button>
             </Link>
 
-            <Link href="/offerings">
-              <button className="rounded-full border bg-[#8DC63F] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#8DC63F] transition cursor-pointer">
+            <Link href="/offerings/workshops">
+              <button type="button" className="rounded-full border bg-[#8DC63F] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#8DC63F] transition cursor-pointer">
                 Our Offerings
               </button>
             </Link>
 
             <Link href="/bookshop">
-              <button className="rounded-full border bg-[#065D80] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer">
+              <button type="button" className="rounded-full border bg-[#065D80] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer">
                 CEF Bookshop
               </button>
             </Link>
 
-            <Link href="/news">
-              <button className="rounded-full bg-linear-to-r from-[#065D80] to-[#8DC63F] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:scale-105 transition cursor-pointer">
+            <Link href="/media-center/upcomingcourses">
+              <button type="button" className="rounded-full bg-linear-to-r from-[#065D80] to-[#8DC63F] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:scale-105 transition cursor-pointer">
                 What's New
               </button>
             </Link>

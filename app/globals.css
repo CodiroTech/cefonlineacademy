@@ -59,6 +59,12 @@ body {
   font-family: var(--font-poppins);
 }
 
+a,
+button,
+[role='button'] {
+  cursor: pointer;
+}
+
 /* Color utilities (kept as-is) */
 .text-primary { color: #085c7c !important; }
 .bg-primary { background-color: #085c7c !important; }

@@ -141,7 +141,7 @@ export const ListenLearnSection = ({ items: apiItems }: ListenLearnSectionProps)
 
         <div className="mt-10 text-center">
           <Link
-            href="/podcasts"
+            href="/media-center/podcasts"
             className="inline-block px-6 py-1 text-sm font-semibold bg-[#0B5C6B] text-white rounded-full border-2 border-[#065D80] transition hover:bg-white hover:text-[#065D80]"
           >
             WATCH ALL

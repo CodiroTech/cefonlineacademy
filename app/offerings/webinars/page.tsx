@@ -1,12 +1,18 @@
 import React from 'react';
 import { AboutHeader } from '@/components/common/aboutHeader';
+import { getPageHeader } from '@/lib/api/pageHeaders';
+import { mediaUrl } from '@/lib/headless';
 import { Webinars } from './webinar';
 import { ContentWithSearchSection } from '@/components/common/offeringsContent';
 
-const Page = () => {
+const Page = async () => {
+  const header = await getPageHeader('webinars-page');
+  const title = header?.title ?? 'Webinars';
+  const imageSrc = mediaUrl(header?.['header-image']) || '/webinar.png';
+
   return (
     <div>
-      <AboutHeader title="Webinars" imageSrc="/webinar.png" />
+      <AboutHeader title={title} imageSrc={imageSrc} />
       <ContentWithSearchSection
                           imageSrc="/webinar.png"
                           imageAlt="CEF Online Academy weekly sessions"

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 24, 2026 at 01:03 AM
+-- Generation Time: Feb 26, 2026 at 07:34 AM
 -- Server version: 11.8.3-MariaDB-log
 -- PHP Version: 7.2.34
 
@@ -223,7 +223,25 @@ INSERT INTO `collection_fields` (`id`, `type`, `label`, `name`, `description`, `
 (1004, 'text', 'Youtube', 'youtube', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1004, '2026-02-24 00:11:42', '2026-02-24 00:11:42'),
 (1005, 'text', 'LinkedIn', 'linkedin', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1005, '2026-02-24 00:11:49', '2026-02-24 00:11:49'),
 (1006, 'text', 'Tiktok', 'tiktok', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1006, '2026-02-24 00:11:58', '2026-02-24 00:11:58'),
-(1007, 'text', 'Footer Text', 'footer-text', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1007, '2026-02-24 00:18:30', '2026-02-24 00:18:30');
+(1007, 'text', 'Footer Text', 'footer-text', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1007, '2026-02-24 00:18:30', '2026-02-24 00:18:30'),
+(1008, 'text', 'link', 'link', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 150, 1008, '2026-02-24 01:54:22', '2026-02-24 01:54:22'),
+(1009, 'text', 'link', 'link', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 152, 1009, '2026-02-24 01:54:22', '2026-02-24 01:54:22');
+INSERT INTO `collection_fields` (`id`, `type`, `label`, `name`, `description`, `placeholder`, `options`, `validations`, `project_id`, `collection_id`, `order`, `created_at`, `updated_at`) VALUES
+(1010, 'text', 'link', 'link', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 154, 1010, '2026-02-24 01:54:22', '2026-02-24 01:54:22'),
+(1011, 'text', 'question', 'question', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 161, 1011, '2026-02-24 01:54:22', '2026-02-24 01:54:22'),
+(1012, 'longtext', 'answer', 'answer', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 161, 1012, '2026-02-24 01:54:22', '2026-02-24 01:54:22'),
+(1013, 'text', 'address', 'address', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 160, 1013, '2026-02-24 01:54:22', '2026-02-24 01:54:22'),
+(1014, 'text', 'phone', 'phone', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 160, 1014, '2026-02-24 01:54:22', '2026-02-24 01:54:22'),
+(1015, 'text', 'email', 'email', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 160, 1015, '2026-02-24 01:54:22', '2026-02-24 01:54:22'),
+(1016, 'richtext', 'description', 'description', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 160, 1016, '2026-02-24 01:54:22', '2026-02-24 01:54:22'),
+(1017, 'media', 'image', 'image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 130, 1017, '2026-02-24 06:33:16', '2026-02-24 06:39:16'),
+(1018, 'text', 'heading', 'heading', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 130, 1018, '2026-02-24 06:34:44', '2026-02-24 06:39:35'),
+(1019, 'longtext', 'description', 'description', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 130, 1019, '2026-02-24 06:35:03', '2026-02-24 06:39:52'),
+(1020, 'text', 'text', 'text', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 135, 1020, '2026-02-24 07:43:40', '2026-02-24 07:43:40'),
+(1021, 'text', 'text 2', 'text-2', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 135, 1021, '2026-02-24 07:44:15', '2026-02-24 07:44:15'),
+(1024, 'media', 'image', 'image', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false,\"media\":{\"type\":1}}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 135, 1024, '2026-02-24 07:45:21', '2026-02-24 07:45:46'),
+(1025, 'longtext', 'description', 'description', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 135, 1025, '2026-02-24 07:46:04', '2026-02-24 07:46:04'),
+(1026, 'text', 'Portal URL', 'portal-url', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1026, '2026-02-24 20:42:03', '2026-02-24 20:42:03');
 
 -- --------------------------------------------------------
 
@@ -252,7 +270,7 @@ CREATE TABLE `content` (
 --
 
 INSERT INTO `content` (`id`, `project_id`, `collection_id`, `locale`, `form_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `published_at`, `published_by`, `deleted_at`, `sort_number`) VALUES
-(747, 3, 121, 'en', NULL, '2026-02-20 06:32:51', 1, '2026-02-24 00:19:11', 1, '2026-02-24 00:19:11', 1, NULL, 1),
+(747, 3, 121, 'en', NULL, '2026-02-20 06:32:51', 1, '2026-02-24 20:43:26', 1, '2026-02-24 20:43:26', 1, NULL, 1),
 (748, 3, 122, 'en', NULL, '2026-02-20 06:38:41', 1, '2026-02-23 22:53:26', 1, '2026-02-23 22:53:26', 1, NULL, 2),
 (749, 3, 140, 'en', NULL, '2026-02-20 06:47:48', 1, '2026-02-20 06:47:48', NULL, NULL, NULL, NULL, 1),
 (750, 3, 140, 'en', NULL, '2026-02-20 06:48:36', 1, '2026-02-20 06:48:36', NULL, NULL, NULL, NULL, 2),
@@ -293,7 +311,53 @@ INSERT INTO `content` (`id`, `project_id`, `collection_id`, `locale`, `form_id`,
 (785, 3, 143, 'en', NULL, '2026-02-20 09:53:17', 1, '2026-02-20 09:53:17', NULL, NULL, NULL, NULL, 3),
 (786, 3, 143, 'en', NULL, '2026-02-20 09:53:56', 1, '2026-02-20 09:53:56', NULL, NULL, NULL, NULL, 4),
 (787, 3, 143, 'en', NULL, '2026-02-20 09:54:47', 1, '2026-02-20 09:54:47', NULL, NULL, NULL, NULL, 5),
-(788, 3, 143, 'en', NULL, '2026-02-20 09:55:21', 1, '2026-02-20 09:55:21', NULL, NULL, NULL, NULL, 6);
+(788, 3, 143, 'en', NULL, '2026-02-20 09:55:21', 1, '2026-02-20 09:55:21', NULL, NULL, NULL, NULL, 6),
+(789, 3, 158, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 06:14:19', 1, '2026-02-24 06:14:19', 1, NULL, 1),
+(790, 3, 159, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(791, 3, 145, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(792, 3, 146, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(793, 3, 147, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(794, 3, 148, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(795, 3, 149, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(796, 3, 150, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(797, 3, 150, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 2),
+(798, 3, 150, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 3),
+(799, 3, 150, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 4),
+(800, 3, 150, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 5),
+(801, 3, 150, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 6),
+(802, 3, 151, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(803, 3, 152, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(804, 3, 152, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 2),
+(805, 3, 152, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 3),
+(806, 3, 152, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 4),
+(807, 3, 152, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 5),
+(808, 3, 152, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 6),
+(809, 3, 153, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(810, 3, 154, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(811, 3, 154, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 2),
+(812, 3, 154, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 3),
+(813, 3, 154, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 4),
+(814, 3, 154, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 5),
+(815, 3, 154, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 6),
+(816, 3, 155, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(817, 3, 133, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(818, 3, 160, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(819, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
+(820, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 2),
+(821, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 3),
+(822, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 4),
+(823, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 5),
+(824, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 6),
+(825, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 7),
+(826, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 8),
+(827, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 9),
+(828, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 10),
+(829, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 11),
+(830, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 12),
+(831, 3, 136, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 07:50:25', 1, '2026-02-24 07:50:25', 1, NULL, 1),
+(832, 3, 130, 'en', NULL, '2026-02-24 06:37:01', 1, '2026-02-24 06:41:52', 1, '2026-02-24 06:41:52', 1, NULL, 1),
+(833, 3, 130, 'en', NULL, '2026-02-24 07:28:26', 1, '2026-02-24 07:28:36', 1, '2026-02-24 07:28:36', 1, NULL, 2),
+(834, 3, 135, 'en', NULL, '2026-02-24 07:47:48', 1, '2026-02-24 07:47:48', NULL, '2026-02-24 07:47:48', 1, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -508,7 +572,191 @@ INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `
 (5584, 3, 121, 747, 'youtube', 'https://tiktok.com', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
 (5585, 3, 121, 747, 'instagram', 'https://tiktok.com', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
 (5586, 3, 121, 747, 'facebook', 'https://tiktok.com', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
-(5587, 3, 121, 747, 'favicon', '1165', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL);
+(5587, 3, 121, 747, 'favicon', '1165', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
+(5588, 3, 158, 789, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5589, 3, 158, 789, 'title', 'About CEF Online Academy', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5590, 3, 159, 790, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5591, 3, 159, 790, 'title', 'Media Center', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5592, 3, 145, 791, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5593, 3, 145, 791, 'title', 'Our Story', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5594, 3, 145, 791, 'description', '<p>There was a time when we asked ourselves a simple, yet powerful question:</p><h3>What kind of generation do we want to raise?</h3><p>We knew the answer was more than academic success—it was a generation with faith, character, and the ability to spread goodness. We realised that education without character is incomplete, and character without the Quran and Sunnah loses its purpose and direction.</p><p>This journey began in 2016—not as an institution, but as a heartfelt effort to awaken hearts through the Quran and Sunnah. In small rooms across Pakistan, we witnessed early change—children connecting with the Quran, families softening, and hearts returning to Allah.</p><p>To carry this trust beyond borders, CEF Online Academy was born—a place where the Quran reaches homes and hearts worldwide. Here, dedicated teachers and mentors guide each learner with care.</p><p>From such hearts, we pray to raise aspiring leaders—those who don\'t just know the Quran, but live it. Leaders with dignity in character, clarity in purpose, and courage to guide humanity.</p><p>Because real change begins not in systems, but in hearts that remember who they are—and who they are meant to become!</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5595, 3, 146, 792, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5596, 3, 146, 792, 'title', 'Our Vision', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5597, 3, 146, 792, 'description', 'Nurture a generation that connects revealed and acquired knowledge.', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5598, 3, 147, 793, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5599, 3, 147, 793, 'title', 'Our Mission', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5600, 3, 147, 793, 'description', 'We will achieve our vision by investing in holistic character development in light of Quran and Sunnah.', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5601, 3, 148, 794, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5602, 3, 148, 794, 'title', 'Our Values', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5603, 3, 148, 794, 'description', 'Collaboration, Excellence, Innovation, Transparency and a Sense of Responsibility', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5604, 3, 149, 795, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5605, 3, 149, 795, 'title', 'Meet Our Teachers', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5606, 3, 149, 795, 'description', '<p>At CEF Online Academy, we are privileged to have a remarkable team of teachers who not only guide children in learning the Quran but also nurture their character. Our teachers inspire students to harmonize revealed knowledge with acquired knowledge, enabling them to think critically, act ethically, and live purposefully. Through their mentorship, children are empowered to become compassionate, responsible leaders of tomorrow. For parents, it is both an honor and a reassurance to entrust their children to such dedicated educators who embody our vision of a generation grounded in faith and equipped for the world.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5607, 3, 150, 796, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5608, 3, 150, 796, 'name', 'Ayesha Khan', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5609, 3, 150, 796, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5610, 3, 150, 796, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5611, 3, 150, 796, 'link', '/teachers/ayesha-khan', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5612, 3, 150, 797, 'sort_number', '2', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5613, 3, 150, 797, 'name', 'Muhammad Ali', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5614, 3, 150, 797, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5615, 3, 150, 797, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5616, 3, 150, 797, 'link', '/teachers/muhammad-ali', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5617, 3, 150, 798, 'sort_number', '3', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5618, 3, 150, 798, 'name', 'Fatima Noor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5619, 3, 150, 798, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5620, 3, 150, 798, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5621, 3, 150, 798, 'link', '/teachers/fatima-noor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5622, 3, 150, 799, 'sort_number', '4', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5623, 3, 150, 799, 'name', 'Ahmed Raza', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5624, 3, 150, 799, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5625, 3, 150, 799, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5626, 3, 150, 799, 'link', '/teachers/ahmed-raza', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5627, 3, 150, 800, 'sort_number', '5', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5628, 3, 150, 800, 'name', 'Zainab Tariq', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5629, 3, 150, 800, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5630, 3, 150, 800, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5631, 3, 150, 800, 'link', '/teachers/zainab-tariq', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5632, 3, 150, 801, 'sort_number', '6', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5633, 3, 150, 801, 'name', 'Usman Farooq', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5634, 3, 150, 801, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5635, 3, 150, 801, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5636, 3, 150, 801, 'link', '/teachers/usman-farooq', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5637, 3, 151, 802, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5638, 3, 151, 802, 'title', 'Meet Our Speakers', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5639, 3, 151, 802, 'description', '<p>At CEF Online Academy, we are honored to host a distinguished group of speakers who inspire, enlighten, and guide our students and community. They bridge the wisdom of revealed knowledge with insights from contemporary learning, helping audiences understand and apply principles that lead to purposeful living. Through their guidance, participants are encouraged to think critically, act ethically, and contribute meaningfully to society. For all who attend, it is both a privilege and a source of inspiration to learn from such accomplished individuals who embody our vision of nurturing a generation grounded in faith and equipped for the world.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5640, 3, 152, 803, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5641, 3, 152, 803, 'name', 'Ayesha Khan', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5642, 3, 152, 803, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5643, 3, 152, 803, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5644, 3, 152, 803, 'link', '/speakers/ayesha-khan', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5645, 3, 152, 804, 'sort_number', '2', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5646, 3, 152, 804, 'name', 'Muhammad Ali', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5647, 3, 152, 804, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5648, 3, 152, 804, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5649, 3, 152, 804, 'link', '/speakers/muhammad-ali', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5650, 3, 152, 805, 'sort_number', '3', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5651, 3, 152, 805, 'name', 'Fatima Noor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5652, 3, 152, 805, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5653, 3, 152, 805, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5654, 3, 152, 805, 'link', '/speakers/fatima-noor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5655, 3, 152, 806, 'sort_number', '4', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5656, 3, 152, 806, 'name', 'Ahmed Raza', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5657, 3, 152, 806, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5658, 3, 152, 806, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5659, 3, 152, 806, 'link', '/speakers/ahmed-raza', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5660, 3, 152, 807, 'sort_number', '5', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5661, 3, 152, 807, 'name', 'Zainab Tariq', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5662, 3, 152, 807, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5663, 3, 152, 807, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5664, 3, 152, 807, 'link', '/speakers/zainab-tariq', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5665, 3, 152, 808, 'sort_number', '6', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5666, 3, 152, 808, 'name', 'Usman Farooq', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5667, 3, 152, 808, 'designation', 'Instructor', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5668, 3, 152, 808, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5669, 3, 152, 808, 'link', '/speakers/usman-farooq', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5670, 3, 153, 809, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5671, 3, 153, 809, 'title', 'Our Accredited Programs', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5672, 3, 153, 809, 'description', '<p>CEF Online Academy is proud to hold accreditations from distinguished and recognized institutions. These endorsements reflect the quality, credibility, and standards of our programs. Parents and students can have full confidence in the authenticity, rigor, and value of the education and guidance we provide.</p>', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5673, 3, 154, 810, 'sort_number', '1', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5674, 3, 154, 810, 'name', 'Ayesha Khan', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5675, 3, 154, 810, 'title', 'Instructor', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5676, 3, 154, 810, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5677, 3, 154, 810, 'link', '/programs/ayesha-khan', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5678, 3, 154, 811, 'sort_number', '2', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5679, 3, 154, 811, 'name', 'Muhammad Ali', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5680, 3, 154, 811, 'title', 'Instructor', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5681, 3, 154, 811, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5682, 3, 154, 811, 'link', '/programs/muhammad-ali', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5683, 3, 154, 812, 'sort_number', '3', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5684, 3, 154, 812, 'name', 'Fatima Noor', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5685, 3, 154, 812, 'title', 'Instructor', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5686, 3, 154, 812, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5687, 3, 154, 812, 'link', '/programs/fatima-noor', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5688, 3, 154, 813, 'sort_number', '4', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5689, 3, 154, 813, 'name', 'Ahmed Raza', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5690, 3, 154, 813, 'title', 'Instructor', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5691, 3, 154, 813, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5692, 3, 154, 813, 'link', '/programs/ahmed-raza', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5693, 3, 154, 814, 'sort_number', '5', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5694, 3, 154, 814, 'name', 'Zainab Tariq', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5695, 3, 154, 814, 'title', 'Instructor', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5696, 3, 154, 814, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5697, 3, 154, 814, 'link', '/programs/zainab-tariq', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5698, 3, 154, 815, 'sort_number', '6', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5699, 3, 154, 815, 'name', 'Usman Farooq', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5700, 3, 154, 815, 'title', 'Instructor', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5701, 3, 154, 815, 'description', '<p>CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5702, 3, 154, 815, 'link', '/programs/usman-farooq', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5703, 3, 155, 816, 'sort_number', '1', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5704, 3, 155, 816, 'title', 'Why Choose Us?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5705, 3, 155, 816, 'description', '<p>CEF Online Academy is designed with a comprehensive and well-structured mechanism to ensure holistic learning. We use advanced teaching techniques, carefully curated content, and interactive methodologies to engage students effectively. Our highly trained tutors and mentors are dedicated to guiding every child with patience, expertise, and care. Through this integrated approach, we develop not only knowledge but also character, values, and leadership, preparing students for a purposeful and confident future.</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5706, 3, 133, 817, 'sort_number', '1', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5707, 3, 133, 817, 'section-title', 'What Do Our Students SAY!', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5708, 3, 133, 817, 'section-sub-title', 'At CEF Online Academy, our students experience more than just learning the Quran. Through our courses, they connect revealed knowledge with acquired knowledge, building confidence, understanding, and strong character. Here\'s what they have to say about their journey with us.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5709, 3, 160, 818, 'sort_number', '1', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5710, 3, 160, 818, 'title', 'Contact Us', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5711, 3, 160, 818, 'address', '2nd Floor, Landmark Heights, Service Road (East), Islamabad Expressway, Islamabad 44000, Pakistan', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5712, 3, 160, 818, 'phone', '+92-51-8435553, +92-51-8435554, +92 300 8594256', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5713, 3, 160, 818, 'email', 'info@cef.org.pk', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5714, 3, 160, 818, 'description', '<p>Head Office, Islamabad</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5715, 3, 161, 819, 'sort_number', '1', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5716, 3, 161, 819, 'question', 'What is CEF Online Academy?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5717, 3, 161, 819, 'answer', 'CEF Online Academy is a digital learning platform that provides courses focused on character development, Islamic values, leadership, and practical life skills for learners of all ages.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5718, 3, 161, 820, 'sort_number', '2', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5719, 3, 161, 820, 'question', 'What courses are available at CEF Online Academy?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5720, 3, 161, 820, 'answer', 'Courses include character building, Quranic studies, leadership development, parenting guidance, and entrepreneurship.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5721, 3, 161, 821, 'sort_number', '3', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5722, 3, 161, 821, 'question', 'Are the courses live or pre-recorded?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5723, 3, 161, 821, 'answer', 'Most courses are pre-recorded for flexibility, while selected sessions may be conducted live.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5724, 3, 161, 822, 'sort_number', '4', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5725, 3, 161, 822, 'question', 'How can I enroll in a course?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5726, 3, 161, 822, 'answer', 'You can enroll by creating an account on the platform and selecting the course you want to join.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5727, 3, 161, 823, 'sort_number', '5', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5728, 3, 161, 823, 'question', 'Are the courses free or paid?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5729, 3, 161, 823, 'answer', 'The academy offers both free and paid courses depending on the program.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5730, 3, 161, 824, 'sort_number', '6', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5731, 3, 161, 824, 'question', 'What age groups are the courses for?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5732, 3, 161, 824, 'answer', 'Courses are designed for children, teens, parents, and adults.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5733, 3, 161, 825, 'sort_number', '7', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5734, 3, 161, 825, 'question', 'What makes CEF Online Academy unique?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5735, 3, 161, 825, 'answer', 'It combines Islamic teachings with modern educational techniques to build strong character.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5736, 3, 161, 826, 'sort_number', '8', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5737, 3, 161, 826, 'question', 'Can I access courses on mobile devices?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5738, 3, 161, 826, 'answer', 'Yes, the platform is fully responsive and works seamlessly on mobile devices.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5739, 3, 161, 827, 'sort_number', '9', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5740, 3, 161, 827, 'question', 'Do participants receive certificates?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5741, 3, 161, 827, 'answer', 'Certificates are awarded upon successful completion of eligible courses.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5742, 3, 161, 828, 'sort_number', '10', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5743, 3, 161, 828, 'question', 'How can I contact CEF Online Academy support?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5744, 3, 161, 828, 'answer', 'Support can be reached through the official website or via provided contact channels.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5745, 3, 161, 829, 'sort_number', '11', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5746, 3, 161, 829, 'question', 'Can I purchase related books?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5747, 3, 161, 829, 'answer', 'Yes, books and supplementary learning materials are available for purchase.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5748, 3, 161, 830, 'sort_number', '12', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5749, 3, 161, 830, 'question', 'Are there any discounts or scholarships available?', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5750, 3, 161, 830, 'answer', 'Discounts and scholarships are offered periodically for selected courses.', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5751, 3, 136, 831, 'sort_number', '1', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5752, 3, 136, 831, 'title', 'Podcasts You\'ll Want To LISTEN!', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5753, 3, 136, 831, 'description', '<p>Tune in to CEF Online Academy\'s Podcasts to explore ideas that connect revealed knowledge with acquired knowledge. Each episode offers insights, practical guidance, and inspiring discussions on leadership, character, and purposeful living, helping listeners grow into thoughtful, ethical, and faith-grounded leaders.</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
+(5754, 3, 158, 789, 'header-image', '1208', '2026-02-24 05:56:49', '2026-02-24 06:14:19', NULL),
+(5755, 3, 130, 832, 'sort_number', '1', '2026-02-24 06:37:01', '2026-02-24 06:37:01', NULL),
+(5756, 3, 130, 832, 'image', '1209', '2026-02-24 06:37:01', '2026-02-24 06:37:01', NULL);
+INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `field_name`, `value`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(5757, 3, 130, 832, 'heading', 'Quran Tutoring Courses', '2026-02-24 06:37:01', '2026-02-24 06:37:01', NULL),
+(5758, 3, 130, 832, 'Detail text', 'CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.', '2026-02-24 06:37:01', '2026-02-24 06:37:01', NULL),
+(5759, 3, 130, 832, 'description', 'CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.', '2026-02-24 06:40:13', '2026-02-24 06:40:13', NULL),
+(5760, 3, 136, 831, 'image', '1213,1214', '2026-02-24 07:14:39', '2026-02-24 07:50:25', NULL),
+(5761, 3, 130, 833, 'heading', 'Other Courses', '2026-02-24 07:28:26', '2026-02-24 07:28:26', NULL),
+(5762, 3, 130, 833, 'sort_number', '2', '2026-02-24 07:28:26', '2026-02-24 07:28:26', NULL),
+(5763, 3, 130, 833, 'image', '1212', '2026-02-24 07:28:26', '2026-02-24 07:28:26', NULL),
+(5764, 3, 130, 833, 'description', 'CEF Online Academy offers free courses and paid programs for learners of all ages. The paid options include self-paced recorded lectures and live interactive sessions. Each course is part of Character Education Foundation\'s initiatives. The aim is to nurture minds, strengthen faith, and build character through learning rooted in the Quran, ethics, and community values.', '2026-02-24 07:28:26', '2026-02-24 07:28:26', NULL),
+(5765, 3, 135, 834, 'sort_number', '1', '2026-02-24 07:47:48', '2026-02-24 07:47:48', NULL),
+(5766, 3, 135, 834, 'text', 'Insights & Inspirations', '2026-02-24 07:47:48', '2026-02-24 07:47:48', NULL),
+(5767, 3, 135, 834, 'text-2', 'Explore our latest blogs.', '2026-02-24 07:47:48', '2026-02-24 07:47:48', NULL),
+(5768, 3, 135, 834, 'image', '1211', '2026-02-24 07:47:48', '2026-02-24 07:47:48', NULL),
+(5769, 3, 135, 834, 'description', 'Embracing Online Learning:\nA Modern Path to Mastering Tajweed\nOnline learning has opened doors to knowledge for everyone. It allows people to learn anytime, anywhere. For those who wish to study the Quran, online Tajweed classes are a blessing. Tajweed is the art of reciting the Quran correctly, preserving its beauty and meaning. Through online learning, students can connect with qualified teachers from across the world. They can practice pronunciation, rhythm, and rules at their own pace. Interactive tools, recordings, and one-on-one guidance make learning easy and effective. Busy professionals, mothers, and students can all benefit without leaving home. Online Tajweed classes bring the Quran closer to every heart. They help learners recite with respect, clarity, and love for Allah\'s words. It\'s a modern path to timeless wisdom.\n\nBy: Sara Ali', '2026-02-24 07:47:48', '2026-02-24 07:47:48', NULL),
+(5770, 3, 121, 747, 'portal-url', 'htps://portal.cefonlineacademy.com', '2026-02-24 20:43:26', '2026-02-24 20:43:26', NULL);
 
 -- --------------------------------------------------------
 
@@ -627,7 +875,15 @@ INSERT INTO `media` (`id`, `project_id`, `name`, `type`, `size`, `width`, `heigh
 (1203, 3, 'Complaints.svg', 'svg', 2944, NULL, NULL, NULL, 'local', '2026-02-20 09:53:11', '2026-02-20 09:53:11'),
 (1204, 3, 'Book Sales.svg', 'svg', 4771, NULL, NULL, NULL, 'local', '2026-02-20 09:53:50', '2026-02-20 09:53:50'),
 (1205, 3, 'Donations.svg', 'svg', 3467, NULL, NULL, NULL, 'local', '2026-02-20 09:54:40', '2026-02-20 09:54:40'),
-(1206, 3, 'Careers.svg', 'svg', 3295, NULL, NULL, NULL, 'local', '2026-02-20 09:55:12', '2026-02-20 09:55:12');
+(1206, 3, 'Careers.svg', 'svg', 3295, NULL, NULL, NULL, 'local', '2026-02-20 09:55:12', '2026-02-20 09:55:12'),
+(1207, 3, 'About Us Header.png', 'png', 158987, 936, 930, NULL, 'local', '2026-02-24 05:56:22', '2026-02-24 05:56:22'),
+(1208, 3, 'Page2-01 (1).png', 'png', 253888, 7666, 953, NULL, 'local', '2026-02-24 06:14:12', '2026-02-24 06:14:12'),
+(1209, 3, 'Our Courses Boy.png', 'png', 625292, 1856, 1863, NULL, 'local', '2026-02-24 06:36:36', '2026-02-24 06:36:36'),
+(1210, 3, 'Insight & Inspiration.png', 'png', 681104, 2409, 2409, NULL, 'local', '2026-02-24 07:14:07', '2026-02-24 07:14:07'),
+(1211, 3, 'Insight & Inspiration(1).png', 'png', 681104, 2409, 2409, NULL, 'local', '2026-02-24 07:14:26', '2026-02-24 07:14:26'),
+(1212, 3, 'Our Courses Girl.png', 'png', 507623, 1860, 1860, NULL, 'local', '2026-02-24 07:28:04', '2026-02-24 07:28:04'),
+(1213, 3, 'Listen & Learn 1.png', 'png', 471514, 2480, 2451, NULL, 'local', '2026-02-24 07:49:58', '2026-02-24 07:49:58'),
+(1214, 3, 'Listen & Learn 2.png', 'png', 366306, 2499, 2367, NULL, 'local', '2026-02-24 07:50:12', '2026-02-24 07:50:12');
 
 -- --------------------------------------------------------
 
@@ -1047,19 +1303,19 @@ ALTER TABLE `collections`
 -- AUTO_INCREMENT for table `collection_fields`
 --
 ALTER TABLE `collection_fields`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1008;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1027;
 
 --
 -- AUTO_INCREMENT for table `content`
 --
 ALTER TABLE `content`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=789;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=835;
 
 --
 -- AUTO_INCREMENT for table `content_meta`
 --
 ALTER TABLE `content_meta`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5588;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5771;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1083,7 +1339,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1207;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1215;
 
 --
 -- AUTO_INCREMENT for table `migrations`

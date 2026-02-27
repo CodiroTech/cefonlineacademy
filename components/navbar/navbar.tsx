@@ -17,6 +17,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { getAuthCookie } from '@/lib/auth-cookie'
+import { bookshopUrl } from '@/lib/config'
 
 type LoginPopupDetail = {
   stayOnPage?: boolean
@@ -62,6 +63,14 @@ const Navbar01Page = ({ data }: NavbarProps) => {
     }
     window.addEventListener('cef-open-login-popup', handler)
     return () => window.removeEventListener('cef-open-login-popup', handler)
+  }, [])
+  useEffect(() => {
+    const handler = () => {
+      setDemoPreselectedCourse(null)
+      setDemoOpen(true)
+    }
+    window.addEventListener('cef-open-demo-popup', handler)
+    return () => window.removeEventListener('cef-open-demo-popup', handler)
   }, [])
   const portalUrl = (data?.['portal-url']?.trim() && /^https?:\/\//i.test(data['portal-url'].trim()))
     ? data['portal-url'].trim()
@@ -170,7 +179,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
               </Link>
 
               <Link
-                href="https://www.cef.org.pk/shop/"
+                href={bookshopUrl}
                 target="_blank"
                 rel="noopener noreferrer"
               >

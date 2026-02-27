@@ -13,14 +13,14 @@ const fallbackOfferings = [
     description:
       'Explore our weekly learning sessions designed to deepen Quranic understanding, strengthen character, and inspire meaningful growth in everyday life.',
     image: '/Weekly Sessions.png',
-    link: '/offerings/weekly-sessions',
+    link: '/offerings/weeklySessions',
   },
   {
     title: 'CEF Series',
     description:
       'Engage with our special series offering focused learning journeys that connect Quranic wisdom with real-life values and personal transformation.',
     image: '/CEF Series.png',
-    link: '/offerings/cef-series',
+    link: '/offerings/specialSeries',
   },
   {
     title: 'Webinars',
@@ -41,16 +41,16 @@ const fallbackOfferings = [
     description:
       'Be part of our mentorship circles designed to guide, support, and inspire learners through shared experiences and meaningful dialogue.',
     image: '/Mentroship.png',
-    link: '/offerings/mentorship-circles',
+    link: '/offerings/mentorship',
   },
 ]
 
 const linkMap: Record<string, string> = {
-  'Weekly Sessions': '/offerings/weekly-sessions',
-  'CEF Series': '/offerings/cef-series',
+  'Weekly Sessions': '/offerings/weeklySessions',
+  'CEF Series': '/offerings/specialSeries',
   Webinars: '/offerings/webinars',
   Workshops: '/offerings/workshops',
-  'Mentorship Circles': '/offerings/mentorship-circles',
+  'Mentorship Circles': '/offerings/mentorship',
 }
 
 interface OtherOfferingsSectionProps {

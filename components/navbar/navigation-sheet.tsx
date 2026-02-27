@@ -18,6 +18,7 @@ import {
   FaLinkedinIn,
   FaYoutube,
 } from 'react-icons/fa'
+import { bookshopUrl } from '@/lib/config'
 
 export type NavigationSheetProps = {
   data?: {
@@ -173,7 +174,7 @@ export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn 
 
               {/* CEF Bookshop - BLUE */}
               <Link
-                href="https://www.cef.org.pk/shop/"
+                href={bookshopUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full"

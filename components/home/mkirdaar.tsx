@@ -207,7 +207,7 @@ export const MissionKirdaarSection = ({ items: apiItems }: MissionKirdaarSection
 
         <div className="mt-3">
           <Link
-            href="/mission-kirdaar"
+            href="/media-center/testimonials"
             className="
               inline-block
               px-5 py-1

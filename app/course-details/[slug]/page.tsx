@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { getCourseDetailBySlug } from '@/lib/api/course-detail'
 import { getCoursesWithDetails } from '@/lib/api/demo'
+import { getPageHeader } from '@/lib/api/pageHeaders'
 import { AboutHeader } from '@/components/common/aboutHeader'
 import { CourseCard } from '@/components/courses/CourseCard'
 import { CourseDetailLayout } from '@/components/course-detail/CourseDetailLayout'
@@ -33,9 +34,10 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function CourseDetailsPage({ params }: Props) {
   const { slug } = await params
-  const [course, allCourses] = await Promise.all([
+  const [course, allCourses, header] = await Promise.all([
     getCourseDetailBySlug(slug),
     getCoursesWithDetails(20),
+    getPageHeader('course-details'),
   ])
   if (!course) notFound()
 
@@ -45,12 +47,14 @@ export default async function CourseDetailsPage({ params }: Props) {
 
   const pageTitle = course.course_details_left_content_area?.title ?? course.course_slug
   const coverImage = course.course_cover_image || '/placeholder-course.png'
+  const headerTitle = header?.title ?? 'Course Description'
+  const headerImageSrc = mediaUrl(header?.['header-image']) || '/1.png'
 
   return (
     <div className="w-full font-poppins">
       <AboutHeader
-        title="Course Description"
-        imageSrc="/1.png"
+        title={headerTitle}
+        imageSrc={headerImageSrc}
       />
       <div className="w-full px-4 lg:px-12">
         <div className="container mx-auto rounded-[20px] px-2 lg:px-2 pt-6 pb-6 overflow-hidden">
