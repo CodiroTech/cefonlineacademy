@@ -85,15 +85,13 @@ export type ListenLearnItem = {
   title: string
   description: string
   image?: HeadlessMedia
+  'video-url'?: string
 }
 
-export type CourseSection = {
-  'homepage-our-courses-section-image': HeadlessMedia
-  'homepage-our-courses-section-title': string
-  'homepage-our-courses-section-description': string
-  'homepage-unlock-section-image': HeadlessMedia
-  'homepage-unlock-section-title': string
-  'homepage-unlock-section-description': string
+export type OurCourseItem = {
+  image?: HeadlessMedia
+  heading?: string
+  description?: string
 }
 
 // --------------- Fetch functions ---------------
@@ -155,7 +153,7 @@ export async function getListenLearnItems() {
 }
 
 export async function getCourseSections() {
-  return fetchCollection<CourseSection>('courses')
+  return fetchCollection<OurCourseItem>('our-courses')
 }
 
 // --------------- Backend (cef-backend) ---------------

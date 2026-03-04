@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { ChevronRightIcon } from 'lucide-react'
 import type { NavigationMenuProps } from '@radix-ui/react-navigation-menu'
@@ -39,6 +39,13 @@ interface NavigationItem {
   to?: string
   hasDropdown: boolean
   dropdownLinks: Array<DropdownLink>
+}
+
+type NavMenuData = {
+  'facebook-url'?: string
+  'insta-url'?: string
+  'youtube-url'?: string
+  'linkedin-url'?: string
 }
 
 const navigationItems: Array<NavigationItem> = [
@@ -186,7 +193,12 @@ const navigationItems: Array<NavigationItem> = [
   },
 ]
 
-export const NavMenu = (props: NavigationMenuProps) => {
+export const NavMenu = ({
+  data,
+  ...menuProps
+}: NavigationMenuProps & {
+  data?: NavMenuData
+}) => {
   const [hoveredDropdownItem, setHoveredDropdownItem] = useState<string | null>(
     null,
   )
@@ -195,7 +207,81 @@ export const NavMenu = (props: NavigationMenuProps) => {
   )
   const [isMounted, setIsMounted] = useState(false)
 
-  const isVertical = props.orientation === 'vertical'
+  const isVertical = menuProps.orientation === 'vertical'
+  const socialMediaSubItems = useMemo<SubItem[]>(
+    () =>
+      ([
+        {
+          label: 'Facebook',
+          to: data?.['facebook-url'] || '',
+          icon: (
+            <svg viewBox="0 0 24 24" className="w-5 h-5">
+              <path
+                fill="#1877F2"
+                d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4v-2.3c0-2.4 1.4-3.7 3.5-3.7 1 0 2 .2 2 .2v2.3h-1.1c-1.1 0-1.4.7-1.4 1.3V12H16l-.4 3h-2.2v7A10 10 0 0 0 22 12z"
+              />
+            </svg>
+          ),
+        },
+        {
+          label: 'Instagram',
+          to: data?.['insta-url'] || '',
+          icon: (
+            <svg viewBox="0 0 24 24" className="w-5 h-5">
+              <path
+                fill="#E1306C"
+                d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7z"
+              />
+              <path
+                fill="#fff"
+                d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm4.5-8.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"
+              />
+            </svg>
+          ),
+        },
+        {
+          label: 'YouTube',
+          to: data?.['youtube-url'] || '',
+          icon: (
+            <svg viewBox="0 0 24 24" className="w-5 h-5">
+              <path
+                fill="#FF0000"
+                d="M21.8 8s-.2-1.4-.8-2c-.7-.8-1.6-.8-2-1C16.4 4.5 12 4.5 12 4.5s-4.4 0-7 .5c-.4.2-1.3.2-2 1-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.6c0 1.6.2 3.2.2 3.2s.2 1.4.8 2c.7.8 1.6.8 2 1 2.6.5 7 .5 7 .5s4.4 0 7-.5c.4-.2 1.3-.2 2-1 .6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.6c0-1.6-.2-3.2-.2-3.2z"
+              />
+              <path fill="#fff" d="m10 15 5.2-3L10 9z" />
+            </svg>
+          ),
+        },
+        {
+          label: 'LinkedIn',
+          to: data?.['linkedin-url'] || '',
+          icon: (
+            <svg viewBox="0 0 24 24" className="w-5 h-5">
+              <path
+                fill="#0077B5"
+                d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5 2.5 2.5 0 0 1 4.98 3.5zM3 9h4v12H3zM9 9h3.6v1.7h.1c.5-1 1.8-2 3.6-2 3.9 0 4.6 2.6 4.6 6V21h-4v-5.2c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9V21H9z"
+              />
+            </svg>
+          ),
+        },
+      ] as SubItem[]).filter((item) => Boolean(item.to)),
+    [data],
+  )
+  const resolvedNavigationItems = useMemo(
+    () =>
+      navigationItems.map((item) => {
+        if (item.label !== 'Media Center') return item
+        return {
+          ...item,
+          dropdownLinks: item.dropdownLinks.map((dropdownItem) =>
+            dropdownItem.label === 'Social Media'
+              ? { ...dropdownItem, subItems: socialMediaSubItems }
+              : dropdownItem,
+          ),
+        }
+      }),
+    [socialMediaSubItems],
+  )
 
   // Fix hydration mismatch by only rendering after mount
   useEffect(() => {
@@ -205,9 +291,9 @@ export const NavMenu = (props: NavigationMenuProps) => {
   if (!isMounted) {
     // Return a placeholder that matches the eventual structure
     return (
-      <div className={props.className}>
+      <div className={menuProps.className}>
         <ul className="gap-0 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:w-full relative group flex flex-1 list-none items-center justify-center">
-          {navigationItems.map((item) => (
+          {resolvedNavigationItems.map((item) => (
             <li key={item.label} className={isVertical ? 'w-full' : 'relative'}>
               {item.hasDropdown ? (
                 <button className="text-primary font-medium lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-medium cursor-pointer group inline-flex h-9 w-max items-center justify-center px-2 py-2">
@@ -231,9 +317,9 @@ export const NavMenu = (props: NavigationMenuProps) => {
   }
 
   return (
-    <NavigationMenu viewport={false} {...props}>
+    <NavigationMenu viewport={false} {...menuProps}>
       <NavigationMenuList className="gap-0 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:w-full relative">
-        {navigationItems.map((item) =>
+        {resolvedNavigationItems.map((item) =>
           item.hasDropdown ? (
             <NavigationMenuItem
               key={item.label}
@@ -329,10 +415,7 @@ export const NavMenu = (props: NavigationMenuProps) => {
                           {dropdownItem.hasSubItems &&
                             hoveredDropdownItem === dropdownItem.label && (
                               <div
-                                className="w-max absolute top-0 cursor-pointer left-full ml-2 z-110 bg-white rounded-b-4xl p-4 shadow-xl border border-gray-200 min-w-50
-                                before:content-[''] before:absolute before:left-0 before:top-0 before:w-full before:h-1 before:bg-[#085c7c] before:rounded-t-4xl before:z-1
-                                after:content-[''] after:absolute after:left-0 after:top-1 after:w-full after:h-1 after:bg-[#88bc44] after:z-1
-                                *:relative *:z-2"
+                                className="absolute top-0 left-full pl-2 z-110"
                                 onMouseEnter={() =>
                                   setHoveredDropdownItem(dropdownItem.label)
                                 }
@@ -340,29 +423,48 @@ export const NavMenu = (props: NavigationMenuProps) => {
                                   setHoveredDropdownItem(null)
                                 }
                               >
-                                <ul className="space-y-1">
+                                <div
+                                  className={`relative cursor-pointer bg-white rounded-b-4xl p-4 shadow-xl border border-gray-200 ${
+                                    dropdownItem.label === 'Social Media'
+                                      ? 'w-auto min-w-0'
+                                      : 'w-max min-w-50'
+                                  }
+                                  before:content-[''] before:absolute before:left-0 before:top-0 before:w-full before:h-1 before:bg-[#085c7c] before:rounded-t-4xl before:z-1
+                                  after:content-[''] after:absolute after:left-0 after:top-1 after:w-full after:h-1 after:bg-[#88bc44] after:z-1
+                                  *:relative *:z-2`}
+                                >
+                                <ul
+                                  className={
+                                    dropdownItem.label === 'Social Media'
+                                      ? 'flex flex-col items-start gap-1'
+                                      : 'space-y-1'
+                                  }
+                                >
                                   {dropdownItem.subItems?.map((subItem) => (
                                     <li key={subItem.label}>
                                       <Link
-                                        className="block select-none cursor-pointer rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-secondary focus:bg-accent focus:text-secondary text-primary font-medium"
+                                        className={
+                                          dropdownItem.label === 'Social Media'
+                                            ? 'block select-none cursor-pointer rounded-md p-1 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-secondary focus:bg-accent focus:text-secondary text-primary font-medium'
+                                            : 'block select-none cursor-pointer rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-secondary focus:bg-accent focus:text-secondary text-primary font-medium'
+                                        }
                                         href={subItem.to}
                                       >
-                                        <div className="flex items-center gap-2">
-                                          {dropdownItem.label ===
-                                            'Social Media' &&
-                                            subItem.icon && (
-                                              <span className="w-4 h-4">
-                                                {subItem.icon}
-                                              </span>
-                                            )}
-                                          <span className="lg:text-[0.6rem] xl:text-[0.8rem] 2xl:text-[0.9rem]">
-                                            {subItem.label}
-                                          </span>
-                                        </div>
+                                        {dropdownItem.label === 'Social Media' ? (
+                                          <span className="w-4 h-4 inline-block">{subItem.icon}</span>
+                                        ) : (
+                                          <div className="flex items-center gap-2">
+                                            {subItem.icon && <span className="w-4 h-4">{subItem.icon}</span>}
+                                            <span className="lg:text-[0.6rem] xl:text-[0.8rem] 2xl:text-[0.9rem]">
+                                              {subItem.label}
+                                            </span>
+                                          </div>
+                                        )}
                                       </Link>
                                     </li>
                                   ))}
                                 </ul>
+                                </div>
                               </div>
                             )}
                         </li>

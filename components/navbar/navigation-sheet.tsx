@@ -86,7 +86,7 @@ export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn 
         </SheetHeader>
 
         <div className="py-6 px-4">
-          <NavMenu orientation="vertical" className="mb-8" />
+          <NavMenu orientation="vertical" className="mb-8" data={data} />
 
           {/* SOCIAL ICONS */}
           <div className="border-t border-gray-200 pt-6">

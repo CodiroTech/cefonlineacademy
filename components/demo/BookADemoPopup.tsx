@@ -338,7 +338,7 @@ export function BookADemoPopup({ open, onOpenChange, preselectedCourse }: Props)
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="max-w-[95vw] sm:max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0 border-0 rounded-2xl"
+        className="max-w-[95vw] sm:max-w-4xl max-h-[90vh] overflow-y-auto p-0 gap-0 border-0 rounded-2xl [&>button]:absolute [&>button]:top-2 [&>button]:right-2 [&>button]:z-10 [&>button]:flex [&>button]:h-9 [&>button]:w-9 [&>button]:shrink-0 [&>button]:items-center [&>button]:justify-center [&>button]:rounded-full [&>button]:bg-white/95 [&>button]:text-gray-900 [&>button]:shadow-md"
         showCloseButton={true}
       >
         <div className="flex flex-col md:flex-row min-h-0">

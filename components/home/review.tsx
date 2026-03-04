@@ -121,16 +121,16 @@ export const TestimonialsSection = ({ items: apiItems }: TestimonialsSectionProp
             <button
               onClick={prevSlide}
               disabled={!hasMultiple}
-              className={`hidden sm:flex cursor-pointer w-9 h-9 rounded-full bg-[#8BC34A] items-center justify-center text-white transition ${
+              className={`hidden sm:flex cursor-pointer w-10 h-10 flex-shrink-0 rounded-full bg-[#8BC34A] items-center justify-center text-white transition ${
                 hasMultiple ? 'hover:scale-105' : 'opacity-40 cursor-not-allowed'
               }`}
             >
-              <ChevronLeft size={24} />
+              <ChevronLeft size={22} />
             </button>
 
             <div className="flex flex-col lg:flex-row items-stretch gap-6 max-w-xl lg:max-w-2xl mx-auto">
               <div className="relative w-40 h-40 sm:h-auto shrink-0 flex justify-center mx-auto lg:mx-0">
-                <div className="relative border border-gray-200 p-2 bg-white w-full h-52">
+                <div className="relative p-2 bg-white w-full h-52">
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -166,11 +166,11 @@ export const TestimonialsSection = ({ items: apiItems }: TestimonialsSectionProp
             <button
               onClick={nextSlide}
               disabled={!hasMultiple}
-              className={`hidden sm:flex cursor-pointer w-9 h-9 rounded-full bg-[#8BC34A] items-center justify-center text-white transition ${
+              className={`hidden sm:flex cursor-pointer w-10 h-10 flex-shrink-0 rounded-full bg-[#8BC34A] items-center justify-center text-white transition ${
                 hasMultiple ? 'hover:scale-105' : 'opacity-40 cursor-not-allowed'
               }`}
             >
-              <ChevronRight size={24} />
+              <ChevronRight size={22} />
             </button>
           </div>
 

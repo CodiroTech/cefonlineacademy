@@ -2,7 +2,7 @@
 
 import { Heading } from '@/components/common/heading'
 import { Card } from '@/components/common/card'
-import type { CourseSection } from '@/lib/api/homepage'
+import type { OurCourseItem } from '@/lib/api/homepage'
 import { mediaUrl, stripHtml } from '@/lib/headless'
 
 const fallbackCourses = [
@@ -23,18 +23,18 @@ const fallbackCourses = [
 ]
 
 interface OurCoursesSectionProps {
-  sections?: CourseSection[]
+  sections?: OurCourseItem[]
 }
 
 export const OurCoursesSection = ({ sections: apiSections }: OurCoursesSectionProps) => {
   const courses = apiSections && apiSections.length > 0
     ? apiSections.map((s, i) => ({
-        title: s['homepage-our-courses-section-title'] || fallbackCourses[i]?.title || '',
-        description: s['homepage-our-courses-section-description']
-          ? stripHtml(s['homepage-our-courses-section-description'])
-          : fallbackCourses[i]?.description || '',
-        image: mediaUrl(s['homepage-our-courses-section-image'], fallbackCourses[i]?.image || ''),
-        link: fallbackCourses[i]?.link || '/courses/qurantutorCourses',
+        title: s.heading ?? fallbackCourses[i]?.title ?? '',
+        description: s.description
+          ? stripHtml(s.description)
+          : fallbackCourses[i]?.description ?? '',
+        image: mediaUrl(s.image, fallbackCourses[i]?.image ?? ''),
+        link: fallbackCourses[i]?.link ?? '/courses/qurantutorCourses',
       }))
     : fallbackCourses
 
@@ -48,7 +48,7 @@ export const OurCoursesSection = ({ sections: apiSections }: OurCoursesSectionPr
           </Heading>
         </div>
 
-        <div className="flex flex-col lg:flex-row justify-center gap-11 lg:gap-15 max-w-[57.6rem] mx-auto">
+        <div className="flex flex-col lg:flex-row justify-center gap-8 max-w-2xl lg:max-w-3xl mx-auto">
           {courses.map((course, index) => (
             <Card
               key={index}
@@ -56,7 +56,8 @@ export const OurCoursesSection = ({ sections: apiSections }: OurCoursesSectionPr
               title={course.title}
               description={course.description}
               link={course.link}
-              growFullWidth
+              imageSquare
+              variant="default"
             />
           ))}
         </div>

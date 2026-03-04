@@ -19,6 +19,7 @@ type CardProps = {
   paddingX?: string    // optional Tailwind class e.g. "px-10"
   paddingY?: string    // optional Tailwind class e.g. "py-6"
   growFullWidth?: boolean  // when true, card grows to fill flex container (no max-w-sm)
+  imageSquare?: boolean    // when true, image container is square (aspect-square)
 }
 
 /* background styles for each variant */
@@ -39,6 +40,7 @@ export const Card = ({
   paddingX = 'px-10',
   paddingY = 'py-6',
   growFullWidth = false,
+  imageSquare = false,
 }: CardProps) => {
   return (
     <div
@@ -51,15 +53,15 @@ export const Card = ({
       {/* IMAGE */}
       <div className="w-full flex items-center justify-center mb-6">
         <div
-          className="relative w-full"
-          style={{ height: imageHeight ? `${imageHeight}px` : '18rem' }} // default h-72 = 288px
+          className={`relative w-full ${imageSquare ? 'aspect-square max-w-[240px] mx-auto' : ''}`}
+          style={!imageSquare ? { height: imageHeight ? `${imageHeight}px` : '18rem' } : undefined}
         >
           <Image
             src={image}
             alt={title}
             fill
-            className="object-fill"
-            style={imageWidth ? { width: `${imageWidth}px` } : {}}
+            className={imageSquare ? 'object-cover' : 'object-fill'}
+            style={imageWidth && !imageSquare ? { width: `${imageWidth}px` } : {}}
           />
         </div>
       </div>

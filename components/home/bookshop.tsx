@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Heading } from '@/components/common/heading'
 import { Text } from '@/components/common/text'
 import type { BookshopSection } from '@/lib/api/homepage'
+import { bookshopUrl } from '@/lib/config'
 import { mediaUrl, stripHtml } from '@/lib/headless'
 
 interface CEFBookshopSectionProps {
@@ -61,7 +62,9 @@ export const CEFBookshopSection = ({ data }: CEFBookshopSectionProps) => {
             </Text>
 
             <Link
-              href="/bookshop"
+              href={bookshopUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="
                 inline-block
                 px-3

@@ -105,7 +105,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
         </div>
 
         {/* Desktop Menu */}
-        <NavMenu className="hidden lg:block" />
+        <NavMenu className="hidden lg:block" data={data} />
 
         {/* Right Section */}
         <div className="flex items-center justify-end gap-1">

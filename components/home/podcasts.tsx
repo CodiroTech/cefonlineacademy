@@ -6,13 +6,16 @@ import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Heading } from '@/components/common/heading'
 import { Text } from '@/components/common/text'
+import { VideoPopup } from '@/components/common/VideoPopup'
 import type { ListenLearnItem } from '@/lib/api/homepage'
 import { mediaUrl } from '@/lib/headless'
+import { parseVideoUrl } from '@/lib/videoUrl'
 
 type Podcast = {
   id: number
   image: string
   title: string
+  videoUrl?: string
 }
 
 const fallbackPodcasts: Podcast[] = [
@@ -27,19 +30,29 @@ interface ListenLearnSectionProps {
   items?: ListenLearnItem[]
 }
 
+function isValidVideoUrl(url: string | undefined): boolean {
+  if (!url?.trim()) return false
+  return parseVideoUrl(url.trim()) !== null
+}
+
 export const ListenLearnSection = ({ items: apiItems }: ListenLearnSectionProps) => {
   const mapped: Podcast[] = apiItems && apiItems.length > 0
     ? apiItems
         .filter(item => item.title)
-        .map((item, i) => ({
-          id: i + 1,
-          image: mediaUrl(item.image, '/Insight & Inspiration.png'),
-          title: item.title ?? '',
-        }))
+        .map((item, i) => {
+          const rawUrl = item['video-url']?.trim()
+          return {
+            id: i + 1,
+            image: mediaUrl(item.image, '/Insight & Inspiration.png'),
+            title: item.title ?? '',
+            videoUrl: rawUrl && isValidVideoUrl(rawUrl) ? rawUrl : undefined,
+          }
+        })
     : []
   const podcasts = mapped.length > 0 ? mapped : fallbackPodcasts
 
   const [current, setCurrent] = useState(0)
+  const [videoPopupItem, setVideoPopupItem] = useState<Podcast | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const touchStartX = useRef<number | null>(null)
 
@@ -103,7 +116,24 @@ export const ListenLearnSection = ({ items: apiItems }: ListenLearnSectionProps)
 
           <div className={`flex-1 grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-5`}>
             {visiblePodcasts.map(podcast => (
-              <div key={podcast.id} className="relative w-full h-94 overflow-hidden">
+              <div
+                key={podcast.id}
+                className={`relative w-full h-94 overflow-hidden ${podcast.videoUrl ? 'cursor-pointer' : ''}`}
+                role={podcast.videoUrl ? 'button' : undefined}
+                onClick={podcast.videoUrl ? () => setVideoPopupItem(podcast) : undefined}
+                onKeyDown={
+                  podcast.videoUrl
+                    ? (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          setVideoPopupItem(podcast)
+                        }
+                      }
+                    : undefined
+                }
+                tabIndex={podcast.videoUrl ? 0 : undefined}
+                aria-label={podcast.videoUrl ? `Play video: ${podcast.title}` : undefined}
+              >
                 <Image
                   src={podcast.image}
                   alt={podcast.title}
@@ -113,6 +143,15 @@ export const ListenLearnSection = ({ items: apiItems }: ListenLearnSectionProps)
               </div>
             ))}
           </div>
+
+          {videoPopupItem?.videoUrl && (
+            <VideoPopup
+              videoUrl={videoPopupItem.videoUrl}
+              title={videoPopupItem.title}
+              open={!!videoPopupItem}
+              onOpenChange={(open) => !open && setVideoPopupItem(null)}
+            />
+          )}
 
           <button
             onClick={next}

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Text } from '../common/text'
+import { bookshopUrl } from '@/lib/config'
 import {
   FaFacebookF,
   FaInstagram,
@@ -58,7 +59,7 @@ const footerColumns: Array<FooterColumn> = [
   },
   {
     heading: 'CEF Website',
-    links: [{ label: 'CEF Bookshop', href: '/bookshop' }],
+    links: [{ label: 'CEF Bookshop', href: bookshopUrl }],
   },
   {
     heading: 'Integrations',
@@ -149,16 +150,20 @@ export const Footer = ({ data }: FooterProps) => {
                     )}
 
                     <ul className="space-y-2 text-xs">
-                      {column.links.map((l) => (
+                      {column.links.map((l) => {
+                        const isBookshop = l.label === 'CEF Bookshop'
+                        return (
                         <li key={l.label}>
                           <Link
                             href={l.href ?? '#'}
                             className="text-white/80 hover:text-secondary transition-colors"
+                            {...(isBookshop && { target: '_blank', rel: 'noopener noreferrer' })}
                           >
                             {l.label}
                           </Link>
                         </li>
-                      ))}
+                        )
+                      })}
 
                       {column.showSocial && (
                         <>

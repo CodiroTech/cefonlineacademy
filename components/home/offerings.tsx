@@ -78,7 +78,7 @@ export const OtherOfferingsSection = ({ items: apiItems }: OtherOfferingsSection
   }
 
   return (
-    <section className="w-full bg-white px-4 lg:px-10 py-12 lg:py-16 font-poppins relative">
+    <section className="w-full bg-white px-4 lg:px-10 pt-0 pb-12 lg:pb-16 font-poppins relative">
       <div className="container mx-auto max-w-7xl relative">
 
         <div className="text-center mb-12">
@@ -106,7 +106,7 @@ export const OtherOfferingsSection = ({ items: apiItems }: OtherOfferingsSection
                   key={index}
                   className="flex flex-col items-center w-full sm:w-64 md:w-66"
                 >
-                  <div className="relative w-56 h-56 mb-5 border border-gray-200 p-2 bg-white">
+                  <div className="relative w-56 h-56 mb-5 p-2 bg-white">
                     <Image
                       src={offering.image}
                       alt={offering.title}

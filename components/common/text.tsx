@@ -8,7 +8,7 @@ type TextProps = {
 
 export const Text = ({ className = '', children, html }: TextProps) => {
   const baseStyles =
-    'font-poppins text-[16px] font-medium text-[#414141] tracking-tighter leading-snug'
+    'font-poppins text-[16px] font-normal text-[#414141] tracking-[0.5px] leading-snug'
 
   const mergedClassName = twMerge(baseStyles, className)
 
