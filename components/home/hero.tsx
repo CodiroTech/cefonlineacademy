@@ -135,12 +135,12 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
 
         <div className="w-full lg:w-[47%] flex flex-col sm:flex-row items-end justify-between gap-4 sm:gap-0 pb-1 lg:pb-0 overflow-hidden lg:overflow-visible">
 
-          <div className="relative z-0 w-full sm:flex-1 h-64 sm:h-80 md:h-120 lg:h-115 xl:h-115 pt-2 sm:pt-4 lg:pt-6 -mb-6 sm:-mb-8 lg:-mb-10 lg:-translate-y-10 lg:-ml-10">
+          <div className="relative z-0 w-full sm:flex-1 h-64 sm:h-80 md:h-120 lg:h-115 xl:h-115 pt-2 sm:pt-4 lg:pt-6 overflow-hidden">
             <Image
               src={heroImage}
               alt="Student Learning Quran"
               fill
-              className="object-contain object-top md:object-cover lg:object-fill xl:object-cover xl:object-top"
+              className="object-contain object-center"
               priority
             />
           </div>
