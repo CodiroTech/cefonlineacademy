@@ -2,14 +2,23 @@
 
 import { Heading } from '@/components/common/heading'
 import { Text } from '@/components/common/text'
+import { useCourseFilters } from './CourseFiltersContext'
+
+const SORT_OPTIONS = [
+  { value: 1 as const, label: 'All' },
+  { value: 2 as const, label: 'Newest' },
+  { value: 3 as const, label: 'Oldest' },
+]
 
 export default function QuranTutoringCoursesSection() {
+  const { filters, setFilters } = useCourseFilters()
+
   return (
-    <section className="w-full bg-white px-4 lg:px-12 py-12 lg:py-20 font-poppins">
+    <section className="w-full bg-white px-4 lg:px-12 pt-8 lg:pt-10 pb-0 font-poppins">
       <div className="container mx-auto max-w-6xl text-center lg:px-14">
 
         {/* HEADING */}
-        <Heading textSize="text-3xl sm:text-4xl md:text-4xl mb-15">
+        <Heading textSize="text-3xl sm:text-4xl md:text-4xl mb-0">
           Discover Our Quran Tutoring Courses
         </Heading>
 
@@ -27,17 +36,20 @@ export default function QuranTutoringCoursesSection() {
           understanding with everyday challenges.
         </Text>
 
-        {/* SEARCH + FILTER */}
+        {/* SEARCH + FILTER - wired to shared filters */}
         <div className="flex flex-wrap justify-center items-center gap-4">
 
           {/* SEARCH INPUT */}
           <div className="relative w-40">
             <input
-              type="text"
+              type="search"
               placeholder="Search"
+              value={filters.keyword}
+              onChange={(e) => setFilters((f) => ({ ...f, keyword: e.target.value }))}
               className="w-full h-7 rounded-lg border border-gray-300
                          px-2 text-sm
                          focus:outline-none focus:ring-2 focus:ring-green-400"
+              aria-label="Search courses"
             />
 
             {/* SEARCH ICON */}
@@ -63,19 +75,21 @@ export default function QuranTutoringCoursesSection() {
             </span>
           </div>
 
-          {/* FILTER */}
+          {/* FILTER BY SORT */}
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-gray-700">
               Filter By
             </span>
             <select
+              value={filters.sortBy_id}
+              onChange={(e) => setFilters((f) => ({ ...f, sortBy_id: Number(e.target.value) as 1 | 2 | 3 }))}
               className="h-7 rounded-lg border border-gray-300 px-3 text-sm
                          focus:outline-none focus:ring-2 focus:ring-green-400"
+              aria-label="Sort order"
             >
-              <option>All</option>
-              <option>Faith & Spirituality</option>
-              <option>Character Building</option>
-              <option>Quranic Reflection</option>
+              {SORT_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
             </select>
           </div>
 

@@ -21,7 +21,7 @@ export function RelatedCoursesSlider({ courses }: Props) {
               key={course.id}
               href={href}
               className={cn(
-                'shrink-0 w-[280px] sm:w-[300px] rounded-2xl border border-gray-200 bg-white overflow-hidden',
+                'shrink-0 w-[252px] sm:w-[272px] rounded-2xl border border-gray-200 bg-white overflow-hidden',
                 'shadow-sm hover:shadow-md transition-shadow',
                 'flex flex-col'
               )}

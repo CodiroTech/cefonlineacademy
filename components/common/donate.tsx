@@ -69,10 +69,10 @@ export const Donate = () => {
     <>
     <DonationCartModal isOpen={isCartModalOpen} onOpenChange={setCartModalOpen} />
     <section className="w-full bg-[#EAF7E5] py-6">
-      <div className="container mx-auto w-[90%]">
+      <div className="container mx-auto px-4 lg:px-23">
 
         {/* ================= Desktop / Tablet ================= */}
-        <div className="hidden xl:flex items-center justify-center gap-2 w-full">
+        <div className="hidden xl:flex items-center justify-center gap-3 w-full">
 
           {/* Heart + Heading */}
           <div className="flex items-center gap-2 shrink-0">
@@ -90,7 +90,7 @@ export const Donate = () => {
 
           {/* Donation Type */}
           <Select value={donationType} onValueChange={setDonationType}>
-            <SelectTrigger className="h-12 bg-white w-46 text-[#414141] [&>svg]:text-[#8DC63F]">
+            <SelectTrigger className="h-10 bg-white min-w-52 flex-1 max-w-64 text-[#414141] [&>svg]:text-[#8DC63F]">
               <SelectValue placeholder="General Donation" />
             </SelectTrigger>
             <SelectContent>
@@ -102,7 +102,7 @@ export const Donate = () => {
 
           {/* Purpose */}
           <Select value={purpose} onValueChange={setPurpose}>
-            <SelectTrigger className="h-12 bg-white w-56 text-[#414141] [&>svg]:text-[#8DC63F]">
+            <SelectTrigger className="h-10 bg-white min-w-52 flex-1 max-w-72 text-[#414141] [&>svg]:text-[#8DC63F]">
               <SelectValue placeholder="Wherever Most Needed" />
             </SelectTrigger>
             <SelectContent>
@@ -113,9 +113,9 @@ export const Donate = () => {
           </Select>
 
           {/* Currency + Amount */}
-          <div className="flex items-center bg-white rounded-xl h-12 overflow-hidden w-55">
+          <div className="flex items-center bg-white rounded-xl h-10 overflow-hidden min-w-48 flex-1 max-w-80">
             <Select value={currency} onValueChange={setCurrency}>
-              <SelectTrigger className="h-12 w-14 border-0 rounded-none text-sm text-[#414141] [&>svg]:text-[#8DC63F]">
+              <SelectTrigger className="h-10 w-20 border-0 rounded-none text-sm text-[#414141] [&>svg]:text-[#8DC63F]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -129,12 +129,12 @@ export const Donate = () => {
               placeholder="Enter Amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="border-0 rounded-none focus-visible:ring-0 text-sm"
+              className="border-0 rounded-none focus-visible:ring-0 text-sm flex-1 min-w-0"
             />
           </div>
 
           {/* Button */}
-          <Button variant="danger" onClick={handleDonate} className="h-12 px-5">
+          <Button variant="danger" onClick={handleDonate} className="h-10 px-6 shrink-0">
             Donate Now
           </Button>
         </div>
@@ -168,7 +168,7 @@ export const Donate = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <Select value={donationType} onValueChange={setDonationType}>
-              <SelectTrigger className="h-12 bg-white text-sm text-gray-500 [&>svg]:text-[#8BC34A]">
+              <SelectTrigger className="h-10 bg-white text-sm text-gray-500 [&>svg]:text-[#8BC34A]">
                 <SelectValue placeholder="General Donation" />
               </SelectTrigger>
               <SelectContent>
@@ -179,7 +179,7 @@ export const Donate = () => {
             </Select>
 
             <Select value={purpose} onValueChange={setPurpose}>
-              <SelectTrigger className="h-12 bg-white text-sm text-gray-500 [&>svg]:text-[#8BC34A]">
+              <SelectTrigger className="h-10 bg-white text-sm text-gray-500 [&>svg]:text-[#8BC34A]">
                 <SelectValue placeholder="Wherever Most Needed" />
               </SelectTrigger>
               <SelectContent>
@@ -192,7 +192,7 @@ export const Donate = () => {
 
           <div className="flex gap-2">
             <Select value={currency} onValueChange={setCurrency}>
-              <SelectTrigger className="h-12 bg-white text-sm text-gray-500 [&>svg]:text-[#8BC34A]">
+              <SelectTrigger className="h-10 bg-white text-sm text-gray-500 [&>svg]:text-[#8BC34A]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -213,7 +213,7 @@ export const Donate = () => {
             <Button
               variant="danger"
               onClick={handleDonate}
-              className="w-1/2 h-12"
+              className="w-1/2 h-10"
             >
               Donate Now
             </Button>

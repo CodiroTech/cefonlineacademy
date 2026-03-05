@@ -2,6 +2,7 @@ import React from 'react';
 import { AboutHeader } from '@/components/common/aboutHeader';
 import { getPageHeader } from '@/lib/api/pageHeaders';
 import { mediaUrl } from '@/lib/headless';
+import { CourseFiltersProvider } from './CourseFiltersContext';
 import QuranTutoringCoursesSection from './course';
 import TajweedCoursesSection from './tutorcourse';
 
@@ -13,8 +14,10 @@ const Page = async () => {
   return (
     <div>
       <AboutHeader title={title} imageSrc={imageSrc} />
-      <QuranTutoringCoursesSection />
-      <TajweedCoursesSection />
+      <CourseFiltersProvider>
+        <QuranTutoringCoursesSection />
+        <TajweedCoursesSection />
+      </CourseFiltersProvider>
     </div>
   );
 }

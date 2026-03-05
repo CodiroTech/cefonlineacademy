@@ -80,11 +80,13 @@ export async function fetchCategoryCourses(
   }
 }
 
-/** GET /api/academy/categories – list of categories (id, name, slug) */
-export async function fetchCategories(): Promise<CategoryItem[] | null> {
+/** GET /api/academy/categories – list of categories (id, name, slug). categoryType: 1 = Quran Tutoring, 2 = Others */
+export async function fetchCategories(categoryType?: 1 | 2): Promise<CategoryItem[] | null> {
   const base = getBackendBase()
   if (!base) return null
-  const url = `${base.replace(/\/$/, '')}/academy/categories`
+  const params = new URLSearchParams()
+  if (categoryType !== undefined && categoryType !== null) params.set('type', String(categoryType))
+  const url = `${base.replace(/\/$/, '')}/academy/categories${params.toString() ? `?${params.toString()}` : ''}`
   try {
     const res = await fetch(url, { cache: 'no-store' })
     const json = (await res.json()) as { success?: boolean; data?: CategoryItem[] }

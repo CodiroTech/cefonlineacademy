@@ -14,10 +14,10 @@ type HelpItem = {
   link: string
 }
 
-/** Paths on cef.org.pk for Help Desk (same as cef.org.pk helpdesk2). Contact Us stays in-app. */
+/** Paths on cef.org.pk for Help Desk (same as cef.org.pk helpdesk2). Contact Us and Queries stay in-app. */
 const helpDeskPaths: Record<string, string> = {
   'Contact Us': '/contact',
-  Queries: '/queries',
+  Queries: '/contact#faqs',
   Complaints: '/complaints',
   'Book Sales Representative': '/book-sales-queries',
   'Donation Representative': '/donation-queries',
@@ -28,13 +28,13 @@ const base = cefOrgBaseUrl.replace(/\/$/, '')
 
 function getHelpDeskLink(title: string): string {
   const path = helpDeskPaths[title] ?? '#'
-  if (title === 'Contact Us') return path
+  if (title === 'Contact Us' || title === 'Queries') return path
   return `${base}${path.startsWith('/') ? path : `/${path}`}`
 }
 
 const fallbackItems: HelpItem[] = [
   { image: '/Contact Us.svg', title: 'Contact Us', link: '/contact' },
-  { image: '/Queries.svg', title: 'Queries', link: `${base}/queries` },
+  { image: '/Queries.svg', title: 'Queries', link: '/contact#faqs' },
   { image: '/Complaints.svg', title: 'Complaints', link: `${base}/complaints` },
   { image: '/Book Sales.svg', title: 'Book Sales Representative', link: `${base}/book-sales-queries` },
   { image: '/Donations.svg', title: 'Donation Representative', link: `${base}/donation-queries` },
@@ -72,7 +72,7 @@ export const HelpDesk = ({ items: apiItems }: HelpDeskProps) => {
 
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-2 lg:gap-3 w-full lg:max-w-6xl mx-auto">
         {helpItems.map((item, index) => {
-          const isExternal = item.title !== 'Contact Us'
+          const isExternal = item.title !== 'Contact Us' && item.title !== 'Queries'
           return (
           <div
             key={index}

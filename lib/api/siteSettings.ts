@@ -3,6 +3,8 @@ import { mediaUrl } from '../headless'
 
 export type SiteSettings = {
   'site-logo'?: HeadlessMedia
+  'footer-logo'?: HeadlessMedia
+  'footer-cef-logo'?: HeadlessMedia
   favicon?: HeadlessMedia
   facebook?: string
   instagram?: string
@@ -10,6 +12,7 @@ export type SiteSettings = {
   linkedin?: string
   tiktok?: string
   'footer-text'?: string
+  'footer-cef-text'?: string
   'portal-url'?: string
 }
 
@@ -53,6 +56,18 @@ export function buildSiteSettingsData(settings: SiteSettings | null) {
         ? mediaUrl(settings['site-logo'], DEFAULT_LOGO)
         : DEFAULT_LOGO,
     },
+    'footer-logo': {
+      full_url: settings?.['footer-logo']
+        ? mediaUrl(settings['footer-logo'], DEFAULT_LOGO)
+        : settings?.['site-logo']
+          ? mediaUrl(settings['site-logo'], DEFAULT_LOGO)
+          : DEFAULT_LOGO,
+    },
+    'footer-cef-logo': {
+      full_url: settings?.['footer-cef-logo']
+        ? mediaUrl(settings['footer-cef-logo'], '/logo-2.png')
+        : '/logo-2.png',
+    },
     'facebook-url': settings?.facebook?.trim() || DEFAULT_FACEBOOK,
     'insta-url': settings?.instagram?.trim() || DEFAULT_INSTAGRAM,
     'youtube-url': settings?.youtube?.trim() || DEFAULT_YOUTUBE,
@@ -65,5 +80,6 @@ export function buildSiteSettingsData(settings: SiteSettings | null) {
       ? mediaUrl(settings.favicon, DEFAULT_FAVICON)
       : DEFAULT_FAVICON,
     'footer-text': settings?.['footer-text']?.trim() || '',
+    'footer-cef-text': settings?.['footer-cef-text']?.trim() || '',
   }
 }

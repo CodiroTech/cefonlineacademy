@@ -107,7 +107,7 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
           </button>
 
           <div className="flex flex-wrap gap-2 sm:gap-2 pt-1">
-            <Link href="/courses/qurantutorCourses">
+            <Link href="/courses/quran-tutoring-courses">
               <button type="button" className="rounded-full border bg-[#065D80] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer">
                 Our Courses
               </button>

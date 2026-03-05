@@ -12,6 +12,7 @@ import {
   type CategoryItem,
   type CategoryCoursesFilters,
 } from '@/lib/api/categoryCourses'
+import { useCourseFilters, defaultFilters } from './CourseFiltersContext'
 
 const RATING_OPTIONS = [
   { value: 5, label: '5 star' },
@@ -33,36 +34,17 @@ const DURATION_OPTIONS = [
   { value: 4, label: 'Above 72 hours' },
 ]
 
-const SORT_OPTIONS = [
-  { value: 1 as const, label: 'All' },
-  { value: 2 as const, label: 'Newest' },
-  { value: 3 as const, label: 'Oldest' },
-]
+type CategoryType = 1 | 2  // 1 = Quran Tutoring, 2 = Others
 
-type FilterState = {
-  keyword: string
-  sortBy_id: 1 | 2 | 3
-  categoryId: number | null
-  difficultyLevelId: number | null
-  ratingId: number | null
-  learnerAccessibilityType: 'free' | 'paid' | null
-  durationId: number | null
+type TajweedCoursesSectionProps = {
+  categoryType?: CategoryType
+  fallbackSectionTitle?: string
 }
 
-const defaultFilters: FilterState = {
-  keyword: '',
-  sortBy_id: 1,
-  categoryId: null,
-  difficultyLevelId: null,
-  ratingId: null,
-  learnerAccessibilityType: null,
-  durationId: null,
-}
-
-export default function TajweedCoursesSection() {
+export default function TajweedCoursesSection({ categoryType = 1, fallbackSectionTitle = 'Tajweed ul Quran Courses' }: TajweedCoursesSectionProps) {
+  const { filters, setFilters } = useCourseFilters()
   const [categories, setCategories] = useState<CategoryItem[]>([])
   const [featuredCourse, setFeaturedCourse] = useState<CategoryCourseItem | null>(null)
-  const [filters, setFilters] = useState<FilterState>(defaultFilters)
   const [keywordDebounced, setKeywordDebounced] = useState('')
   const [firstCategoryCourses, setFirstCategoryCourses] = useState<CategoryCourseItem[]>([])
   const [difficultyLevels, setDifficultyLevels] = useState<Array<{ id: number; name: string }>>([])
@@ -111,7 +93,7 @@ export default function TajweedCoursesSection() {
   useEffect(() => {
     let cancelled = false
     async function run() {
-      const list = await fetchCategories()
+      const list = await fetchCategories(categoryType)
       if (cancelled) return
       setCategories(list ?? [])
       const featured = await fetchFeaturedCourse()
@@ -135,20 +117,42 @@ export default function TajweedCoursesSection() {
     return () => {
       cancelled = true
     }
-  }, [])
+  }, [categoryType])
 
   const handleClear = () => {
     setFilters(defaultFilters)
     setKeywordDebounced('')
   }
 
-  const getCoursesForCategory = (cat: CategoryItem) =>
-    cat.slug === firstCategory?.slug ? firstCategoryCourses : (otherCategoryCourses[cat.slug] ?? [])
+  /** Filter courses by Free (price === 0) or Paid (price > 0). */
+  const filterByPrice = (list: CategoryCourseItem[]) => {
+    const type = filters.learnerAccessibilityType
+    if (!type) return list
+    if (type === 'free') return list.filter((c) => c.price === 0)
+    return list.filter((c) => c.price > 0)
+  }
+
+  const getCoursesForCategory = (cat: CategoryItem) => {
+    const raw =
+      cat.slug === firstCategory?.slug ? firstCategoryCourses : (otherCategoryCourses[cat.slug] ?? [])
+    return filterByPrice(raw)
+  }
 
   const categoriesWithCourses = categories.filter(
     (cat) => getCoursesForCategory(cat).length > 0
   )
   const firstCategoryWithCourses = categoriesWithCourses[0]
+
+  /** Featured course only shown when it matches the price filter. */
+  const showFeaturedCourse: CategoryCourseItem | null =
+    featuredCourse &&
+    (filters.learnerAccessibilityType === 'free'
+      ? featuredCourse.price === 0
+      : filters.learnerAccessibilityType === 'paid'
+        ? featuredCourse.price > 0
+        : true)
+      ? featuredCourse
+      : null
 
   return (
     <section className="w-full py-12 lg:pb-12 font-poppins">
@@ -156,45 +160,8 @@ export default function TajweedCoursesSection() {
 
         <div className="flex justify-center lg:ml-47 mb-8 text-center">
           <Heading textSize="text-3xl sm:text-4xl md:text-4xl">
-            {firstCategoryWithCourses ? firstCategoryWithCourses.name : firstCategory ? firstCategory.name : 'Tajweed ul Quran Courses'}
+            {firstCategoryWithCourses ? firstCategoryWithCourses.name : firstCategory ? firstCategory.name : fallbackSectionTitle}
           </Heading>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 mb-6">
-          <div className="flex-1 min-w-[200px]">
-            <input
-              type="search"
-              placeholder="Search Course..."
-              value={filters.keyword}
-              onChange={(e) => setFilters((f) => ({ ...f, keyword: e.target.value }))}
-              onKeyDown={(e) => e.key === 'Enter' && loadFirstCategory()}
-              className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
-              aria-label="Search Course"
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <label htmlFor="filter-by" className="text-[12px] font-medium text-black whitespace-nowrap">
-              Filter by:
-            </label>
-            <select
-              id="filter-by"
-              value={filters.sortBy_id}
-              onChange={(e) => setFilters((f) => ({ ...f, sortBy_id: Number(e.target.value) as 1 | 2 | 3 }))}
-              className="rounded border border-gray-300 px-3 py-2 text-sm min-w-[120px]"
-              aria-label="Filter by"
-            >
-              {SORT_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
-          </div>
-          <button
-            type="button"
-            onClick={() => loadFirstCategory()}
-            className="rounded bg-gray-800 text-white px-4 py-2 text-sm font-medium hover:bg-gray-700"
-          >
-            Apply
-          </button>
         </div>
 
         <div
@@ -202,14 +169,14 @@ export default function TajweedCoursesSection() {
             grid gap-5
             grid-cols-1
             md:grid-cols-2
-            xl:flex xl:flex-row xl:gap-6
+            xl:flex xl:flex-row xl:gap-1
           "
         >
 
           <aside
             className="
               md:col-span-1
-              xl:w-auto xl:shrink-0
+              xl:w-auto xl:shrink-0 xl:mr-6
               font-medium leading-none
               relative
               mx-auto md:mx-0 w-full max-w-xs
@@ -291,21 +258,21 @@ export default function TajweedCoursesSection() {
             </div>
           </aside>
 
-          <div className="mx-auto md:mx-0 md:col-span-1 min-w-0 shrink-0 w-full max-w-[320px] xl:max-w-[290px]">
+          <div className="mx-auto md:mx-0 md:col-span-1 min-w-0 shrink-0 w-full max-w-[320px] xl:max-w-[290px] xl:ml-6 xl:mr-0">
             <div className="bg-[#EAF4F6] px-6 py-6 rounded-tr-[60px] rounded-bl-[60px]">
               {loading && !featuredCourse ? (
                 <div className="min-h-[26rem] flex items-center justify-center text-gray-500 text-sm">Loading...</div>
-              ) : featuredCourse ? (
+              ) : showFeaturedCourse ? (
                 <CourseCard
-                  slug={featuredCourse.slug}
-                  title={featuredCourse.title}
-                  subtitle={featuredCourse.subtitle}
-                  languageName={featuredCourse.language_name}
-                  averageRating={String(featuredCourse.average_rating)}
-                  imageUrl={featuredCourse.image_url}
-                  price={featuredCourse.price}
-                  classes={featuredCourse.classes}
-                  currencySymbol={featuredCourse.currency_symbol}
+                  slug={showFeaturedCourse.slug}
+                  title={showFeaturedCourse.title}
+                  subtitle={showFeaturedCourse.subtitle}
+                  languageName={showFeaturedCourse.language_name}
+                  averageRating={String(showFeaturedCourse.average_rating)}
+                  imageUrl={showFeaturedCourse.image_url}
+                  price={showFeaturedCourse.price}
+                  classes={showFeaturedCourse.classes}
+                  currencySymbol={showFeaturedCourse.currency_symbol}
                 />
               ) : (
                 <div className="min-h-[26rem] flex items-center justify-center text-gray-500 text-sm">No featured course</div>
@@ -313,18 +280,18 @@ export default function TajweedCoursesSection() {
             </div>
           </div>
 
-          <div className="md:col-span-2 xl:col-span-auto min-w-0 xl:flex-1 overflow-hidden flex justify-center">
+          <div className="md:col-span-2 xl:col-span-auto min-w-0 xl:flex-1 overflow-hidden flex justify-center xl:justify-start">
             <div className="bg-[#EAF7E5] px-6 py-6 rounded-tr-[60px] rounded-bl-[60px] w-fit">
               {loading && !firstCategoryWithCourses ? (
                 <div className="flex flex-wrap justify-center gap-4">
-                  <div className="min-h-[26rem] w-[280px] max-w-full rounded-none bg-white/80 animate-pulse" />
-                  <div className="min-h-[26rem] w-[280px] max-w-full rounded-none bg-white/80 animate-pulse" />
-                  <div className="min-h-[26rem] w-[280px] max-w-full rounded-none bg-white/80 animate-pulse" />
+                  <div className="min-h-[26rem] w-[252px] max-w-full rounded-none bg-white/80 animate-pulse" />
+                  <div className="min-h-[26rem] w-[252px] max-w-full rounded-none bg-white/80 animate-pulse" />
+                  <div className="min-h-[26rem] w-[252px] max-w-full rounded-none bg-white/80 animate-pulse" />
                 </div>
               ) : firstCategoryWithCourses ? (
                 <div className="flex flex-wrap justify-center gap-4">
                   {getCoursesForCategory(firstCategoryWithCourses).map((course) => (
-                    <div key={course.id} className="w-[280px] max-w-full xl:w-[260px] 2xl:w-[280px]">
+                    <div key={course.id} className="w-[252px] max-w-full xl:w-[240px] 2xl:w-[252px]">
                       <CourseCard
                         slug={course.slug}
                         title={course.title}
@@ -358,7 +325,7 @@ export default function TajweedCoursesSection() {
               <div className="bg-[#EAF7E5] px-6 py-6 rounded-tr-[60px] rounded-bl-[60px] w-fit">
                 <div className="flex flex-wrap justify-center gap-4">
                   {getCoursesForCategory(cat).map((course) => (
-                    <div key={course.id} className="w-[280px] max-w-full xl:w-[260px] 2xl:w-[280px]">
+                    <div key={course.id} className="w-[252px] max-w-full xl:w-[240px] 2xl:w-[252px]">
                       <CourseCard
                         slug={course.slug}
                         title={course.title}

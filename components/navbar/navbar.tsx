@@ -80,10 +80,10 @@ const Navbar01Page = ({ data }: NavbarProps) => {
 
   return (
     <nav className="h-16 mt-10 sm:h-20 md:h-24 bg-transparent navbar-shrink">
-      <div className="h-full flex items-center justify-between container mx-auto px-2 sm:px-3 lg:px-5 2xl:pr-6 2xl:pl-6">
+      <div className="h-full flex items-center justify-between container mx-auto px-2 sm:px-3 md:px-4 lg:px-5 xl:px-5 2xl:px-6">
 
-        {/* Logo */}
-        <div className="shrink-0 mt-22 ml-[0.9rem]">
+        {/* Logo - padding (not margin) so left spacing holds at 125%/150% zoom */}
+        <div className="shrink-0 mt-22 pl-2 sm:pl-3 md:pl-4 lg:pl-5 xl:pl-5 2xl:pl-6">
           <Link href="/" className="cursor-pointer">
             {logoSrc ? (
               <Image

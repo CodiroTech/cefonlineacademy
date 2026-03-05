@@ -32,7 +32,7 @@ const fallbackActions = [
     title: 'Our Courses',
     subtitle: 'VIEW COURSES',
     icon: '/Our Courses Icon.svg',
-    href: '/courses/qurantutorCourses',
+    href: '/courses/quran-tutoring-courses',
     variant: 'green' as const,
   },
 ]
@@ -41,7 +41,7 @@ const linkMap: Record<string, { href: string; variant: 'green' | 'blue' }> = {
   Demo: { href: '/demo', variant: 'green' },
   Enroll: { href: '/enroll', variant: 'green' },
   'Student Login': { href: '/login', variant: 'blue' },
-  'Our Courses': { href: '/courses/qurantutorCourses', variant: 'green' },
+  'Our Courses': { href: '/courses/quran-tutoring-courses', variant: 'green' },
 }
 
 interface QuickActionsProps {

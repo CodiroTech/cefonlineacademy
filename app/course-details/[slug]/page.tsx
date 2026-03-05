@@ -71,7 +71,7 @@ export default async function CourseDetailsPage({ params }: Props) {
           {/* Two-column section: each block has its own background (same as You May Also Like) */}
           <CourseDetailLayout course={course} pageTitle={pageTitle} />
 
-          {/* You May Also Like - 3 cards, same design as /courses/qurantutorCourses */}
+          {/* You May Also Like - 3 cards, same design as /courses/quran-tutoring-courses */}
           {relatedCourses.length > 0 && (
             <section className="mt-16">
               <h2 className="text-2xl lg:text-3xl font-bold text-[#065D80] text-center mb-8">
@@ -80,7 +80,7 @@ export default async function CourseDetailsPage({ params }: Props) {
               <div className="bg-[#EAF7E5] px-6 py-6 rounded-tr-[60px] rounded-bl-[60px] w-fit max-w-full mx-auto">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
                   {relatedCourses.map((course) => (
-                    <div key={course.id} className="w-[280px] max-w-full">
+                    <div key={course.id} className="w-[252px] max-w-full">
                       <CourseCard
                         slug={course.slug ?? ''}
                         title={course.title}

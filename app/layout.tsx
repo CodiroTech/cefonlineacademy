@@ -63,11 +63,14 @@ export default async function RootLayout({
 
   const footerData = {
     "header-logo": siteData["header-logo"],
+    "footer-logo": siteData["footer-logo"],
+    "footer-cef-logo": siteData["footer-cef-logo"],
     "facebook-url": siteData["facebook-url"],
     "insta-url": siteData["insta-url"],
     "youtube-url": siteData["youtube-url"],
     "linkedin-url": siteData["linkedin-url"],
     "footer-text": siteData["footer-text"],
+    "footer-cef-text": siteData["footer-cef-text"],
   };
 
   return (

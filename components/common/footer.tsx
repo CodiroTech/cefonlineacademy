@@ -35,8 +35,8 @@ const footerColumns: Array<FooterColumn> = [
   {
     heading: 'Our Courses',
     links: [
-      { label: 'Tutoring Courses', href: '/courses/qurantutorCourses' },
-      { label: 'Other Courses', href: '/courses/otherCourses' },
+      { label: 'Tutoring Courses', href: '/courses/quran-tutoring-courses' },
+      { label: 'Other Courses', href: '/courses/other-courses' },
     ],
   },
   {
@@ -73,7 +73,10 @@ const DEFAULT_FOOTER_TEXT =
 type FooterProps = {
   data?: {
     'header-logo'?: { full_url?: string }
+    'footer-logo'?: { full_url?: string }
+    'footer-cef-logo'?: { full_url?: string }
     'footer-text'?: string
+    'footer-cef-text'?: string
     'footer-image-logo-text'?: string
     'facebook-url'?: string
     'insta-url'?: string
@@ -113,7 +116,7 @@ export const Footer = ({ data }: FooterProps) => {
               <div className="md:col-span-3 flex items-stretch gap-12">
                 <Link href="/" className="flex items-center">
                   <Image
-                    src={data?.['header-logo']?.full_url ?? '/log2.png'}
+                    src={data?.['footer-logo']?.full_url ?? '/log2.png'}
                     alt="CEF Logo"
                     width={200}
                     height={260}
@@ -125,7 +128,7 @@ export const Footer = ({ data }: FooterProps) => {
                 <div className="flex flex-col justify-center gap-3">
                   <Link href="/">
                     <Image
-                      src="/logo-2.png"
+                      src={data?.['footer-cef-logo']?.full_url ?? '/logo-2.png'}
                       alt="Character Education Foundation"
                       width={180}
                       height={44}
@@ -133,8 +136,8 @@ export const Footer = ({ data }: FooterProps) => {
                     />
                   </Link>
 
-                  <p className="text-xs text-white/80 text-justify max-w-70">
-                    {DEFAULT_FOOTER_TEXT}
+                  <p className="text-[0.65rem] text-white text-justify max-w-70">
+                    {data?.['footer-cef-text'] || DEFAULT_FOOTER_TEXT}
                   </p>
                 </div>
               </div>
@@ -156,7 +159,7 @@ export const Footer = ({ data }: FooterProps) => {
                         <li key={l.label}>
                           <Link
                             href={l.href ?? '#'}
-                            className="text-white/80 hover:text-secondary transition-colors"
+                            className="text-white hover:text-secondary transition-colors"
                             {...(isBookshop && { target: '_blank', rel: 'noopener noreferrer' })}
                           >
                             {l.label}
@@ -190,10 +193,10 @@ export const Footer = ({ data }: FooterProps) => {
                           </li>
 
                           <li>
-                            <Link
-                              href="/career"
-                              className="text-white/80 hover:text-secondary transition-colors"
-                            >
+<Link
+                            href="/career"
+                            className="text-white hover:text-secondary transition-colors"
+                          >
                               Career
                             </Link>
                           </li>
@@ -209,7 +212,7 @@ export const Footer = ({ data }: FooterProps) => {
 
           {/* COPYRIGHT */}
           <div className="w-full bg-secondary">
-            <div className="mx-auto max-w-7xl px-6 md:px-8 py-2 text-center text-xs">
+            <div className="mx-auto max-w-7xl px-6 md:px-8 py-2 text-center text-xs text-white">
               {data?.['footer-text'] || '© Copyright 2025 | CEF Online Academy | All Rights Reserved'}
             </div>
           </div>

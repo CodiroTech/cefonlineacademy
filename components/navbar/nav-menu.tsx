@@ -64,8 +64,8 @@ const navigationItems: Array<NavigationItem> = [
     label: 'Our Courses',
     hasDropdown: true,
     dropdownLinks: [
-      { label: 'Quran Tutoring Courses', to: '/courses/qurantutorCourses' },
-      { label: 'Other Courses', to: '/courses/otherCourses' },
+      { label: 'Quran Tutoring Courses', to: '/courses/quran-tutoring-courses' },
+      { label: 'Other Courses', to: '/courses/other-courses' },
     ],
   },
   {

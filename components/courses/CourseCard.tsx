@@ -37,8 +37,9 @@ const PlayIcon = () => (
 )
 
 function formatPrice(price: number, currencySymbol: string): string {
-  if (price === 0) return 'Free'
-  const formatted = Number.isInteger(price) ? price.toLocaleString() : price.toFixed(2)
+  const p = Number(price)
+  if (Number.isNaN(p) || p === 0) return 'Free'
+  const formatted = Number.isInteger(p) ? p.toLocaleString() : p.toFixed(2)
   return `${currencySymbol} ${formatted}`
 }
 
