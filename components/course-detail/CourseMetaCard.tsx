@@ -26,6 +26,8 @@ const metaItems = (
     if (right.course_language) items.push({ label: 'Language', value: right.course_language })
     if (right.course_accessPeriod) items.push({ label: 'Access', value: right.course_accessPeriod })
     if (right.course_downloads) items.push({ label: 'Resource', value: right.course_downloads })
+    if (typeof right.students_enrolled === 'number' && right.students_enrolled > 0)
+      items.push({ label: 'Students enrolled', value: right.students_enrolled })
   }
   items.push({ label: 'Certificate', value: 'Yes' })
   return items
@@ -64,6 +66,11 @@ const icons: Record<string, React.ReactNode> = {
   Resource: (
     <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  ),
+  'Students enrolled': (
+    <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
     </svg>
   ),
 }

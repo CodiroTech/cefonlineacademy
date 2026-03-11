@@ -158,6 +158,7 @@ export type CourseDetailApiRaw = {
   instructors?: InstructorTabItem[]
   btn_text?: string | null
   btn_api_route?: string | null
+  students_enrolled?: number
 }
 
 /** Map flat API response (overview, lessons, reviews, instructors) to CourseDetailResponse. */
@@ -203,6 +204,7 @@ function normalizeCourseDetailResponse(raw: CourseDetailApiRaw): CourseDetailRes
     course_language: overview.language,
     course_video_lectures: overview.total_lessons != null ? String(overview.total_lessons) : null,
     course_accessPeriod: overview.duration ?? undefined,
+    students_enrolled: raw.students_enrolled,
   }
   return {
     course_id: raw.course_id,
