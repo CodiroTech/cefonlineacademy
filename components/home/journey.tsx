@@ -60,7 +60,7 @@ export const JourneyStepsSection = ({ steps: apiSteps }: JourneyStepsSectionProp
 
         <div className="flex flex-wrap lg:flex-nowrap justify-center gap-5 max-w-6xl mx-auto">
           {steps.map((step) => (
-            <div key={step.number} className="relative w-53 h-59 transition-transform duration-200 ease-out hover:scale-[1.35] cursor-default">
+            <div key={step.number} className="relative w-53 h-59">
               <div
                 className="absolute -top-4 -left-4 w-13 h-13 rounded-full
                            bg-[#8DC63F] text-white text-4xl font-bold

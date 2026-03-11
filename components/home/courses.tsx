@@ -48,7 +48,7 @@ export const OurCoursesSection = ({ sections: apiSections }: OurCoursesSectionPr
           </Heading>
         </div>
 
-        <div className="flex flex-col lg:flex-row justify-center gap-8 max-w-2xl lg:max-w-3xl mx-auto">
+        <div className="flex flex-col lg:flex-row justify-center gap-8 max-w-4xl lg:max-w-5xl mx-auto">
           {courses.map((course, index) => (
             <Card
               key={index}
@@ -58,6 +58,7 @@ export const OurCoursesSection = ({ sections: apiSections }: OurCoursesSectionPr
               link={course.link}
               imageSquare
               variant="default"
+              className="max-w-[26rem]"
             />
           ))}
         </div>

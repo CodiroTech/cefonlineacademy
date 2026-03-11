@@ -1,5 +1,7 @@
 import { fetchCollection, fetchSingleContent, type HeadlessMedia } from '../headless'
 import { fetchBackend } from '../backend'
+import { getBlogArticles } from './pageHeaders'
+import { getBlogs } from './academy'
 
 // --------------- Types ---------------
 
@@ -198,6 +200,8 @@ export async function getHomepageData() {
     listenLearn,
     courseSections,
     latestCourses,
+    blogArticles,
+    backendBlogs,
   ] = await Promise.all([
     getHeroSection(),
     getSliderSteps(),
@@ -215,6 +219,8 @@ export async function getHomepageData() {
     getListenLearnItems(),
     getCourseSections(),
     getLatestCoursesFromBackend(2),
+    getBlogArticles(),
+    getBlogs(),
   ])
 
   // Debug: log full data from each headless API (see terminal running `next dev`)
@@ -245,6 +251,8 @@ export async function getHomepageData() {
   debugFull('unlockNew', unlockNew)
   debugFull('listenLearn', listenLearn)
   debugFull('courseSections', courseSections)
+  debugFull('blogArticles', blogArticles)
+  debugFull('backendBlogs', backendBlogs)
 
   return {
     hero,
@@ -263,5 +271,7 @@ export async function getHomepageData() {
     listenLearn,
     courseSections,
     latestCourses,
+    blogArticles: Array.isArray(blogArticles) ? blogArticles.slice(0, 10) : [],
+    backendBlogs: Array.isArray(backendBlogs) ? backendBlogs.slice(0, 10) : [],
   }
 }

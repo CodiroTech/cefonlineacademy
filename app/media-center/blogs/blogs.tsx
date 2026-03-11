@@ -39,7 +39,7 @@ function ArticleCard({
         </div>
         <div className="w-full lg:w-[76%]">
           <h2 className="text-[#065D80] font-bold">{title}</h2>
-          <Text className="text-justify text-[13px] lg:mt-6 leading-relaxed">
+          <Text className="text-justify text-[13px] lg:mt-6 font-medium leading-tight">
             {description}
           </Text>
           <p className="mt-4 ml-1 font-medium text-[#065D80]">By: {author}</p>

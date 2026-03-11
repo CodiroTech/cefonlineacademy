@@ -65,12 +65,22 @@ export const WhyChooseUs = ({ stats: apiStats }: WhyChooseUsProps) => {
   return (
     <section ref={sectionRef} className="relative w-full py-10 sm:py-14 bg-white overflow-hidden">
 
-      <div className="absolute inset-0 pointer-events-none transform scale-125 translate-y-24">
-        <Image
+      <div
+        className="absolute pointer-events-none overflow-hidden"
+        style={{
+          height: '114%',
+          width: '100%',
+          left: -71,
+          top: -35,
+          right: 0,
+          bottom: 0,
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="/Map.png"
           alt=""
-          fill
-          className="object-contain opacity-80"
+          className="h-full w-full object-contain opacity-80"
         />
       </div>
 
@@ -98,7 +108,7 @@ export const WhyChooseUs = ({ stats: apiStats }: WhyChooseUsProps) => {
                   />
                 </div>
 
-                <div className="text-3xl sm:text-4xl lg:text-7xl font-medium text-[#065D80] leading-none">
+                <div className="text-3xl sm:text-4xl lg:text-7xl font-bold text-[#065D80] leading-none">
                   {counters[index]}+
                 </div>
 

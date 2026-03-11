@@ -147,7 +147,7 @@ export const TestimonialsSection = ({ items: apiItems }: TestimonialsSectionProp
                 <div>
                   <h3 className="text-xl font-extrabold text-[#065D80]">{item.name}</h3>
                   <p className="text-base font-semibold text-[#8DC63F] mb-4">{item.country}</p>
-                  <Text className="text-justify leading-[1.3] text-black">
+                  <Text className="text-justify leading-[1.3] text-black font-medium">
                     {item.message}
                   </Text>
                 </div>
@@ -155,7 +155,7 @@ export const TestimonialsSection = ({ items: apiItems }: TestimonialsSectionProp
                 <div className="mt-6">
                   <Link
                     href="/media-center/testimonials"
-                    className="inline-block px-7 py-2 text-sm font-semibold bg-[#065D80] text-white rounded-full border-2 border-[#065D80] transition-all duration-300 hover:bg-white hover:text-[#065D80]"
+                    className="inline-block px-8 py-1 text-sm font-semibold bg-[#065D80] text-white rounded-full border-2 border-[#065D80] transition-all duration-300 hover:bg-white hover:text-[#065D80]"
                   >
                     SEE ALL
                   </Link>

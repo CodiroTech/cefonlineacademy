@@ -91,7 +91,7 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
           <br />
 
           <Text><strong>{heroDescBold}</strong></Text>
-          <Text className="-mt-4 text-justify">
+          <Text className="-mt-4 text-justify font-medium">
             {heroDescBody}
           </Text>
 

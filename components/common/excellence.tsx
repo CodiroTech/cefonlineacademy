@@ -92,7 +92,7 @@ export const HallmarksOfExcellence = ({
 
       <div className="relative z-10 container mx-auto px-4 lg:px-10 flex justify-center">
         {/* Mobile: stacked green cards */}
-        <div className="w-full max-w-3xl lg:hidden">
+        <div className="w-full max-w-4xl lg:hidden">
           {heading && (
             <div className="text-center mb-10 lg:mb-14">
               <Heading textSize="text-2xl sm:text-3xl md:text-[2.6rem]">
@@ -106,13 +106,13 @@ export const HallmarksOfExcellence = ({
                 key={index}
                 className="bg-[#88bc44] rounded-2xl sm:rounded-3xl py-5 px-3 sm:py-6 sm:px-4 shadow-md hover:shadow-xl transition-all duration-300 flex flex-row items-center gap-4 text-left"
               >
-                <div className="w-[20%] min-w-[56px] shrink-0 flex items-center justify-center">
+                <div className="w-[20%] min-w-[80px] shrink-0 flex items-center justify-center">
                   <Image
                     src={hallmark.icon}
                     alt=""
-                    width={40}
-                    height={40}
-                    className="w-10 h-10 sm:w-12 sm:h-12 object-contain brightness-0 invert"
+                    width={80}
+                    height={80}
+                    className="w-16 h-16 sm:w-20 sm:h-20 object-contain brightness-0 invert"
                   />
                 </div>
                 <div className="min-w-0 flex-1">
@@ -129,7 +129,7 @@ export const HallmarksOfExcellence = ({
         </div>
 
         {/* Desktop: original grid + card style */}
-        <div className="w-full max-w-5xl hidden lg:block">
+        <div className="w-full max-w-6xl hidden lg:block">
           {heading && (
             <div className="text-center mb-10 lg:mb-14">
               <Heading textSize="text-2xl sm:text-3xl md:text-[2.6rem]">
@@ -143,12 +143,12 @@ export const HallmarksOfExcellence = ({
                 key={index}
                 className="bg-linear-to-br from-[#88bc44] to-[#88bc44]
                            rounded-tr-[50px] rounded-bl-[50px]
-                           py-2 px-1.5 sm:py-4 sm:px-2
+                           py-2 px-3 sm:py-4 sm:px-5
                            shadow-md hover:shadow-xl
                            transition-all duration-300 hover:scale-[1.02]
                            flex flex-col items-center text-center"
               >
-                <div className="relative w-10 h-10 sm:w-12 sm:h-12">
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20">
                   <Image
                     src={hallmark.icon}
                     alt={hallmark.title}
@@ -156,18 +156,8 @@ export const HallmarksOfExcellence = ({
                     className="object-contain"
                   />
                 </div>
-                <h3 className="text-sm sm:text-lg text-center font-bold text-[#065D80] mb-2 leading-snug">
-                  {(() => {
-                    const words = hallmark.title.split(' ')
-                    const mid = Math.ceil(words.length / 2)
-                    return (
-                      <>
-                        {words.slice(0, mid).join(' ')}
-                        <br />
-                        {words.slice(mid).join(' ')}
-                      </>
-                    )
-                  })()}
+                <h3 className="text-sm sm:text-lg text-center font-bold text-[#065D80] mb-2 leading-snug w-full">
+                  {hallmark.title}
                 </h3>
                 <Text className="text-[13px] text-balance text-white leading-[1.3]">
                   {hallmark.description}

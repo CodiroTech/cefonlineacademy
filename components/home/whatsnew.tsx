@@ -93,7 +93,7 @@ export const WhatsNewSection = ({ unlockNew, latestCourses }: WhatsNewSectionPro
               className="text-center lg:text-left"
             />
 
-            <Text className="text-justify text-[1rem] tracking-[0px] leading-snug">
+            <Text className="text-justify text-[1rem] tracking-[0px] leading-tight font-medium">
               {sectionDesc}
             </Text>
 
@@ -129,8 +129,8 @@ export const WhatsNewSection = ({ unlockNew, latestCourses }: WhatsNewSectionPro
                       {course.title}
                     </h3>
 
-                    <Text className="text-justify text-[13px] tracking-[0.3px] text-black">
-                      {truncateToWords(course.description, 40)}
+                    <Text className="text-justify text-[14px] tracking-[0.3px] text-black font-medium leading-tight">
+                      {truncateToWords(course.description, 30)}
                     </Text>
                   </div>
                 </>

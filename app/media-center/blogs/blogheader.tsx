@@ -23,7 +23,7 @@ export const Blogs = () => {
 
         {/* Right side - Description */}
         <div className="lg:w-[75%] space-y-6 ">
-          <Text className="text-justify lg:mt-2 xl:mt-10 leading-relaxed">
+          <Text className="text-justify lg:mt-2 xl:mt-10 font-medium leading-tight">
             Explore CEF Online Academy’s Blogs to connect revealed knowledge with acquired knowledge. Each article shares
             insights, practical tips, and reflections on leadership, character, and purposeful living. Our blogs inspire readers to
             think critically, act ethically, and grow as thoughtful, faith-grounded leaders in all areas of life.

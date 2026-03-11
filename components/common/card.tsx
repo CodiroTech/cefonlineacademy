@@ -26,6 +26,8 @@ type CardProps = {
   onLearnMore?: () => void
   /** Optional extra class for the description text (e.g. text-sm for smaller). */
   descriptionClassName?: string
+  /** Optional class for the card wrapper (e.g. max-w-md for a wider card). */
+  className?: string
 }
 
 /* background styles for each variant */
@@ -50,19 +52,20 @@ export const Card = ({
   descriptionLineClamp,
   onLearnMore,
   descriptionClassName,
+  className: wrapperClass,
 }: CardProps) => {
   return (
     <div
       className={`flex-1 mx-auto lg:mx-0
-                  ${growFullWidth ? 'min-w-0' : 'max-w-sm'}
+                  ${growFullWidth ? 'min-w-0' : wrapperClass?.includes('max-w-') ? '' : 'max-w-sm'}
                   ${bgVariants[variant]}
                   rounded-tr-[60px] rounded-bl-[60px]
-                  ${paddingX} ${paddingY} min-h-130 flex flex-col`}
+                  ${paddingX} ${paddingY} min-h-130 flex flex-col ${wrapperClass ?? ''}`}
     >
       {/* IMAGE */}
       <div className="w-full flex items-center justify-center mb-6">
         <div
-          className={`relative w-full ${imageSquare ? 'aspect-square max-w-[240px] mx-auto' : ''}`}
+          className={`relative w-full ${imageSquare ? 'aspect-square' : ''}`}
           style={!imageSquare ? { height: imageHeight ? `${imageHeight}px` : '18rem' } : undefined}
         >
           <Image

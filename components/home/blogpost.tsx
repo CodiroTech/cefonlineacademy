@@ -1,11 +1,14 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Heading } from '@/components/common/heading'
 import { Text } from '@/components/common/text'
+import type { BlogArticleItem } from '@/lib/api/pageHeaders'
+import type { BackendBlogItem } from '@/lib/api/academy'
+import { mediaUrl, stripHtml } from '@/lib/headless'
 
 type BlogPost = {
   id: number
@@ -16,7 +19,7 @@ type BlogPost = {
   author: string
 }
 
-const blogPosts: BlogPost[] = [
+const FALLBACK_POSTS: BlogPost[] = [
   {
     id: 1,
     image: '/Insight & Inspiration.png',
@@ -46,7 +49,46 @@ const blogPosts: BlogPost[] = [
   },
 ]
 
-export const InsightsSection = () => {
+function mapApiToPost(items: BlogArticleItem[]): BlogPost[] {
+  return items.map((a, i) => ({
+    id: i + 1,
+    image: mediaUrl(a.image) || '/Insight & Inspiration.png',
+    title: a.title ?? '',
+    subtitle: '',
+    description: a.description ?? '',
+    author: a.author ?? '',
+  })).filter(p => p.title || p.description)
+}
+
+function mapBackendToPost(blogs: BackendBlogItem[]): BlogPost[] {
+  return blogs.map((b, i) => ({
+    id: b.id ?? i + 1,
+    image: b.image_url ?? '/Insight & Inspiration.png',
+    title: b.title ?? '',
+    subtitle: '',
+    description: stripHtml(b.excerpt ?? b.content ?? ''),
+    author: b.author ?? '',
+  })).filter(p => p.title || p.description)
+}
+
+type InsightsSectionProps = {
+  items?: BlogArticleItem[] | null
+  backendBlogs?: BackendBlogItem[] | null
+}
+
+export const InsightsSection = ({ items: apiItems, backendBlogs }: InsightsSectionProps) => {
+  const blogPosts = useMemo(() => {
+    if (Array.isArray(backendBlogs) && backendBlogs.length > 0) {
+      const mapped = mapBackendToPost(backendBlogs)
+      if (mapped.length > 0) return mapped
+    }
+    if (Array.isArray(apiItems) && apiItems.length > 0) {
+      const mapped = mapApiToPost(apiItems)
+      if (mapped.length > 0) return mapped
+    }
+    return FALLBACK_POSTS
+  }, [apiItems, backendBlogs])
+
   const [current, setCurrent] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
   const touchStartX = useRef<number | null>(null)
@@ -57,6 +99,11 @@ export const InsightsSection = () => {
     window.addEventListener('resize', checkScreen)
     return () => window.removeEventListener('resize', checkScreen)
   }, [])
+
+  // Reset to first slide when blogPosts change (e.g. API load)
+  useEffect(() => {
+    setCurrent(0)
+  }, [blogPosts.length])
 
   const total = blogPosts.length
   const post = blogPosts[current]
@@ -180,7 +227,7 @@ export const InsightsSection = () => {
         <div className="mt-8 text-center">
           <Link
             href="/media-center/blogs"
-            className="inline-block px-7 py-1 text-sm font-semibold bg-[#0B5C6B] text-white rounded-full border-2 border-[#0B5C6B] transition hover:bg-white hover:text-[#0B5C6B]"
+            className="inline-block px-8 py-0.5 text-sm font-semibold bg-[#0B5C6B] text-white rounded-full border-2 border-[#0B5C6B] transition hover:bg-white hover:text-[#0B5C6B]"
           >
             SEE ALL
           </Link>

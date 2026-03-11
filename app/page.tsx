@@ -31,7 +31,7 @@ export default async function Home() {
       <CEFBookshopSection data={data.bookshop} />
       <TestimonialsSection items={data.testimonials} />
       <MissionKirdaarSection items={data.missionKirdaar} />
-      <InsightsSection />
+      <InsightsSection items={data.blogArticles} backendBlogs={data.backendBlogs} />
       <ListenLearnSection items={data.listenLearn} />
       <JoinCEFSection data={data.joinCEF} />
       <HelpDesk items={data.helpDesk} />
