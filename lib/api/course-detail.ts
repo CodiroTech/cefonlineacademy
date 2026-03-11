@@ -56,10 +56,27 @@ export type InstructorTabItem = {
   about?: string
 }
 
+// Curriculum (lessons + lectures) for course details
+export type CurriculumLecture = {
+  lecture_id?: number
+  lecture_title?: string
+  lecture_type?: string
+  lecture_file_duration?: string | null
+  lecture_is?: string
+  lecture_preview_btn_src?: string | null
+  lecture_icon_src?: string | null
+}
+
+export type CurriculumLesson = {
+  lesson_name?: string
+  lesson_no?: number
+  lesson_lectures?: CurriculumLecture[]
+}
+
 export type CourseDetailsLeftContentArea = {
   title?: string
   overview_tab?: OverviewTab
-  curriculum_tab?: unknown[]
+  curriculum_tab?: CurriculumLesson[]
   discussion_tab?: unknown[]
   review_tab?: ReviewTab
   instructor_tab?: InstructorTabItem[]
@@ -127,7 +144,15 @@ export type CourseDetailApiRaw = {
   lessons?: Array<{
     lesson_name?: string
     lesson_no?: number
-    lesson_lectures?: Array<{ lecture_title?: string }>
+    lesson_lectures?: Array<{
+      lecture_id?: number
+      lecture_title?: string
+      lecture_type?: string
+      lecture_file_duration?: string | null
+      lecture_is?: string
+      lecture_preview_btn_src?: string | null
+      lecture_icon_src?: string | null
+    }>
   }>
   reviews?: ReviewTab
   instructors?: InstructorTabItem[]
@@ -139,7 +164,19 @@ export type CourseDetailApiRaw = {
 function normalizeCourseDetailResponse(raw: CourseDetailApiRaw): CourseDetailResponse {
   const overview = raw.overview ?? {}
   const lessons = raw.lessons ?? []
-  const curriculum_tab = lessons.map((l) => ({ title: l.lesson_name ?? 'Module' }))
+  const curriculum_tab: CurriculumLesson[] = lessons.map((l) => ({
+    lesson_name: l.lesson_name ?? 'Module',
+    lesson_no: l.lesson_no,
+    lesson_lectures: (l.lesson_lectures ?? []).map((lec) => ({
+      lecture_id: lec.lecture_id,
+      lecture_title: lec.lecture_title,
+      lecture_type: lec.lecture_type,
+      lecture_file_duration: lec.lecture_file_duration ?? null,
+      lecture_is: lec.lecture_is,
+      lecture_preview_btn_src: lec.lecture_preview_btn_src ?? null,
+      lecture_icon_src: lec.lecture_icon_src ?? null,
+    })),
+  }))
   const left: CourseDetailsLeftContentArea = {
     title: overview.title,
     overview_tab: {

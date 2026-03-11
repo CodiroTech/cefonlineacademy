@@ -67,18 +67,21 @@ export default async function CourseDetailsPage({ params }: Props) {
 
   return (
     <div className="w-full font-poppins">
-      <div className="w-full px-4 lg:px-12">
-        <div className="container mx-auto rounded-[20px] px-2 lg:px-2 pt-6 pb-6 overflow-hidden">
-          {/* Course main image - full width within container, no border radius */}
-          <div className="relative w-full aspect-[21/9] max-h-[320px] overflow-hidden bg-[#EAF7E5]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={coverImage}
-              alt=""
-              className="object-cover w-full h-full"
-            />
-          </div>
+      {/* Course main image - same width as header (max-w-[1600px]), height auto per image */}
+      <div className="w-full max-w-[1600px] mx-auto px-8 lg:px-20 pt-6">
+        <div className="relative w-full bg-[#EAF7E5]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={coverImage}
+            alt=""
+            className="w-full h-auto object-contain"
+          />
+        </div>
+      </div>
 
+      {/* Course section - same width as header and image */}
+      <div className="w-full max-w-[1600px] mx-auto px-8 lg:px-20">
+        <div className="rounded-[20px] px-2 lg:px-2 pt-6 pb-6 overflow-hidden">
           {/* Two-column section: each block has its own background (same as You May Also Like) */}
           <CourseDetailLayout course={course} pageTitle={pageTitle} />
 
