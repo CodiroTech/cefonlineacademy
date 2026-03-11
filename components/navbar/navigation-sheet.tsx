@@ -34,14 +34,19 @@ export type NavigationSheetProps = {
   onBookDemoOpen?: () => void
   onLoginOpen?: () => void
   isLoggedIn?: boolean
+  /** Controlled mode: when set, sheet open state is controlled and no default trigger is rendered (caller renders trigger(s)). */
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
 }
 
-export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn }: NavigationSheetProps) => {
+export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn, open, onOpenChange }: NavigationSheetProps) => {
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
+  const isControlled = open !== undefined && onOpenChange !== undefined
 
   if (!isMounted) {
     // Return a simple button placeholder during SSR
@@ -56,7 +61,7 @@ export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn 
   }
 
   return (
-    <Sheet>
+    <Sheet open={isControlled ? open : undefined} onOpenChange={isControlled ? onOpenChange : undefined}>
       <SheetTrigger asChild>
         <Button
           variant="outline"

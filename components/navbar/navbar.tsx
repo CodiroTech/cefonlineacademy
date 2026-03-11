@@ -8,6 +8,7 @@ import {
   FaYoutube,
 } from 'react-icons/fa'
 import { IoMdSearch } from 'react-icons/io'
+import { Menu } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { NavMenu } from './nav-menu'
 import { NavigationSheet } from './navigation-sheet'
@@ -97,6 +98,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
   const router = useRouter()
   const isHomePage = pathname === '/'
   const [pageHeader, setPageHeader] = useState<PageHeaderData>(null)
+  const [sheetOpen, setSheetOpen] = useState(false)
   const [demoOpen, setDemoOpen] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
   const [loginOptions, setLoginOptions] = useState<LoginPopupDetail | null>(null)
@@ -301,11 +303,11 @@ const Navbar01Page = ({ data }: NavbarProps) => {
 
   return (
     <>
-      <header className="mt-10 w-full navbar-shrink">
-        {/* Wider header container than homepage */}
-        <div className="w-full max-w-[1600px] mx-auto px-8 lg:px-20">
-          {/* Top row: social icons — same right edge; margin-bottom -17px */}
-          <div className="relative z-[120] -mb-[17px] w-full flex justify-end items-center py-0.5 min-h-0">
+      <header className="mt-0 lg:mt-10 w-full navbar-shrink">
+        {/* Wider header container than homepage; no side padding on mobile */}
+        <div className="w-full max-w-[1600px] mx-auto px-0 lg:px-20">
+          {/* Top row: social icons — hidden on mobile (shown in menu drawer), visible from lg */}
+          <div className="relative z-[120] -mb-[17px] w-full hidden lg:flex justify-end items-center py-0.5 min-h-0">
             {renderSocialIcons('flex')}
           </div>
           {/* Main nav row: same vertical alignment as homepage (centered in row) */}
@@ -333,9 +335,11 @@ const Navbar01Page = ({ data }: NavbarProps) => {
                   {renderButtons()}
                 </div>
               </div>
-              <div className="lg:hidden ml-2 flex items-center">
+              <div className={`ml-2 flex items-center ${pageHeader ? 'hidden lg:flex' : 'lg:hidden'}`}>
                 <NavigationSheet
                   data={data}
+                  open={sheetOpen}
+                  onOpenChange={setSheetOpen}
                   onBookDemoOpen={() => {
                     setDemoPreselectedCourse(null)
                     setDemoOpen(true)
@@ -349,9 +353,21 @@ const Navbar01Page = ({ data }: NavbarProps) => {
               </div>
             </div>
           </nav>
-          {/* Green page header — on top, pulled up toward nav */}
+          {/* Green page header — on top, pulled up toward nav; on mobile hamburger inside green area top right */}
           {pageHeader && (
             <div className="relative z-[100] -mt-5 pb-1">
+              <div className="lg:hidden absolute top-3 right-3 z-30">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="border-[#065D80] text-[#065D80] hover:bg-[#065D80] hover:text-white cursor-pointer shrink-0"
+                  onClick={() => setSheetOpen(true)}
+                  aria-label="Open menu"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </div>
               <AboutHeader
                 title={pageHeader.title}
                 imageSrc={pageHeader.imageSrc}

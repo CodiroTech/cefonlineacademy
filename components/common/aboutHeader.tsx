@@ -33,7 +33,7 @@ const GreenBannerInner = ({
   align = 'right',
 }: AboutHeaderProps) => (
   <div
-    className="relative -z-6 w-full bg-[#EAF7E5] rounded-xl px-6 lg:px-14 pt-12 pb-12 overflow-hidden"
+    className="relative -z-6 w-full bg-[#EAF7E5] rounded-xl px-0 lg:px-14 pt-24 lg:pt-12 pb-12 overflow-hidden"
     style={{ ['--heading-offset' as any]: headingOffset }}
   >
         {/* Decorative Circles */}
@@ -55,7 +55,7 @@ const GreenBannerInner = ({
             <div className="shrink-0 w-[19%] lg:w-[13%]" />
           )}
 
-          <div className="flex-1 ml-2 sm:ml-4 lg:ml-6">
+          <div className="flex-1 ml-2 sm:ml-4 lg:ml-6 pr-14 lg:pr-0">
             <Heading
               textSize="!text-2xl sm:!text-3xl md:!text-4xl lg:!text-[42px]"
               leading="leading-tight"

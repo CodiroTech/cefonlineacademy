@@ -175,12 +175,14 @@ export default function TajweedCoursesSection({ categoryType = 1, fallbackSectio
 
           <aside
             className="
+              hidden
               md:col-span-1
               xl:w-auto xl:shrink-0 xl:mr-6
               font-medium leading-none
               relative
               mx-auto md:mx-0 w-full max-w-xs
             "
+            aria-hidden="true"
           >
             <div className="flex flex-col items-start md:items-start">
               <FilterBlock title="Categories" showClear onClear={handleClear}>
@@ -280,7 +282,7 @@ export default function TajweedCoursesSection({ categoryType = 1, fallbackSectio
             </div>
           </div>
 
-          <div className="md:col-span-2 xl:col-span-auto min-w-0 xl:flex-1 overflow-hidden flex justify-center xl:justify-start">
+          <div className="md:col-span-2 xl:col-span-auto min-w-0 xl:flex-1 overflow-hidden flex justify-center">
             <div className="bg-[#EAF7E5] px-6 py-6 rounded-tr-[60px] rounded-bl-[60px] w-fit">
               {loading && !firstCategoryWithCourses ? (
                 <div className="flex flex-wrap justify-center gap-4">
@@ -314,7 +316,7 @@ export default function TajweedCoursesSection({ categoryType = 1, fallbackSectio
 
         </div>
 
-        <div className="xl:ml-80 xl:max-w-[calc(100%-20rem-1.5rem)] flex flex-col items-center">
+        <div className="w-full flex flex-col items-center">
           {categoriesWithCourses.slice(1).map((cat) => (
             <div key={cat.id} className="mt-12 w-full flex flex-col items-center">
               <div className="flex justify-center lg:ml-47 mb-6 text-center">
