@@ -289,7 +289,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
                 )}
               </Link>
             </div>
-            <NavMenu className="hidden lg:block" data={data} />
+            <NavMenu className="hidden lg:block" data={data} applyMenuTopMargin />
             {renderRightSection(true)}
           </div>
         </nav>

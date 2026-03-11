@@ -11,16 +11,20 @@ function NavigationMenu({
   className,
   children,
   viewport = true,
+  applyTopMargin = false,
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Root> & {
   viewport?: boolean
+  /** When true, applies mt-[30px] (homepage nav only) */
+  applyTopMargin?: boolean
 }) {
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
       data-viewport={viewport}
       className={cn(
-        "group/navigation-menu mt-[30px] mb-0 relative z-[200] flex max-w-max flex-1 items-center justify-start",
+        "group/navigation-menu mb-0 relative z-[200] flex max-w-max flex-1 items-center justify-start",
+        applyTopMargin && "mt-[30px]",
         className
       )}
       {...props}

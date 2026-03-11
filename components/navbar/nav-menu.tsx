@@ -195,9 +195,12 @@ const navigationItems: Array<NavigationItem> = [
 
 export const NavMenu = ({
   data,
+  applyMenuTopMargin,
   ...menuProps
 }: NavigationMenuProps & {
   data?: NavMenuData
+  /** When true, navigation menu gets mt-[30px] (homepage only) */
+  applyMenuTopMargin?: boolean
 }) => {
   const [hoveredDropdownItem, setHoveredDropdownItem] = useState<string | null>(
     null,
@@ -317,7 +320,7 @@ export const NavMenu = ({
   }
 
   return (
-    <NavigationMenu viewport={false} {...menuProps}>
+    <NavigationMenu viewport={false} applyTopMargin={applyMenuTopMargin} {...menuProps}>
       <NavigationMenuList className="flex items-center gap-0 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:w-full relative">
         {resolvedNavigationItems.map((item) =>
           item.hasDropdown ? (
