@@ -8,20 +8,28 @@ import {
   FaYoutube,
 } from 'react-icons/fa'
 import { IoMdSearch } from 'react-icons/io'
+import { useRouter } from 'next/navigation'
 import { NavMenu } from './nav-menu'
 import { NavigationSheet } from './navigation-sheet'
 import { BookADemoPopup, type PreselectedCourse } from '@/components/demo/BookADemoPopup'
-import { LoginPopup } from '@/components/auth/LoginPopup'
+import { LoginPopup, type LoginSuccessContext } from '@/components/auth/LoginPopup'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { getAuthCookie } from '@/lib/auth-cookie'
-import { bookshopUrl } from '@/lib/config'
+import { bookshopUrl, portalUrl as configPortalUrl } from '@/lib/config'
+import { AboutHeader } from '@/components/common/aboutHeader'
+import { enrollCourse, addToCart } from '@/lib/api/student-actions'
+
+type LoginPopupCourseIntent = 'enroll_free' | 'buy' | 'request_enrollment_live'
 
 type LoginPopupDetail = {
   stayOnPage?: boolean
   courseForDemo?: PreselectedCourse
+  intent?: LoginPopupCourseIntent
+  courseId?: number
+  slug?: string
 }
 
 type NavbarProps = {
@@ -37,17 +45,93 @@ type NavbarProps = {
   }
 }
 
+type PageHeaderData = { title: string; imageSrc: string } | null
+
+function getBackendBase(): string {
+  return process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? ''
+}
+
+/** Checkout URL on the portal (NEXT_PUBLIC_PORTAL_URL) so user is not asked to log in again. */
+function getCheckoutUrl(): string {
+  const base = (configPortalUrl || '').replace(/\/$/, '')
+  return base ? `${base}/student/checkout` : ''
+}
+
+/** Checkout URL with token and role in hash so the portal restores session and does not show login. */
+function getCheckoutUrlWithAuth(token: string, role: string): string {
+  const base = getCheckoutUrl()
+  if (!base) return ''
+  const hash = `token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}`
+  return `${base}#${hash}`
+}
+
+function getLiveEnrollmentFormUrl(slug: string): string {
+  const base = getBackendBase().replace(/\/$/, '')
+  return base ? `${base}/live-course-enrollment-form/1/${encodeURIComponent(slug)}` : '#'
+}
+
+async function runNextStepAfterAuth(
+  ctx: LoginSuccessContext,
+  router: ReturnType<typeof useRouter>,
+): Promise<void> {
+  const { token, intent, courseId, slug } = ctx
+  if (intent === 'enroll_free' && courseId != null) {
+    const result = await enrollCourse(courseId, token)
+    if (result.ok) router.refresh()
+  } else if (intent === 'buy' && courseId != null) {
+    const result = await addToCart(courseId, token)
+    if (result.ok) {
+      const url = getCheckoutUrlWithAuth(token, ctx.role)
+      if (url) window.location.href = url
+      else router.refresh()
+    }
+  } else if (intent === 'request_enrollment_live' && slug) {
+    const url = getLiveEnrollmentFormUrl(slug)
+    if (url !== '#') window.location.href = url
+    else router.refresh()
+  }
+}
+
 const Navbar01Page = ({ data }: NavbarProps) => {
   const pathname = usePathname()
+  const router = useRouter()
   const isHomePage = pathname === '/'
+  const [pageHeader, setPageHeader] = useState<PageHeaderData>(null)
   const [demoOpen, setDemoOpen] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
   const [loginOptions, setLoginOptions] = useState<LoginPopupDetail | null>(null)
   const [demoPreselectedCourse, setDemoPreselectedCourse] = useState<PreselectedCourse | null>(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+
   useEffect(() => {
     setIsLoggedIn(!!getAuthCookie()?.token)
   }, [])
+  useEffect(() => {
+    if (isHomePage || !pathname) {
+      setPageHeader(null)
+      return
+    }
+    let cancelled = false
+    fetch(`/api/page-header?path=${encodeURIComponent(pathname)}`)
+      .then((res) => res.json())
+      .then((body: { title?: string | null; imageSrc?: string | null }) => {
+        if (cancelled) return
+        const title = body?.title ?? null
+        const imageSrc = body?.imageSrc ?? null
+        if (title || imageSrc)
+          setPageHeader({
+            title: title || 'About Us',
+            imageSrc: imageSrc || '/About Us Header.png',
+          })
+        else setPageHeader(null)
+      })
+      .catch(() => {
+        if (!cancelled) setPageHeader(null)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [pathname, isHomePage])
   useEffect(() => {
     const handler = (e: Event) => {
       const detail = (e as CustomEvent<LoginPopupDetail | undefined>)?.detail
@@ -55,6 +139,9 @@ const Navbar01Page = ({ data }: NavbarProps) => {
         setLoginOptions({
           stayOnPage: !!detail.stayOnPage,
           courseForDemo: detail.courseForDemo ?? undefined,
+          intent: detail.intent,
+          courseId: detail.courseId,
+          slug: detail.slug,
         })
       } else {
         setLoginOptions(null)
@@ -72,168 +159,265 @@ const Navbar01Page = ({ data }: NavbarProps) => {
     window.addEventListener('cef-open-demo-popup', handler)
     return () => window.removeEventListener('cef-open-demo-popup', handler)
   }, [])
+
   const portalUrl = (data?.['portal-url']?.trim() && /^https?:\/\//i.test(data['portal-url'].trim()))
     ? data['portal-url'].trim()
     : 'https://cefonlineacademy.com/'
 
   const logoSrc = data?.['header-logo']?.full_url
 
-  return (
-    <nav className="h-16 mt-10 sm:h-20 md:h-24 bg-transparent navbar-shrink">
-      <div className="h-full flex items-center justify-between container mx-auto px-2 sm:px-3 md:px-4 lg:px-5 xl:px-5 2xl:px-6">
+  const socialLinks = [
+    { icon: FaFacebookF, url: data?.['facebook-url'] },
+    { icon: FaInstagram, url: data?.['insta-url'] },
+    { icon: FaYoutube, url: data?.['youtube-url'] },
+    { icon: FaLinkedinIn, url: data?.['linkedin-url'] },
+  ].filter(({ url }) => !!url)
 
-        {/* Logo - padding (not margin) so left spacing holds at 125%/150% zoom */}
-        <div className="shrink-0 mt-22 pl-2 sm:pl-3 md:pl-4 lg:pl-5 xl:pl-5 2xl:pl-6">
-          <Link href="/" className="cursor-pointer">
-            {logoSrc ? (
-              <Image
-                src={logoSrc}
-                alt="logo"
-                width={isHomePage ? 140 : 100}
-                height={isHomePage ? 46 : 33}
-                className={
-                  isHomePage
-                    ? 'w-24 sm:w-32 md:w-36 lg:w-32 xl:w-36 2xl:w-40 cursor-pointer'
-                    : 'w-20 sm:w-24 md:w-28 lg:w-24 xl:w-28 2xl:w-32 cursor-pointer'
-                }
-                priority
-              />
-            ) : (
-              <div className="w-32 h-12 bg-gray-200 animate-pulse" />
-            )}
-          </Link>
-        </div>
-
-        {/* Desktop Menu */}
-        <NavMenu className="hidden lg:block" data={data} />
-
-        {/* Right Section */}
-        <div className="flex items-center justify-end gap-1">
-
-          {/* Social Icons */}
-          <div className="hidden sm:flex flex-col items-end gap-1 shrink-0">
-            <div className="flex items-center gap-1 mb-1">
-              {[
-                { icon: FaFacebookF, url: data?.['facebook-url'] },
-                { icon: FaInstagram, url: data?.['insta-url'] },
-                { icon: FaYoutube, url: data?.['youtube-url'] },
-                { icon: FaLinkedinIn, url: data?.['linkedin-url'] },
-              ]
-                .filter(({ url }) => !!url)
-                .map(({ icon: Icon, url }, idx) => (
-                  <Link
-                    key={idx}
-                    href={url || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-5 h-5 md:w-6 md:h-6 bg-primary rounded-full flex items-center justify-center hover:bg-primary/90 cursor-pointer"
-                  >
-                    <Icon className="text-white text-xs md:text-sm" />
-                  </Link>
-                ))}
-            </div>
-
-            {/* Buttons */}
-            <div className="flex items-center gap-1 flex-wrap justify-end">
-              <IoMdSearch className="hidden md:block w-5 h-5 lg:w-6 lg:h-6 text-primary cursor-pointer shrink-0" />
-               
-              {isLoggedIn ? (
-                <Link
-                  href={portalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button variant="primarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Dashboard</Button>
-                </Link>
-              ) : (
-                <>
-                  <Button
-                    variant="primarySmall"
-                    className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!"
-                    onClick={() => {
-                      setLoginOptions(null)
-                      setLoginOpen(true)
-                    }}
-                  >
-                    Student Login
-                  </Button>
-                  <Button
-                    variant="secondarySmall"
-                    className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!"
-                    onClick={() => {
-                      setDemoPreselectedCourse(null)
-                      setDemoOpen(true)
-                    }}
-                  >
-                    Book a Demo
-                  </Button>
-                </>
-              )}
-
-              <Link
-                href={bookshopUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button variant="primarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">CEF Bookshop</Button>
-              </Link>
-
-              <Link
-                href="https://cef.org.pk"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button variant="secondarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">CEF Website</Button>
-              </Link>
-
-              <Link href="/donations">
-                <Button variant="dangerSmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Donate Now</Button>
-              </Link>
-            </div>
-          </div>
-
-          {/* Mobile Menu */}
-          <div className="lg:hidden ml-2">
-            <NavigationSheet
-              data={data}
-              onBookDemoOpen={() => {
-                setDemoPreselectedCourse(null)
-                setDemoOpen(true)
-              }}
-              onLoginOpen={() => {
-                setLoginOptions(null)
-                setLoginOpen(true)
-              }}
-              isLoggedIn={isLoggedIn}
-            />
-          </div>
-        </div>
-      </div>
-      <BookADemoPopup
-        open={demoOpen}
-        onOpenChange={(open) => {
-          setDemoOpen(open)
-          if (!open) setDemoPreselectedCourse(null)
-        }}
-        preselectedCourse={demoPreselectedCourse}
-      />
-      <LoginPopup
-        open={loginOpen}
-        onOpenChange={setLoginOpen}
-        portalUrl={portalUrl}
-        stayOnPage={loginOptions?.stayOnPage ?? false}
-        onJoinNow={
-          loginOptions?.courseForDemo
-            ? () => {
-                setLoginOpen(false)
-                setDemoPreselectedCourse(loginOptions.courseForDemo!)
-                setDemoOpen(true)
-              }
-            : undefined
-        }
-      />
-    </nav>
+  const renderSocialIcons = (className = '') => (
+    <div className={`flex items-center gap-1 ${className}`}>
+      {socialLinks.map(({ icon: Icon, url }, idx) => (
+        <Link
+          key={idx}
+          href={url || '#'}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-5 h-5 md:w-6 md:h-6 bg-primary rounded-full flex items-center justify-center hover:bg-primary/90 cursor-pointer"
+        >
+          <Icon className="text-white text-xs md:text-sm" />
+        </Link>
+      ))}
+    </div>
   )
+
+  const renderRightSection = (showSocialInRow: boolean) => (
+    <div className="flex items-center justify-end gap-1">
+      {showSocialInRow && (
+        <div className="hidden sm:flex flex-col items-end gap-1 shrink-0">
+          <div className="flex items-center gap-1 mb-1">{renderSocialIcons()}</div>
+          <div className="flex items-center gap-1 flex-wrap justify-end">{renderButtons()}</div>
+        </div>
+      )}
+      {!showSocialInRow && (
+        <>
+          <div className="hidden sm:flex items-center gap-1 flex-wrap justify-end">
+            {renderSocialIcons()}
+            {renderButtons()}
+          </div>
+        </>
+      )}
+      <div className="lg:hidden ml-2">
+        <NavigationSheet
+          data={data}
+          onBookDemoOpen={() => {
+            setDemoPreselectedCourse(null)
+            setDemoOpen(true)
+          }}
+          onLoginOpen={() => {
+            setLoginOptions(null)
+            setLoginOpen(true)
+          }}
+          isLoggedIn={isLoggedIn}
+        />
+      </div>
+    </div>
+  )
+
+  const renderButtons = () => (
+    <>
+      <Link href="/search" className="hidden md:inline-flex shrink-0" aria-label="Search">
+        <IoMdSearch className="w-5 h-5 lg:w-6 lg:h-6 text-primary cursor-pointer" />
+      </Link>
+      {isLoggedIn ? (
+        <Link href={portalUrl} target="_blank" rel="noopener noreferrer">
+          <Button variant="primarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Dashboard</Button>
+        </Link>
+      ) : (
+        <>
+          <Button
+            variant="primarySmall"
+            className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!"
+            onClick={() => {
+              setLoginOptions(null)
+              setLoginOpen(true)
+            }}
+          >
+            Student Login
+          </Button>
+          <Button
+            variant="secondarySmall"
+            className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!"
+            onClick={() => {
+              setDemoPreselectedCourse(null)
+              setDemoOpen(true)
+            }}
+          >
+            Book a Demo
+          </Button>
+        </>
+      )}
+      <Link href={bookshopUrl} target="_blank" rel="noopener noreferrer">
+        <Button variant="primarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">CEF Bookshop</Button>
+      </Link>
+      <Link href="https://cef.org.pk" target="_blank" rel="noopener noreferrer">
+        <Button variant="secondarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">CEF Website</Button>
+      </Link>
+      <Link href="/donations">
+        <Button variant="dangerSmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Donate Now</Button>
+      </Link>
+    </>
+  )
+
+  if (isHomePage) {
+    return (
+      <>
+        <div className="mt-[30px] w-full shrink-0">
+          <nav className="h-16 sm:h-20 md:h-24 mb-0 bg-transparent navbar-shrink w-full">
+            <div className="h-full flex items-center justify-start gap-6 max-w-[1600px] mx-auto px-8 lg:px-20">
+            <div className="shrink-0 mt-28 pl-6 lg:pl-8">
+              <Link href="/" className="cursor-pointer">
+                {logoSrc ? (
+                  <Image
+                    src={logoSrc}
+                    alt="logo"
+                    width={140}
+                    height={46}
+                    className="w-28 sm:w-32 md:w-36 lg:w-36 xl:w-40 2xl:w-44 cursor-pointer"
+                    priority
+                  />
+                ) : (
+                  <div className="w-36 h-12 bg-gray-200 animate-pulse" />
+                )}
+              </Link>
+            </div>
+            <NavMenu className="hidden lg:block" data={data} />
+            {renderRightSection(true)}
+          </div>
+        </nav>
+        </div>
+        <Popups />
+      </>
+    )
+  }
+
+  return (
+    <>
+      <header className="mt-10 w-full navbar-shrink">
+        {/* Wider header container than homepage */}
+        <div className="w-full max-w-[1600px] mx-auto px-8 lg:px-20">
+          {/* Top row: social icons — same right edge; margin-bottom -17px */}
+          <div className="relative z-[120] -mb-[17px] w-full flex justify-end items-center py-0.5 min-h-0">
+            {renderSocialIcons('flex')}
+          </div>
+          {/* Main nav row: same vertical alignment as homepage (centered in row) */}
+          <nav className="h-16 sm:h-20 md:h-24 -mb-1 bg-white border-b border-gray-100">
+            <div className="h-full flex items-center justify-between gap-2">
+              <div className="relative z-[110] shrink-0 mt-22 ml-8 lg:ml-10">
+                <Link href="/" className="cursor-pointer">
+                  {logoSrc ? (
+                    <Image
+                      src={logoSrc}
+                      alt="logo"
+                      width={100}
+                      height={33}
+                      className="w-20 sm:w-24 md:w-28 lg:w-24 xl:w-28 2xl:w-32 cursor-pointer"
+                      priority
+                    />
+                  ) : (
+                    <div className="w-32 h-12 bg-gray-200 animate-pulse" />
+                  )}
+                </Link>
+              </div>
+              <div className="hidden lg:flex flex-1 items-center justify-between gap-2">
+                <NavMenu className="flex-1" data={data} />
+                <div className="flex items-center gap-1 flex-wrap justify-end shrink-0">
+                  {renderButtons()}
+                </div>
+              </div>
+              <div className="lg:hidden ml-2 flex items-center">
+                <NavigationSheet
+                  data={data}
+                  onBookDemoOpen={() => {
+                    setDemoPreselectedCourse(null)
+                    setDemoOpen(true)
+                  }}
+                  onLoginOpen={() => {
+                    setLoginOptions(null)
+                    setLoginOpen(true)
+                  }}
+                  isLoggedIn={isLoggedIn}
+                />
+              </div>
+            </div>
+          </nav>
+          {/* Green page header — on top, pulled up toward nav */}
+          {pageHeader && (
+            <div className="relative z-[100] -mt-5 pb-1">
+              <AboutHeader
+                title={pageHeader.title}
+                imageSrc={pageHeader.imageSrc}
+                embedded
+              />
+            </div>
+          )}
+        </div>
+      </header>
+      <Popups />
+    </>
+  )
+
+  function Popups() {
+    return (
+      <>
+        <BookADemoPopup
+          open={demoOpen}
+          onOpenChange={(open) => {
+            setDemoOpen(open)
+            if (!open) setDemoPreselectedCourse(null)
+          }}
+          preselectedCourse={demoPreselectedCourse}
+          signupSuccessContext={
+            demoPreselectedCourse && (loginOptions?.intent != null || loginOptions?.courseId != null || loginOptions?.slug)
+              ? { intent: loginOptions?.intent, courseId: loginOptions?.courseId, slug: loginOptions?.slug }
+              : undefined
+          }
+          onSignupSuccess={
+            demoPreselectedCourse && (loginOptions?.intent != null || loginOptions?.courseId != null)
+              ? (ctx) => runNextStepAfterAuth(ctx, router)
+              : undefined
+          }
+        />
+        <LoginPopup
+          open={loginOpen}
+          onOpenChange={setLoginOpen}
+          portalUrl={portalUrl}
+          stayOnPage={loginOptions?.stayOnPage ?? false}
+          loginSuccessContext={
+            loginOptions?.intent != null || loginOptions?.courseId != null || loginOptions?.slug != null
+              ? {
+                  intent: loginOptions?.intent,
+                  courseId: loginOptions?.courseId,
+                  slug: loginOptions?.slug,
+                }
+              : undefined
+          }
+          onLoginSuccess={
+            loginOptions?.stayOnPage && (loginOptions?.intent ?? loginOptions?.courseId != null)
+              ? (ctx) => runNextStepAfterAuth(ctx, router)
+              : undefined
+          }
+          onJoinNow={
+            loginOptions?.courseForDemo
+              ? () => {
+                  setLoginOpen(false)
+                  setDemoPreselectedCourse(loginOptions.courseForDemo!)
+                  setDemoOpen(true)
+                }
+              : undefined
+          }
+        />
+      </>
+    )
+  }
 }
 
 export default Navbar01Page

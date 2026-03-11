@@ -44,3 +44,22 @@ export async function getBlogs(): Promise<BackendBlogItem[]> {
   const list = res?.data
   return Array.isArray(list) ? list : []
 }
+
+export type BackendInstructorItem = {
+  id: number
+  name: string
+  professional_title?: string
+  about_me?: string
+  image_url?: string | null
+  slug?: string
+  profile_url?: string
+}
+
+type BackendInstructorsResponse = { success?: boolean; data?: BackendInstructorItem[] }
+
+/** GET /api/academy/instructors — featured, approved instructors (same as backend homepage "Teachers Who Inspire"). */
+export async function getInstructors(): Promise<BackendInstructorItem[]> {
+  const res = await fetchBackend<BackendInstructorsResponse>('/academy/instructors')
+  const list = res?.data
+  return Array.isArray(list) ? list : []
+}

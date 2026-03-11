@@ -35,11 +35,24 @@ function buildCourseForDemo(course: CourseDetailResponse): PreselectedCourse {
   }
 }
 
-function openLoginPopupFromCourse(courseForDemo: PreselectedCourse) {
+export type LoginPopupCourseIntent = 'enroll_free' | 'buy' | 'request_enrollment_live'
+
+function openLoginPopupFromCourse(
+  courseForDemo: PreselectedCourse,
+  intent: LoginPopupCourseIntent,
+  courseId: number,
+  slug: string,
+) {
   if (typeof window === 'undefined') return
   window.dispatchEvent(
     new CustomEvent('cef-open-login-popup', {
-      detail: { stayOnPage: true, courseForDemo },
+      detail: {
+        stayOnPage: true,
+        courseForDemo,
+        intent,
+        courseId,
+        slug,
+      },
     })
   )
 }
@@ -128,14 +141,14 @@ export function CourseCTA({ course }: Props) {
 
   type CTAItem =
     | { label: string; href: string; external?: boolean; openLogin?: false }
-    | { label: string; openLogin: true }
+    | { label: string; openLogin: true; intent?: LoginPopupCourseIntent }
   let primary: CTAItem | null = null
   let secondary: CTAItem | null = null
 
   if (isLive) {
     if (isGuest) {
-      primary = { label: 'Request Enrollment', openLogin: true }
-      if (isPaid) secondary = { label: 'Book a Demo Class', openLogin: true }
+      primary = { label: 'Request Enrollment', openLogin: true, intent: 'request_enrollment_live' as const }
+      if (isPaid) secondary = { label: 'Book a Demo Class', openLogin: true, intent: 'request_enrollment_live' as const }
     } else {
       if (alreadyRequested) {
         return (
@@ -156,13 +169,13 @@ export function CourseCTA({ course }: Props) {
   } else {
     if (isFree) {
       if (isGuest) {
-        primary = { label: 'Enroll Now', openLogin: true }
+        primary = { label: 'Enroll Now', openLogin: true, intent: 'enroll_free' as const }
       } else {
         primary = { label: 'Enroll Now', href: '#', external: false }
       }
     } else if (isPaid) {
       if (isGuest) {
-        primary = { label: 'Buy Now', openLogin: true }
+        primary = { label: 'Buy Now', openLogin: true, intent: 'buy' as const }
       } else {
         primary = { label: 'Buy Now', href: '#', external: false }
       }
@@ -174,13 +187,14 @@ export function CourseCTA({ course }: Props) {
     const href = course.btn_api_route ?? '#'
     const external = href.startsWith('http')
     primary = isGuest
-      ? { label: course.btn_text, openLogin: true }
+      ? { label: course.btn_text, openLogin: true, intent: isLive ? 'request_enrollment_live' : isFree ? 'enroll_free' : 'buy' }
       : { label: course.btn_text, href, external }
   }
 
   if (!primary) return null
 
   const courseForDemo = buildCourseForDemo(course)
+  const primaryIntent = 'intent' in primary ? primary.intent : undefined
   const primaryLabel = course.btn_text ?? primary.label
   const primaryButtonClass = cn(
     'w-full inline-flex justify-center items-center rounded-xl px-4 py-3 text-sm font-bold uppercase tracking-wide',
@@ -196,7 +210,7 @@ export function CourseCTA({ course }: Props) {
       {'openLogin' in primary && primary.openLogin ? (
         <button
           type="button"
-          onClick={() => openLoginPopupFromCourse(courseForDemo)}
+          onClick={() => openLoginPopupFromCourse(courseForDemo, primaryIntent ?? 'enroll_free', course.course_id, slug)}
           className={primaryButtonClass}
         >
           {primaryLabel}
@@ -220,7 +234,7 @@ export function CourseCTA({ course }: Props) {
         ('openLogin' in secondary && secondary.openLogin ? (
           <button
             type="button"
-            onClick={() => openLoginPopupFromCourse(courseForDemo)}
+            onClick={() => openLoginPopupFromCourse(courseForDemo, 'intent' in secondary ? (secondary.intent ?? 'request_enrollment_live') : 'request_enrollment_live', course.course_id, slug)}
             className={secondaryButtonClass}
           >
             {secondary.label}

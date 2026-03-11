@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 26, 2026 at 07:34 AM
+-- Generation Time: Mar 10, 2026 at 09:54 PM
 -- Server version: 11.8.3-MariaDB-log
 -- PHP Version: 7.2.34
 
@@ -81,7 +81,19 @@ INSERT INTO `collections` (`id`, `name`, `slug`, `project_id`, `order`, `created
 (159, 'Media Center', 'media-center', 3, 159, '2026-02-23 13:08:32', '2026-02-23 13:08:32', NULL),
 (160, 'Contact Us', 'contact-us', 3, 160, '2026-02-23 13:08:53', '2026-02-23 13:08:53', NULL),
 (161, 'FAQs', 'faqs', 3, 161, '2026-02-23 13:09:02', '2026-02-23 13:09:02', NULL),
-(162, 'Course Details', 'course-details', 3, 162, '2026-02-23 13:09:46', '2026-02-23 13:09:46', NULL);
+(162, 'Course Details', 'course-details', 3, 162, '2026-02-23 13:09:46', '2026-02-23 13:09:46', NULL),
+(163, 'Bookshop Page', 'bookshop-page', 3, 163, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(164, 'Quran Tutoring Courses Page', 'quran-tutoring-courses-page', 3, 164, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(165, 'Other Courses Page', 'other-courses-page', 3, 165, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(166, 'Upcoming Courses Page', 'upcoming-courses-page', 3, 166, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(167, 'Blogs Page', 'blogs-page', 3, 167, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(168, 'Workshops Page', 'workshops-page', 3, 168, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(169, 'Weekly Sessions Page', 'weekly-sessions-page', 3, 169, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(170, 'Webinars Page', 'webinars-page', 3, 170, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(171, 'Special Series Page', 'special-series-page', 3, 171, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(172, 'Mentorship Page', 'mentorship-page', 3, 172, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
+(173, 'Upcoming Courses Section', 'upcoming-courses-section', 3, 173, '2026-02-27 03:38:01', '2026-02-27 03:38:01', NULL),
+(174, 'Blog Article', 'blog-article', 3, 174, '2026-02-27 03:39:21', '2026-02-27 03:39:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -241,7 +253,40 @@ INSERT INTO `collection_fields` (`id`, `type`, `label`, `name`, `description`, `
 (1021, 'text', 'text 2', 'text-2', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 135, 1021, '2026-02-24 07:44:15', '2026-02-24 07:44:15'),
 (1024, 'media', 'image', 'image', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false,\"media\":{\"type\":1}}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 135, 1024, '2026-02-24 07:45:21', '2026-02-24 07:45:46'),
 (1025, 'longtext', 'description', 'description', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 135, 1025, '2026-02-24 07:46:04', '2026-02-24 07:46:04'),
-(1026, 'text', 'Portal URL', 'portal-url', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1026, '2026-02-24 20:42:03', '2026-02-24 20:42:03');
+(1026, 'text', 'Portal URL', 'portal-url', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1026, '2026-02-24 20:42:03', '2026-02-24 20:42:03'),
+(1027, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 162, 1027, '2026-02-27 03:37:14', '2026-02-27 03:37:14'),
+(1028, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 163, 1028, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1029, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 163, 1029, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1030, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 164, 1030, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1031, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 164, 1031, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1032, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 165, 1032, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1033, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 165, 1033, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1034, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 166, 1034, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1035, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 166, 1035, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1036, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 167, 1036, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1037, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 167, 1037, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1038, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 168, 1038, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1039, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 168, 1039, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1040, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 169, 1040, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1041, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 169, 1041, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1042, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 170, 1042, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1043, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 170, 1043, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1044, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 171, 1044, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1045, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 171, 1045, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1046, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":true,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 172, 1046, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1047, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null}, \"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 172, 1047, '2026-02-27 03:37:40', '2026-02-27 03:37:40'),
+(1048, 'text', 'Heading line 1', 'heading-line-1', NULL, NULL, '{}', '{}', 3, 173, 1048, '2026-02-27 03:38:01', '2026-02-27 03:38:01'),
+(1049, 'text', 'Heading line 2', 'heading-line-2', NULL, NULL, '{}', '{}', 3, 173, 1049, '2026-02-27 03:38:01', '2026-02-27 03:38:01'),
+(1050, 'longtext', 'Description paragraph 1', 'description-1', NULL, NULL, '{}', '{}', 3, 173, 1050, '2026-02-27 03:38:01', '2026-02-27 03:38:01'),
+(1051, 'longtext', 'Description paragraph 2', 'description-2', NULL, NULL, '{}', '{}', 3, 173, 1051, '2026-02-27 03:38:01', '2026-02-27 03:38:01'),
+(1052, 'text', 'Title', 'title', NULL, NULL, '{}', '{}', 3, 174, 1052, '2026-02-27 03:39:21', '2026-02-27 03:39:21'),
+(1053, 'longtext', 'Description', 'description', NULL, NULL, '{}', '{}', 3, 174, 1053, '2026-02-27 03:39:21', '2026-02-27 03:39:21'),
+(1054, 'text', 'Author', 'author', NULL, NULL, '{}', '{}', 3, 174, 1054, '2026-02-27 03:39:21', '2026-02-27 03:39:21'),
+(1055, 'media', 'Image', 'image', NULL, NULL, '{\"media\":{\"type\":1}}', '{}', 3, 174, 1055, '2026-02-27 03:39:21', '2026-02-27 03:39:21'),
+(1056, 'number', 'Sort order', 'sort_number', NULL, NULL, '{}', '{}', 3, 174, 1056, '2026-02-27 03:39:21', '2026-02-27 03:39:21'),
+(1057, 'media', 'Footer Logo', 'footer-logo', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1057, '2026-03-05 02:17:37', '2026-03-05 02:17:37'),
+(1058, 'text', 'Footer CEF Text', 'footer-cef-text', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1058, '2026-03-05 02:25:47', '2026-03-05 02:25:47'),
+(1059, 'media', 'Footer CEF Logo', 'footer-cef-logo', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1059, '2026-03-05 02:26:38', '2026-03-05 02:26:38');
 
 -- --------------------------------------------------------
 
@@ -270,8 +315,8 @@ CREATE TABLE `content` (
 --
 
 INSERT INTO `content` (`id`, `project_id`, `collection_id`, `locale`, `form_id`, `created_at`, `created_by`, `updated_at`, `updated_by`, `published_at`, `published_by`, `deleted_at`, `sort_number`) VALUES
-(747, 3, 121, 'en', NULL, '2026-02-20 06:32:51', 1, '2026-02-24 20:43:26', 1, '2026-02-24 20:43:26', 1, NULL, 1),
-(748, 3, 122, 'en', NULL, '2026-02-20 06:38:41', 1, '2026-02-23 22:53:26', 1, '2026-02-23 22:53:26', 1, NULL, 2),
+(747, 3, 121, 'en', NULL, '2026-02-20 06:32:51', 1, '2026-03-05 02:27:25', 1, '2026-03-05 02:27:25', 1, NULL, 1),
+(748, 3, 122, 'en', NULL, '2026-02-20 06:38:41', 1, '2026-03-05 06:50:32', 1, '2026-03-05 06:50:32', 1, NULL, 2),
 (749, 3, 140, 'en', NULL, '2026-02-20 06:47:48', 1, '2026-02-20 06:47:48', NULL, NULL, NULL, NULL, 1),
 (750, 3, 140, 'en', NULL, '2026-02-20 06:48:36', 1, '2026-02-20 06:48:36', NULL, NULL, NULL, NULL, 2),
 (751, 3, 140, 'en', NULL, '2026-02-20 06:49:41', 1, '2026-02-20 06:49:41', NULL, NULL, NULL, NULL, 3),
@@ -281,11 +326,11 @@ INSERT INTO `content` (`id`, `project_id`, `collection_id`, `locale`, `form_id`,
 (755, 3, 124, 'en', NULL, '2026-02-20 06:58:32', 1, '2026-02-20 06:58:32', NULL, NULL, NULL, NULL, 3),
 (756, 3, 124, 'en', NULL, '2026-02-20 06:59:04', 1, '2026-02-20 06:59:04', NULL, NULL, NULL, NULL, 4),
 (757, 3, 126, 'en', NULL, '2026-02-20 06:59:47', 1, '2026-02-20 06:59:47', NULL, NULL, NULL, NULL, 1),
-(758, 3, 127, 'en', NULL, '2026-02-20 07:14:33', 1, '2026-02-20 07:14:33', NULL, NULL, NULL, NULL, 1),
-(759, 3, 127, 'en', NULL, '2026-02-20 07:16:15', 1, '2026-02-20 07:16:15', NULL, NULL, NULL, NULL, 2),
-(760, 3, 127, 'en', NULL, '2026-02-20 07:17:40', 1, '2026-02-20 07:17:40', NULL, NULL, NULL, NULL, 3),
-(761, 3, 127, 'en', NULL, '2026-02-20 07:18:24', 1, '2026-02-20 07:18:24', NULL, NULL, NULL, NULL, 4),
-(762, 3, 127, 'en', NULL, '2026-02-20 07:20:27', 1, '2026-02-20 07:20:27', NULL, NULL, NULL, NULL, 5),
+(758, 3, 127, 'en', NULL, '2026-02-20 07:14:33', 1, '2026-03-10 07:10:42', 1, '2026-03-10 07:10:42', 1, NULL, 1),
+(759, 3, 127, 'en', NULL, '2026-02-20 07:16:15', 1, '2026-03-10 07:10:55', 1, '2026-03-10 07:10:55', 1, NULL, 2),
+(760, 3, 127, 'en', NULL, '2026-02-20 07:17:40', 1, '2026-03-10 07:11:09', 1, '2026-03-10 07:11:09', 1, NULL, 3),
+(761, 3, 127, 'en', NULL, '2026-02-20 07:18:24', 1, '2026-03-10 07:11:26', 1, '2026-03-10 07:11:26', 1, NULL, 4),
+(762, 3, 127, 'en', NULL, '2026-02-20 07:20:27', 1, '2026-03-10 07:11:39', 1, '2026-03-10 07:11:39', 1, NULL, 5),
 (763, 3, 128, 'en', NULL, '2026-02-20 07:41:15', 1, '2026-02-20 07:41:15', NULL, NULL, NULL, NULL, 1),
 (764, 3, 128, 'en', NULL, '2026-02-20 07:42:05', 1, '2026-02-20 07:42:05', NULL, NULL, NULL, NULL, 2),
 (765, 3, 128, 'en', NULL, '2026-02-20 07:42:48', 1, '2026-02-20 07:42:48', NULL, NULL, NULL, NULL, 3),
@@ -312,7 +357,7 @@ INSERT INTO `content` (`id`, `project_id`, `collection_id`, `locale`, `form_id`,
 (786, 3, 143, 'en', NULL, '2026-02-20 09:53:56', 1, '2026-02-20 09:53:56', NULL, NULL, NULL, NULL, 4),
 (787, 3, 143, 'en', NULL, '2026-02-20 09:54:47', 1, '2026-02-20 09:54:47', NULL, NULL, NULL, NULL, 5),
 (788, 3, 143, 'en', NULL, '2026-02-20 09:55:21', 1, '2026-02-20 09:55:21', NULL, NULL, NULL, NULL, 6),
-(789, 3, 158, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 06:14:19', 1, '2026-02-24 06:14:19', 1, NULL, 1),
+(789, 3, 158, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-03-10 21:52:47', 1, '2026-03-10 21:52:47', 1, NULL, 1),
 (790, 3, 159, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
 (791, 3, 145, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
 (792, 3, 146, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 1),
@@ -354,10 +399,11 @@ INSERT INTO `content` (`id`, `project_id`, `collection_id`, `locale`, `form_id`,
 (828, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 10),
 (829, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 11),
 (830, 3, 161, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, '2026-02-24 01:54:52', 1, NULL, 12),
-(831, 3, 136, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-02-24 07:50:25', 1, '2026-02-24 07:50:25', 1, NULL, 1),
+(831, 3, 136, NULL, NULL, '2026-02-24 01:54:52', 1, '2026-03-04 20:36:20', 1, '2026-03-04 20:36:20', 1, NULL, 1),
 (832, 3, 130, 'en', NULL, '2026-02-24 06:37:01', 1, '2026-02-24 06:41:52', 1, '2026-02-24 06:41:52', 1, NULL, 1),
 (833, 3, 130, 'en', NULL, '2026-02-24 07:28:26', 1, '2026-02-24 07:28:36', 1, '2026-02-24 07:28:36', 1, NULL, 2),
-(834, 3, 135, 'en', NULL, '2026-02-24 07:47:48', 1, '2026-02-24 07:47:48', NULL, '2026-02-24 07:47:48', 1, NULL, 1);
+(834, 3, 135, 'en', NULL, '2026-02-24 07:47:48', 1, '2026-02-24 07:47:48', NULL, '2026-02-24 07:47:48', 1, NULL, 1),
+(835, 3, 136, 'en', NULL, '2026-03-04 20:35:53', 1, '2026-03-04 20:35:53', NULL, '2026-03-04 20:35:53', 1, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -387,7 +433,7 @@ INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `
 (5399, 3, 122, 748, 'sort_number', '2', '2026-02-20 06:38:41', '2026-02-20 06:38:41', NULL),
 (5400, 3, 122, 748, 'titla', 'Transforming Lives Globally— From Quran to Character', '2026-02-20 06:38:41', '2026-02-20 06:38:41', NULL),
 (5401, 3, 122, 748, 'description', '<p><strong>Illuminate Your Soul with Quran.</strong></p><p>At the CEF Online Academy, we offer excellence in Nazirah and Fahm-ul-Quran, helping students recite, understand, and live the Quran. Our character-building courses blend modern skills with Quranic and Prophetic values, empowering youth to live purposefully, lead confidently, and serve the Ummah with excellence.</p>', '2026-02-20 06:38:41', '2026-02-23 22:53:26', NULL),
-(5402, 3, 122, 748, 'image', '1166', '2026-02-20 06:38:41', '2026-02-20 06:38:41', NULL),
+(5402, 3, 122, 748, 'image', '1219', '2026-02-20 06:38:41', '2026-03-05 06:50:31', NULL),
 (5403, 3, 140, 749, 'sort_number', '1', '2026-02-20 06:47:48', '2026-02-20 06:47:48', NULL),
 (5404, 3, 140, 749, 'step', '1', '2026-02-20 06:47:48', '2026-02-20 06:47:48', NULL),
 (5405, 3, 140, 749, 'title', 'Sign up', '2026-02-20 06:47:48', '2026-02-20 06:47:48', NULL),
@@ -428,23 +474,23 @@ INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `
 (5440, 3, 126, 757, 'title', 'Unlock What\'s  New!', '2026-02-20 06:59:47', '2026-02-20 06:59:47', NULL),
 (5441, 3, 126, 757, 'unlock-description', 'Explore our fresh new courses and inspiring sessions designed to expand your knowledge, skills, and character.', '2026-02-20 06:59:47', '2026-02-20 06:59:47', NULL),
 (5442, 3, 127, 758, 'sort_number', '1', '2026-02-20 07:14:33', '2026-02-20 07:14:33', NULL),
-(5443, 3, 127, 758, 'number', '25', '2026-02-20 07:14:33', '2026-02-20 07:14:33', NULL),
+(5443, 3, 127, 758, 'number', '16', '2026-02-20 07:14:33', '2026-03-10 07:10:42', NULL),
 (5444, 3, 127, 758, 'text', 'Countries', '2026-02-20 07:14:33', '2026-02-20 07:14:33', NULL),
 (5445, 3, 127, 758, 'icon', '1175', '2026-02-20 07:14:33', '2026-02-20 07:14:33', NULL),
 (5446, 3, 127, 759, 'sort_number', '2', '2026-02-20 07:16:15', '2026-02-20 07:16:15', NULL),
-(5447, 3, 127, 759, 'number', '25', '2026-02-20 07:16:15', '2026-02-20 07:16:15', NULL),
+(5447, 3, 127, 759, 'number', '1000', '2026-02-20 07:16:15', '2026-03-10 07:10:55', NULL),
 (5448, 3, 127, 759, 'text', 'Students', '2026-02-20 07:16:15', '2026-02-20 07:16:15', NULL),
 (5449, 3, 127, 759, 'icon', '1176', '2026-02-20 07:16:15', '2026-02-20 07:16:15', NULL),
 (5450, 3, 127, 760, 'sort_number', '3', '2026-02-20 07:17:40', '2026-02-20 07:17:40', NULL),
-(5451, 3, 127, 760, 'number', '25', '2026-02-20 07:17:40', '2026-02-20 07:17:40', NULL),
+(5451, 3, 127, 760, 'number', '8', '2026-02-20 07:17:40', '2026-03-10 07:11:09', NULL),
 (5452, 3, 127, 760, 'text', 'Years of Experience', '2026-02-20 07:17:40', '2026-02-20 07:17:40', NULL),
 (5453, 3, 127, 760, 'icon', '1177', '2026-02-20 07:17:40', '2026-02-20 07:17:40', NULL),
 (5454, 3, 127, 761, 'sort_number', '4', '2026-02-20 07:18:24', '2026-02-20 07:18:24', NULL),
-(5455, 3, 127, 761, 'number', '25', '2026-02-20 07:18:24', '2026-02-20 07:18:24', NULL),
+(5455, 3, 127, 761, 'number', '100', '2026-02-20 07:18:24', '2026-03-10 07:11:26', NULL),
 (5456, 3, 127, 761, 'text', 'Tutors', '2026-02-20 07:18:24', '2026-02-20 07:18:24', NULL),
 (5457, 3, 127, 761, 'icon', '1178', '2026-02-20 07:18:24', '2026-02-20 07:18:24', NULL),
 (5458, 3, 127, 762, 'sort_number', '5', '2026-02-20 07:20:27', '2026-02-20 07:20:27', NULL),
-(5459, 3, 127, 762, 'number', '25', '2026-02-20 07:20:27', '2026-02-20 07:20:27', NULL),
+(5459, 3, 127, 762, 'number', '20', '2026-02-20 07:20:27', '2026-03-10 07:11:39', NULL),
 (5460, 3, 127, 762, 'text', 'Courses', '2026-02-20 07:20:27', '2026-02-20 07:20:27', NULL),
 (5461, 3, 127, 762, 'icon', '1179', '2026-02-20 07:20:27', '2026-02-20 07:20:27', NULL),
 (5462, 3, 128, 763, 'sort_number', '1', '2026-02-20 07:41:15', '2026-02-20 07:41:15', NULL),
@@ -574,7 +620,7 @@ INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `
 (5586, 3, 121, 747, 'facebook', 'https://tiktok.com', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
 (5587, 3, 121, 747, 'favicon', '1165', '2026-02-24 00:19:11', '2026-02-24 00:19:11', NULL),
 (5588, 3, 158, 789, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
-(5589, 3, 158, 789, 'title', 'About CEF Online Academy', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
+(5589, 3, 158, 789, 'title', 'About Us', '2026-02-24 01:54:52', '2026-03-10 21:52:47', NULL),
 (5590, 3, 159, 790, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
 (5591, 3, 159, 790, 'title', 'Media Center', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
 (5592, 3, 145, 791, 'sort_number', '1', '2026-02-24 01:54:52', '2026-02-24 01:54:52', NULL),
@@ -739,14 +785,14 @@ INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `
 (5751, 3, 136, 831, 'sort_number', '1', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
 (5752, 3, 136, 831, 'title', 'Podcasts You\'ll Want To LISTEN!', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
 (5753, 3, 136, 831, 'description', '<p>Tune in to CEF Online Academy\'s Podcasts to explore ideas that connect revealed knowledge with acquired knowledge. Each episode offers insights, practical guidance, and inspiring discussions on leadership, character, and purposeful living, helping listeners grow into thoughtful, ethical, and faith-grounded leaders.</p>', '2026-02-24 01:54:53', '2026-02-24 01:54:53', NULL),
-(5754, 3, 158, 789, 'header-image', '1208', '2026-02-24 05:56:49', '2026-02-24 06:14:19', NULL),
+(5754, 3, 158, 789, 'header-image', '1216', '2026-02-24 05:56:49', '2026-03-05 02:23:51', NULL),
 (5755, 3, 130, 832, 'sort_number', '1', '2026-02-24 06:37:01', '2026-02-24 06:37:01', NULL),
 (5756, 3, 130, 832, 'image', '1209', '2026-02-24 06:37:01', '2026-02-24 06:37:01', NULL);
 INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `field_name`, `value`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (5757, 3, 130, 832, 'heading', 'Quran Tutoring Courses', '2026-02-24 06:37:01', '2026-02-24 06:37:01', NULL),
 (5758, 3, 130, 832, 'Detail text', 'CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.', '2026-02-24 06:37:01', '2026-02-24 06:37:01', NULL),
 (5759, 3, 130, 832, 'description', 'CEF Online Academy offers personalized one-on-one tutoring in Nazirah and Fahm-ul-Quran. Each session is guided by qualified tutors who ensure accurate recitation and clear understanding. Our students gradually build confidence, strengthen their connection with the Quran, and experience its message as a source of guidance in everyday life.', '2026-02-24 06:40:13', '2026-02-24 06:40:13', NULL),
-(5760, 3, 136, 831, 'image', '1213,1214', '2026-02-24 07:14:39', '2026-02-24 07:50:25', NULL),
+(5760, 3, 136, 831, 'image', '1213', '2026-02-24 07:14:39', '2026-03-04 20:36:20', NULL),
 (5761, 3, 130, 833, 'heading', 'Other Courses', '2026-02-24 07:28:26', '2026-02-24 07:28:26', NULL),
 (5762, 3, 130, 833, 'sort_number', '2', '2026-02-24 07:28:26', '2026-02-24 07:28:26', NULL),
 (5763, 3, 130, 833, 'image', '1212', '2026-02-24 07:28:26', '2026-02-24 07:28:26', NULL),
@@ -756,7 +802,17 @@ INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `
 (5767, 3, 135, 834, 'text-2', 'Explore our latest blogs.', '2026-02-24 07:47:48', '2026-02-24 07:47:48', NULL),
 (5768, 3, 135, 834, 'image', '1211', '2026-02-24 07:47:48', '2026-02-24 07:47:48', NULL),
 (5769, 3, 135, 834, 'description', 'Embracing Online Learning:\nA Modern Path to Mastering Tajweed\nOnline learning has opened doors to knowledge for everyone. It allows people to learn anytime, anywhere. For those who wish to study the Quran, online Tajweed classes are a blessing. Tajweed is the art of reciting the Quran correctly, preserving its beauty and meaning. Through online learning, students can connect with qualified teachers from across the world. They can practice pronunciation, rhythm, and rules at their own pace. Interactive tools, recordings, and one-on-one guidance make learning easy and effective. Busy professionals, mothers, and students can all benefit without leaving home. Online Tajweed classes bring the Quran closer to every heart. They help learners recite with respect, clarity, and love for Allah\'s words. It\'s a modern path to timeless wisdom.\n\nBy: Sara Ali', '2026-02-24 07:47:48', '2026-02-24 07:47:48', NULL),
-(5770, 3, 121, 747, 'portal-url', 'htps://portal.cefonlineacademy.com', '2026-02-24 20:43:26', '2026-02-24 20:43:26', NULL);
+(5770, 3, 121, 747, 'portal-url', 'htps://portal.cefonlineacademy.com', '2026-02-24 20:43:26', '2026-02-24 20:43:26', NULL),
+(5771, 3, 122, 748, 'title', NULL, '2026-03-04 09:43:17', '2026-03-04 09:51:17', NULL),
+(5772, 3, 136, 835, 'title', 'Second Podcasts You\'ll Want To LISTEN!', '2026-03-04 20:35:53', '2026-03-04 20:35:53', NULL),
+(5773, 3, 136, 835, 'sort_number', '2', '2026-03-04 20:35:53', '2026-03-04 20:35:53', NULL),
+(5774, 3, 136, 835, 'description', '<p>Second Podcasts You\'ll Want To LISTEN!</p><p>Second Podcasts You\'ll Want To LISTEN!</p><p>Second Podcasts You\'ll Want To LISTEN!</p>', '2026-03-04 20:35:53', '2026-03-04 20:35:53', NULL),
+(5775, 3, 136, 835, 'image', '1214', '2026-03-04 20:35:53', '2026-03-04 20:35:53', NULL),
+(5776, 3, 136, 835, 'video-url', 'https://youtu.be/2rHVlYii_rc?si=uLXuHuHdlCqcra-F', '2026-03-04 20:35:53', '2026-03-04 20:35:53', NULL),
+(5777, 3, 136, 831, 'video-url', 'https://youtu.be/2rHVlYii_rc?si=uLXuHuHdlCqcra-F', '2026-03-04 20:36:20', '2026-03-04 20:36:20', NULL),
+(5778, 3, 121, 747, 'footer-logo', '1215', '2026-03-05 02:19:03', '2026-03-05 02:19:03', NULL),
+(5779, 3, 121, 747, 'footer-cef-text', 'Character Education Foundation (CEF) is an independent operational entity registered as a not-for-profit company set up under section 42 of the Companies Act, 2017.', '2026-03-05 02:26:15', '2026-03-05 02:26:15', NULL),
+(5780, 3, 121, 747, 'footer-cef-logo', '1217', '2026-03-05 02:27:25', '2026-03-05 02:27:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -883,7 +939,12 @@ INSERT INTO `media` (`id`, `project_id`, `name`, `type`, `size`, `width`, `heigh
 (1211, 3, 'Insight & Inspiration(1).png', 'png', 681104, 2409, 2409, NULL, 'local', '2026-02-24 07:14:26', '2026-02-24 07:14:26'),
 (1212, 3, 'Our Courses Girl.png', 'png', 507623, 1860, 1860, NULL, 'local', '2026-02-24 07:28:04', '2026-02-24 07:28:04'),
 (1213, 3, 'Listen & Learn 1.png', 'png', 471514, 2480, 2451, NULL, 'local', '2026-02-24 07:49:58', '2026-02-24 07:49:58'),
-(1214, 3, 'Listen & Learn 2.png', 'png', 366306, 2499, 2367, NULL, 'local', '2026-02-24 07:50:12', '2026-02-24 07:50:12');
+(1214, 3, 'Listen & Learn 2.png', 'png', 366306, 2499, 2367, NULL, 'local', '2026-02-24 07:50:12', '2026-02-24 07:50:12'),
+(1215, 3, 'Screenshot_10-removebg-preview.png', 'png', 82914, 216, 330, NULL, 'local', '2026-03-05 02:18:52', '2026-03-05 02:18:52'),
+(1216, 3, 'Screenshot_11.png', 'png', 524834, 954, 950, NULL, 'local', '2026-03-05 02:23:38', '2026-03-05 02:23:38'),
+(1217, 3, 'logo-2.webp', 'webp', 5312, 256, 97, NULL, 'local', '2026-03-05 02:27:15', '2026-03-05 02:27:15'),
+(1218, 3, 'Child Image with Circles-01(1).jpg', 'jpg', 1563954, 3251, 2962, NULL, 'local', '2026-03-05 05:02:53', '2026-03-05 05:02:53'),
+(1219, 3, 'CEF Online Page 1 Image-01.png', 'png', 1065921, 2657, 2671, NULL, 'local', '2026-03-05 06:03:42', '2026-03-05 06:03:42');
 
 -- --------------------------------------------------------
 
@@ -1297,25 +1358,25 @@ ALTER TABLE `webhook_logs`
 -- AUTO_INCREMENT for table `collections`
 --
 ALTER TABLE `collections`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
 
 --
 -- AUTO_INCREMENT for table `collection_fields`
 --
 ALTER TABLE `collection_fields`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1027;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1060;
 
 --
 -- AUTO_INCREMENT for table `content`
 --
 ALTER TABLE `content`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=835;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=836;
 
 --
 -- AUTO_INCREMENT for table `content_meta`
 --
 ALTER TABLE `content_meta`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5771;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5781;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1339,7 +1400,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1215;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1220;
 
 --
 -- AUTO_INCREMENT for table `migrations`

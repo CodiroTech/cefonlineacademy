@@ -62,6 +62,9 @@ export type RegisterResponse = {
   message?: string
   url?: string
   error?: Record<string, string[]>
+  /** When present, frontend can set auth cookie and run post-signup next step (enroll/buy/live form). */
+  token?: string
+  role?: number | string
 }
 
 const GENERIC_ERROR = 'Registration failed. Please try again.'

@@ -1,17 +1,33 @@
 import { notFound } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { getCourseDetailBySlug } from '@/lib/api/course-detail'
 import { getCoursesWithDetails } from '@/lib/api/demo'
-import { getPageHeader } from '@/lib/api/pageHeaders'
-import { AboutHeader } from '@/components/common/aboutHeader'
 import { CourseCard } from '@/components/courses/CourseCard'
 import { CourseDetailLayout } from '@/components/course-detail/CourseDetailLayout'
 import { mediaUrl } from '@/lib/headless'
+
+const AUTH_COOKIE_NAME = 'cef_auth'
+
+/** Parse cef_auth cookie (value is token|role) and return the token part, or null. */
+function getAuthTokenFromCookie(cookieStore: Awaited<ReturnType<typeof cookies>>): string | null {
+  const value = cookieStore.get(AUTH_COOKIE_NAME)?.value
+  if (!value) return null
+  try {
+    const decoded = decodeURIComponent(value)
+    const [token] = decoded.split('|')
+    return token?.trim() || null
+  } catch {
+    return null
+  }
+}
 
 type Props = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params
-  const course = await getCourseDetailBySlug(slug)
+  const cookieStore = await cookies()
+  const authToken = getAuthTokenFromCookie(cookieStore)
+  const course = await getCourseDetailBySlug(slug, authToken)
   if (!course) {
     return { title: 'Course Not Found' }
   }
@@ -34,10 +50,11 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function CourseDetailsPage({ params }: Props) {
   const { slug } = await params
-  const [course, allCourses, header] = await Promise.all([
-    getCourseDetailBySlug(slug),
+  const cookieStore = await cookies()
+  const authToken = getAuthTokenFromCookie(cookieStore)
+  const [course, allCourses] = await Promise.all([
+    getCourseDetailBySlug(slug, authToken),
     getCoursesWithDetails(20),
-    getPageHeader('course-details'),
   ])
   if (!course) notFound()
 
@@ -47,15 +64,9 @@ export default async function CourseDetailsPage({ params }: Props) {
 
   const pageTitle = course.course_details_left_content_area?.title ?? course.course_slug
   const coverImage = course.course_cover_image || '/placeholder-course.png'
-  const headerTitle = header?.title ?? 'Course Description'
-  const headerImageSrc = mediaUrl(header?.['header-image']) || '/1.png'
 
   return (
     <div className="w-full font-poppins">
-      <AboutHeader
-        title={headerTitle}
-        imageSrc={headerImageSrc}
-      />
       <div className="w-full px-4 lg:px-12">
         <div className="container mx-auto rounded-[20px] px-2 lg:px-2 pt-6 pb-6 overflow-hidden">
           {/* Course main image - full width within container, no border radius */}

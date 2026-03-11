@@ -20,7 +20,7 @@ export const CEFBookshopSection = ({ data }: CEFBookshopSectionProps) => {
   const image = mediaUrl(data?.image, '/CEF Shop Book.png')
 
   return (
-    <section className="w-full px-4 lg:px-10 py-12">
+    <section className="w-full px-4 lg:px-10 py-12 overflow-visible">
       <div
         className="
           relative
@@ -52,12 +52,13 @@ export const CEFBookshopSection = ({ data }: CEFBookshopSectionProps) => {
             className="
               w-full lg:w-[54%]
               text-center lg:text-left
-              pt-6 lg:pt-5
+              pt-8 lg:pt-12 pb-8 lg:pb-10
+              pl-4 pr-4 lg:pl-10 lg:pr-8
             "
           >
-            <Heading textSize="text-4xl lg:text-[2.5rem] ">{title}</Heading>
+            <Heading textSize="text-4xl lg:text-[2.5rem]">{title}</Heading>
 
-            <Text className="text-justify leading-relaxed px-2 lg:px-0 lg:pr-6 mt-4 mb-8 max-w-xl mx-auto lg:mx-0">
+            <Text className="text-justify leading-[1.3] mt-6 mb-8 max-w-xl mx-auto lg:mx-0 text-black">
               {description}
             </Text>
 
@@ -74,7 +75,7 @@ export const CEFBookshopSection = ({ data }: CEFBookshopSectionProps) => {
                 rounded-full
                 transition-all duration-300
                 hover:bg-white hover:text-[#065D80]
-                mb-8
+                mt-2
               "
             >
               CEF Bookshop
@@ -82,19 +83,21 @@ export const CEFBookshopSection = ({ data }: CEFBookshopSectionProps) => {
           </div>
         </div>
 
+        {/* Boy image: head above div, bottom touches div; object-cover + wide width to limit side crop */}
         <div
           className="
             hidden lg:block
-            absolute bottom-0 left-10
-            w-[36%] h-115
+            absolute left-10 top-[-5rem] bottom-0
+            w-[44%]
             pointer-events-none
+            z-0
           "
         >
           <Image
             src={image}
             alt={title}
             fill
-            className="object-cover"
+            className="object-cover object-bottom"
             priority
           />
         </div>

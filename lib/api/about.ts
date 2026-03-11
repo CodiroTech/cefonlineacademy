@@ -1,3 +1,4 @@
+import { getInstructors } from './academy'
 import { fetchCollection, fetchSingleContent, type HeadlessMedia } from '../headless'
 
 // --------------- Types ---------------
@@ -139,10 +140,24 @@ export async function getVisionMissionValuesPageData() {
 }
 
 export async function getTeachersPageData() {
-  const [sectionHeader, teachers] = await Promise.all([
+  const [sectionHeader, backendInstructors] = await Promise.all([
     getTeachersSectionHeader(),
-    getTeachers(),
+    getInstructors(),
   ])
+
+  const teachers: TeacherItem[] =
+    backendInstructors.length > 0
+      ? backendInstructors.map((i) => ({
+          name: i.name ?? '',
+          designation: i.professional_title ?? '',
+          description: i.about_me ?? '',
+          image: i.image_url
+            ? ({ full_url: i.image_url } as HeadlessMedia)
+            : undefined,
+          link: i.profile_url ?? undefined,
+        }))
+      : await getTeachers()
+
   return { sectionHeader, teachers }
 }
 

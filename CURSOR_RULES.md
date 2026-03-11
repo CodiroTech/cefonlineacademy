@@ -103,7 +103,7 @@ This file is the **app-specific** reference for **cef-online-academy**. The work
 - **`lib/backend.ts`:** `fetchBackend(path)` for cef-backend. Used for courses, blogs, products, search.
 - **`lib/api/homepage.ts`:** `getHomepageData()` — aggregates all homepage headless + backend calls; returns hero, steps, journey, excellence, offerings, missionKirdaar, listenLearn, quickActions, whyChooseUs, helpDesk, latestCourses (from backend). Logs full API URLs and response summaries for debugging.
 - **`lib/api/siteSettings.ts`:** `getSiteSettings()`, `buildSiteSettingsData()` — single content `site-settings` for logo, favicon, social links, footer text. Consumed by root layout and navbar/footer.
-- **`lib/api/pageHeaders.ts`:** `getAboutUsHeader()`, `getMediaCenterHeader()`, `getContactUsHeader()` — single content for `about-us` (158), `media-center` (159), `contact-us` (160) page headers (title, header-image).
+- **`lib/api/pageHeaders.ts`:** `getAboutPageHeader()`, `getMediaCenterPageHeader()`, `getContactPageHeader()`, `getPageHeader(slug)` — single content for page headers (title, header-image). Used by `app/api/page-header/route.ts` which applies static fallback titles when CMS data is missing.
 - **`lib/api/about.ts`:** Story, Vision/Mission/Values, Teachers section + teachers, Speakers section + speakers, Accreditations section + accreditations, Choose Us section. Collections: `our-story-section` (145), `vision-section` (146), `mission-section` (147), `values-section` (148), `our-teachers-section` (149), `teachers` (150), `our-speakers-section` (151), `speakers` (152), `our-accreditations-section` (153), `accreditations` (154), `choose-us-section` (155).
 - **`lib/api/mediaCenter.ts`:** Testimonials section header + testimonials (`testimonials-section` 133, `testimonial-items` 142), Listen & Learn / podcasts (`listen-and-learn` 136).
 - **`lib/api/contact.ts`:** Contact info single (`contact-us` 160), FAQs list (`faqs` 161). Help desk items still from homepage API (reused).
@@ -121,11 +121,18 @@ This file is the **app-specific** reference for **cef-online-academy**. The work
 - **Navbar:** Logo from `data['header-logo']?.full_url`, social links from same API; fallbacks to defaults.
 - **Footer:** Logo and footer text from API; fallbacks to defaults.
 
+### Page header (green banner)
+
+- **Source:** Headless page-level collections: `title` and `header-image` from the collection mapped to the current path. Fetched via `GET /api/page-header?path=<pathname>` (client-side from navbar).
+- **API:** `app/api/page-header/route.ts` maps pathname to a headless slug via `getSlugOrFetcher`, then calls `getAboutPageHeader()` / `getMediaCenterPageHeader()` / `getContactPageHeader()` or `getPageHeader(slug)` from `lib/api/pageHeaders.ts`. Returns `{ title, imageSrc }`; when headless returns no title or empty title, static fallback titles are used so the banner always shows for mapped paths.
+- **Fallbacks:** Static fallback titles live in the route: per-key (e.g. `about`, `contact`, `bookshop-page`, `blogs-page`, offerings pages) and path-specific for about sub-pages (e.g. `/about/teachers` → "Meet Our Teachers", `/about/vissionMissionValues` → "Vision, Mission & Values"). Default image when headless has no `header-image`: `/About Us Header.png`.
+- **Path-to-slug mapping:** `about/*` → about-us; `contact` → contact-us; `media-center` (incl. podcasts, testimonials) → media-center; `media-center/blogs` → blogs-page; `media-center/upcomingcourses` → upcoming-courses-page; `bookshop` → bookshop-page; `courses/quran-tutoring-courses` → quran-tutoring-courses-page; `courses/other-courses` → other-courses-page; `course-details/*` → course-details; `offerings/mentorship` → mentorship-page; same pattern for webinars, specialSeries, weeklySessions, workshops.
+
 ### Other pages (content from headless)
 
 - **About**
   - **`/about/vissionMissionValues`:** Page header (about-us) + our-story-section, vision-section, mission-section, values-section. Components: `AboutHeader`, `OurStorySection`, `VisionMissionValues`.
-  - **`/about/teachers`:** Page header + our-teachers-section (header) + teachers list. Component: `MeetOurTeachersSection`.
+  - **`/about/teachers`:** Page header + our-teachers-section (header, from headless) + teachers list (from cef-backend `GET /api/academy/instructors`; fallback to headless `teachers` collection if backend returns empty). Component: `MeetOurTeachersSection`.
   - **`/about/speakers`:** Page header + our-speakers-section (header) + speakers list. Component: `MeetOurSpeakers`.
   - **`/about/programs`:** Page header + our-accreditations-section (header) + accreditations list. Component: `OurPrograms`.
   - **`/about/whyChooseUs`:** Page header + choose-us-section (header) + Hallmarks of Excellence (same as homepage). Components: `ChooseUs`, `HallmarksOfExcellence`.
@@ -138,6 +145,7 @@ This file is the **app-specific** reference for **cef-online-academy**. The work
 ### Backend API endpoints used (cef-backend)
 
 - **`GET /api/academy/courses`:** List courses (homepage uses `?limit=2` for latest).
+- **`GET /api/academy/instructors`:** List featured, approved instructors (same as backend homepage "Teachers Who Inspire"); used by `/about/teachers` for the teachers list. Section title/description for that page come from headless `our-teachers-section`.
 - **`GET /api/academy/blogs`:** (Planned for blog listing.)
 - **`GET /api/academy/products`:** (Planned for bookshop.)
 - **`GET /api/academy/search`:** (Planned for global search.)
@@ -145,7 +153,7 @@ This file is the **app-specific** reference for **cef-online-academy**. The work
 ### Headless collections reference (project ID 3)
 
 - **Homepage:** site-settings (121), homepage-hero-section (122), how-it-works (124), journey (128), hallmarks-of-excellence (129), our-courses (130), offerings (131), mission-kirdaar (134), listen-and-learn (136), join-cef (137), why-choose-us (127), footer-help-desk (143), unlock-new (126) + homepage sections (141).
-- **Page headers:** about-us (158), media-center (159), contact-us (160).
+- **Page headers (title + header-image):** about-us (158), media-center (159), contact-us (160), course-details (162), bookshop-page (163), quran-tutoring-courses-page (164), other-courses-page (165), upcoming-courses-page (166), blogs-page (167), workshops-page (168), weekly-sessions-page (169), webinars-page (170), special-series-page (171), mentorship-page (172). Faqs (161) has header fields but is not currently used for a standalone page header route.
 - **About:** our-story-section (145), vision-section (146), mission-section (147), values-section (148), our-teachers-section (149), teachers (150), our-speakers-section (151), speakers (152), our-accreditations-section (153), accreditations (154), choose-us-section (155).
 - **Media / Contact:** testimonials-section (133), testimonial-items (142), listen-and-learn (136), contact-us (160), faqs (161).
 

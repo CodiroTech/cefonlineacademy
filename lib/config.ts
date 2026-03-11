@@ -7,6 +7,10 @@ export const headlessApiToken =
 export const backendBaseUrl =
   process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? ''
 
+/** Portal (Laravel) base URL. Used for Dashboard, checkout, and auth redirects so user is not asked to log in again. */
+export const portalUrl =
+  process.env.NEXT_PUBLIC_PORTAL_URL?.trim() ?? ''
+
 /** External CEF bookshop (e.g. cef.org.pk/shop). Used for "CEF Bookshop" nav links. */
 export const bookshopUrl =
   process.env.NEXT_PUBLIC_BOOKSHOP_URL ?? 'http://cef.org.pk/shop'

@@ -79,27 +79,28 @@ export const JourneyStepsSection = ({ steps: apiSteps }: JourneyStepsSectionProp
               />
 
               <div
-                className="absolute inset-0 m-4
+                className="absolute inset-0 my-4 mx-2
                            bg-white
                            rounded-tr-[3.5rem] rounded-bl-[3.5rem]
                            shadow-[8px_8px_8px_rgba(138,188,197,0.50),12px_12px_8px_rgba(138,188,197,0.10)]
-                           flex flex-col items-center justify-center
-                           text-center px-4
+                           flex flex-col items-center justify-start
+                           text-center px-2 pt-3 pb-4
                            z-15"
               >
-                <Image
-                  src={step.icon}
-                  alt={step.title}
-                  width={45}
-                  height={45}
-                  className="mb-2"
-                />
+                <div className="flex flex-col items-center w-full mb-3 min-h-[5rem] flex-shrink-0">
+                  <Image
+                    src={step.icon}
+                    alt={step.title}
+                    width={45}
+                    height={45}
+                    className="mb-2 shrink-0"
+                  />
+                  <h3 className="text-lg font-extrabold text-[#065D80] w-full min-h-[2rem] flex items-center justify-center">
+                    {step.title}
+                  </h3>
+                </div>
 
-                <h3 className="text-base font-extrabold text-[#065D80] mb-3">
-                  {step.title}
-                </h3>
-
-                <Text className=" text-balance mb-2 leading-snug">
+                <Text className="text-balance leading-[1.3] w-full text-[0.960rem] font-medium text-black">
                   {step.desc}
                 </Text>
               </div>

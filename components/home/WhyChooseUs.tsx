@@ -37,11 +37,13 @@ export const WhyChooseUs = ({ stats: apiStats }: WhyChooseUsProps) => {
     const interval = setInterval(() => {
       setCounters(prev =>
         prev.map((val, i) => {
-          if (val < stats[i].value) return val + 1
-          return val
+          const target = stats[i].value
+          if (val >= target) return val
+          const step = Math.max(1, Math.ceil((target - val) / 8))
+          return Math.min(val + step, target)
         })
       )
-    }, 50)
+    }, 25)
 
     return () => clearInterval(interval)
   }, [startCount, stats])
@@ -86,12 +88,12 @@ export const WhyChooseUs = ({ stats: apiStats }: WhyChooseUsProps) => {
 
               <div className="flex flex-col items-center text-center px-6">
 
-                <div className="h-14 flex items-center justify-center mb-2">
+                <div className={`flex items-center justify-center mb-2 ${item.label.toLowerCase().includes('student') ? 'h-16' : 'h-14'}`}>
                   <Image
                     src={item.icon}
                     alt={item.label}
-                    width={60}
-                    height={60}
+                    width={item.label.toLowerCase().includes('student') ? 86 : 60}
+                    height={item.label.toLowerCase().includes('student') ? 86 : 60}
                     className="object-contain"
                   />
                 </div>

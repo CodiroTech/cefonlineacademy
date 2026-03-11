@@ -49,7 +49,7 @@ export const JoinCEFSection = ({ data }: JoinCEFSectionProps) => {
           </div>
         )}
 
-        <Text className="max-w-2xl mx-auto mb-8 px-8">
+        <Text className="max-w-2xl mx-auto mb-8 px-8 text-black">
           {description}
         </Text>
 

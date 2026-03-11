@@ -104,7 +104,7 @@ export const HallmarksOfExcellence = ({
             {hallmarks.map((hallmark, index) => (
               <div
                 key={index}
-                className="bg-[#88bc44] rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-md hover:shadow-xl transition-all duration-300 flex flex-row items-center gap-4 text-left"
+                className="bg-[#88bc44] rounded-2xl sm:rounded-3xl py-5 px-3 sm:py-6 sm:px-4 shadow-md hover:shadow-xl transition-all duration-300 flex flex-row items-center gap-4 text-left"
               >
                 <div className="w-[20%] min-w-[56px] shrink-0 flex items-center justify-center">
                   <Image
@@ -119,7 +119,7 @@ export const HallmarksOfExcellence = ({
                   <h3 className="text-base sm:text-lg font-bold text-[#065D80] mb-2 leading-snug">
                     {hallmark.title}
                   </h3>
-                  <p className="text-sm sm:text-[15px] text-gray-700 leading-relaxed">
+                  <p className="text-sm sm:text-[15px] text-gray-700 leading-[1.3]">
                     {hallmark.description}
                   </p>
                 </div>
@@ -143,7 +143,7 @@ export const HallmarksOfExcellence = ({
                 key={index}
                 className="bg-linear-to-br from-[#88bc44] to-[#88bc44]
                            rounded-tr-[50px] rounded-bl-[50px]
-                           p-2 sm:p-4
+                           py-2 px-1.5 sm:py-4 sm:px-2
                            shadow-md hover:shadow-xl
                            transition-all duration-300 hover:scale-[1.02]
                            flex flex-col items-center text-center"
@@ -169,7 +169,7 @@ export const HallmarksOfExcellence = ({
                     )
                   })()}
                 </h3>
-                <Text className="text-[13px] text-balance text-white">
+                <Text className="text-[13px] text-balance text-white leading-[1.3]">
                   {hallmark.description}
                 </Text>
               </div>

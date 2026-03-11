@@ -53,11 +53,11 @@ const navigationItems: Array<NavigationItem> = [
     label: 'About us',
     hasDropdown: true,
     dropdownLinks: [
-      { label: 'Vision, Mission & Core Values', to: '/about/vissionMissionValues' },
+      { label: 'Vision, Mission & Core Values', to: '/about-us' },
       { label: 'Our Teachers', to: '/about/teachers' },
       { label: 'Our Speakers', to: '/about/speakers' },
-      { label: 'Our Accreditations', to: '/about/programs' },
-      { label: 'Why Choose Us?', to: '/about/whyChooseUs' },
+      // { label: 'Our Accreditations', to: '/about/programs' },
+      { label: 'Why Choose Us?', to: '/why-choose-cef' },
     ],
   },
   {
@@ -68,17 +68,17 @@ const navigationItems: Array<NavigationItem> = [
       { label: 'Other Courses', to: '/courses/other-courses' },
     ],
   },
-  {
-    label: 'Other Offerings',
-    hasDropdown: true,
-    dropdownLinks: [
-      { label: 'Weekly Learning Sessions', to: '/offerings/weeklySessions' },
-      { label: 'Special Series', to: '/offerings/specialSeries' },
-      { label: 'Webinars', to: '/offerings/webinars' },
-      { label: 'Workshops', to: '/offerings/workshops' },
-      { label: 'Mentorship Circles', to: '/offerings/mentorship' },
-    ],
-  },
+  // {
+  //   label: 'Other Offerings',
+  //   hasDropdown: true,
+  //   dropdownLinks: [
+  //     { label: 'Weekly Learning Sessions', to: '/offerings/weeklySessions' },
+  //     { label: 'Special Series', to: '/offerings/specialSeries' },
+  //     { label: 'Webinars', to: '/offerings/webinars' },
+  //     { label: 'Workshops', to: '/offerings/workshops' },
+  //     { label: 'Mentorship Circles', to: '/offerings/mentorship' },
+  //   ],
+  // },
   {
     label: 'Media Center',
     hasDropdown: true,
@@ -187,7 +187,7 @@ const navigationItems: Array<NavigationItem> = [
   },
   {
     label: 'Contact Us',
-    to: '/contact',
+    to: '/contact-us',
     hasDropdown: false,
     dropdownLinks: [],
   },
@@ -292,7 +292,7 @@ export const NavMenu = ({
     // Return a placeholder that matches the eventual structure
     return (
       <div className={menuProps.className}>
-        <ul className="gap-0 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:w-full relative group flex flex-1 list-none items-center justify-center">
+        <ul className="gap-0 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:w-full relative group flex flex-1 list-none items-center justify-start">
           {resolvedNavigationItems.map((item) => (
             <li key={item.label} className={isVertical ? 'w-full' : 'relative'}>
               {item.hasDropdown ? (
@@ -318,7 +318,7 @@ export const NavMenu = ({
 
   return (
     <NavigationMenu viewport={false} {...menuProps}>
-      <NavigationMenuList className="gap-0 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:w-full relative">
+      <NavigationMenuList className="flex items-center gap-0 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start data-[orientation=vertical]:w-full relative">
         {resolvedNavigationItems.map((item) =>
           item.hasDropdown ? (
             <NavigationMenuItem

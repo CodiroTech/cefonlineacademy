@@ -66,10 +66,11 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
     : fallbackSteps
 
   return (
-    <section className="w-full px-3 sm:px-4 lg:px-6 pt-1 pb-5">
-      <div className="container mx-auto bg-[#EAF7E5] rounded-[36px] px-3 sm:px-4 lg:px-6 pt-7 lg:pt-10 pb-3 lg:pb-6 flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0">
+    <section className="w-full pt-1 pb-5">
+      <div className="max-w-[1600px] mx-auto px-8 lg:px-20">
+        <div className="w-full bg-[#EAF7E5] rounded-[36px] pt-7 lg:pt-10 pb-3 lg:pb-6 pr-6 lg:pr-8 flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0">
 
-        <div className="relative z-20 w-full lg:w-[53%] space-y-4 pt-15 lg:pt-23 sm:pt-23">
+        <div className="relative z-20 w-full lg:w-[53%] space-y-4 pt-15 lg:pt-23 sm:pt-23 pl-6 pr-6 lg:pl-8 lg:pr-8">
           <Heading
             textSize="!text-xl sm:!text-2xl md:!text-3xl lg:!text-[39.5px]"
           >
@@ -96,15 +97,13 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
 
           <br />
 
-          <button
+          <Button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent('cef-open-demo-popup'))}
-            className="inline-block"
+            className="rounded-full px-3 sm:px-5 py-4 sm:py-5 text-xs lg:text-[16px] font-semibold bg-linear-to-r from-[#065D80] to-[#8DC63F] text-white hover:opacity-90 cursor-pointer"
           >
-            <Button className="rounded-full px-3 sm:px-5 py-4 sm:py-5 text-xs lg:text-[16px] font-semibold bg-linear-to-r from-[#065D80] to-[#8DC63F] text-white hover:opacity-90 cursor-pointer">
-              Register for Free Demo — Start Your Journey
-            </Button>
-          </button>
+            Register for Free Demo — Start Your Journey
+          </Button>
 
           <div className="flex flex-wrap gap-2 sm:gap-2 pt-1">
             <Link href="/courses/quran-tutoring-courses">
@@ -133,9 +132,9 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
           </div>
         </div>
 
-        <div className="w-full lg:w-[47%] flex flex-col sm:flex-row items-end justify-between gap-4 sm:gap-0 pb-1 lg:pb-0 overflow-hidden lg:overflow-visible">
+        <div className="w-full lg:w-[47%] flex flex-col sm:flex-row items-end lg:items-start justify-between gap-4 sm:gap-0 pb-1 lg:pb-0 overflow-hidden lg:overflow-visible">
 
-          <div className="relative z-0 w-full sm:flex-1 h-64 sm:h-80 md:h-120 lg:h-115 xl:h-115 pt-2 sm:pt-4 lg:pt-6 overflow-hidden">
+          <div className="relative z-0 w-full sm:flex-1 h-64 sm:h-80 md:h-120 lg:h-115 xl:h-115 pt-2 sm:pt-4 lg:pt-0 lg:mt-9 overflow-hidden">
             <Image
               src={heroImage}
               alt="Student Learning Quran"
@@ -156,7 +155,7 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
                   key={step.number}
                   className="flex items-center gap-3 py-4 px-4 sm:py-5 sm:px-5 border-b border-white/20 last:border-b-0 transition-transform duration-200 ease-out hover:scale-[1.5] origin-left"
                 >
-                  <div className="flex shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#8DC63F] text-white font-bold flex items-center justify-center text-sm -ml-0.5 border-2 border-[#065D80]">
+                  <div className="flex shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#8DC63F] text-white font-bold flex items-center justify-center text-lg -ml-0.5 border-2 border-[#065D80] shadow-[0_3px_8px_rgba(0,0,0,0.35)]">
                     {step.number}
                   </div>
                   <div className="flex shrink-0 items-center justify-center">
@@ -182,17 +181,17 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
           </div>
 
           {/* STEPS -- desktop */}
-          <div className="relative z-10 hidden lg:flex flex-col items-center w-full sm:w-auto lg:-translate-y-5">
+          <div className="relative z-10 hidden lg:flex flex-col items-center w-full sm:w-auto">
             <div className="mb-1.5 px-3 py-2 rounded-full bg-linear-to-r from-[#065D80] to-[#8DC63F] text-white text-xs sm:text-sm font-semibold">
               <strong>4 Easy Steps</strong>
             </div>
-            <div className="bg-[#065D80] rounded-tr-[36px] rounded-bl-[36px] px-3 sm:px-6 py-4 sm:py-6 w-full sm:w-28 md:w-26 flex flex-col justify-between gap-2 sm:gap-6">
+            <div className="overflow-visible bg-[#065D80] rounded-tr-[36px] rounded-bl-[36px] pl-3 pr-[11px] sm:pl-6 sm:pr-[23px] py-4 sm:py-6 w-[111px] flex flex-col justify-between gap-2 sm:gap-6">
               {steps.map((step) => (
                 <div
                   key={step.number}
-                  className="relative bg-white rounded-tr-3xl rounded-bl-3xl sm:py-2 text-center transition-transform duration-200 ease-out hover:scale-[1.5] cursor-default"
+                  className="relative overflow-visible bg-white rounded-tr-3xl rounded-bl-3xl min-h-[80px] py-[4px] px-[1px] text-center transition-transform duration-200 ease-out hover:scale-[1.5] cursor-default"
                 >
-                  <div className="absolute -top-2 sm:-top-3 -left-2 sm:-left-3 w-5 h-5 sm:w-5 sm:h-5 rounded-full bg-[#8DC63F] text-white text-[9px] sm:text-[10px] font-bold flex items-center justify-center">
+                  <div className="absolute -top-2 sm:-top-3 -left-2 sm:-left-3 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-[#8DC63F] text-white text-xs sm:text-sm font-bold flex items-center justify-center shadow-[0_3px_8px_rgba(0,0,0,0.35)]">
                     {step.number}
                   </div>
                   <div className="flex justify-center mt-1 sm:mt-0 mb-1">
@@ -204,10 +203,10 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
                       className="w-5 h-5 sm:w-6 sm:h-6"
                     />
                   </div>
-                  <h4 className="text-[7px] sm:text-[6px] font-extrabold text-[#065D80]">
+                  <h4 className="text-[9px] font-bold text-[#065D80]">
                     {step.title}
                   </h4>
-                  <Text className="text-[6px] mb-1.5 sm:mb-0 sm:text-[5px] text-[#414141] leading-tight">
+                  <Text className="text-[6px] mb-1.5 sm:mb-0 sm:text-[5px] text-black leading-tight">
                     {step.desc}
                   </Text>
                 </div>
@@ -216,6 +215,7 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
           </div>
 
         </div>
+      </div>
       </div>
     </section>
   )

@@ -6,7 +6,7 @@ import { Header } from '@/components/home/hero'
 import { JoinCEFSection } from '@/components/home/joincef'
 import { JourneyStepsSection } from '@/components/home/journey'
 import { MissionKirdaarSection } from '@/components/home/mkirdaar'
-import { OtherOfferingsSection } from '@/components/home/offerings'
+// import { OtherOfferingsSection } from '@/components/home/offerings'
 import { ListenLearnSection } from '@/components/home/podcasts'
 import { QuickActions } from '@/components/home/quickActions'
 import { TestimonialsSection } from '@/components/home/review'
@@ -27,7 +27,7 @@ export default async function Home() {
       <JourneyStepsSection steps={data.journeySteps} />
       <HallmarksOfExcellence heading="Hallmarks of Excellence" items={data.hallmarks} />
       <OurCoursesSection sections={data.courseSections} />
-      <OtherOfferingsSection items={data.offerings} />
+      {/* <OtherOfferingsSection items={data.offerings} /> */}
       <CEFBookshopSection data={data.bookshop} />
       <TestimonialsSection items={data.testimonials} />
       <MissionKirdaarSection items={data.missionKirdaar} />

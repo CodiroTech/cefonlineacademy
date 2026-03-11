@@ -100,7 +100,7 @@ export const MissionKirdaarSection = ({ items: apiItems }: MissionKirdaarSection
           className="
             mx-auto md:px-18
             max-w-3xl mt-2
-            leading-relaxed
+            text-center leading-[1.3] text-black
           "
         >
           {sectionDesc}

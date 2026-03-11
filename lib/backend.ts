@@ -1,17 +1,28 @@
 import { backendBaseUrl } from './config'
 
+export type FetchBackendOptions = {
+  /** When set, sends Authorization: Bearer <token> so backend returns auth-dependent data (e.g. course_exits, auth_role). */
+  authToken?: string | null
+}
+
 export async function fetchBackend<T = unknown>(
   path: string,
   revalidate = 60,
+  options?: FetchBackendOptions,
 ): Promise<T | null> {
   if (!backendBaseUrl) return null
 
   const isCourseDetail = path.includes('course/detail')
   const debug = process.env.NODE_ENV === 'development' && isCourseDetail
 
+  const headers: HeadersInit = {}
+  if (options?.authToken?.trim()) {
+    headers['Authorization'] = `Bearer ${options.authToken.trim()}`
+  }
+
   try {
     const url = `${backendBaseUrl}${path.startsWith('/') ? path : `/${path}`}`
-    const res = await fetch(url, { next: { revalidate } })
+    const res = await fetch(url, { next: { revalidate }, headers: Object.keys(headers).length ? headers : undefined })
     const data = await res.json().catch(() => null)
     if (!res.ok) {
       console.warn(`[backend] ${res.status} ${url}`, data ?? res.statusText)

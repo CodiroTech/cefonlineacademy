@@ -1,0 +1,100 @@
+'use client'
+
+import Image from 'next/image'
+import Link from 'next/link'
+import { Heading } from '@/components/common/heading'
+import { Subtitle } from '@/components/common/subtitle'
+import type { HelpDeskItem } from '@/lib/api/homepage'
+import { cefOrgBaseUrl } from '@/lib/config'
+import { mediaUrl } from '@/lib/headless'
+
+type LocalHelpItem = {
+  image: string
+  title: string
+  link: string
+}
+
+/** Paths on cef.org.pk (same as cef.org.pk helpdesk2). Contact Us stays in-app. */
+const helpDeskPaths: Record<string, string> = {
+  'Contact Us': '/contact-us',
+  Queries: '/queries',
+  Complaints: '/complaints',
+  'Book Sales Representative': '/book-sales-queries',
+  'Donation Representative': '/donation-queries',
+  Careers: '/hr-queries',
+}
+
+const base = cefOrgBaseUrl.replace(/\/$/, '')
+
+function getHelpDeskLink(title: string): string {
+  const path = helpDeskPaths[title] ?? '#'
+  if (title === 'Contact Us') return path
+  return `${base}${path.startsWith('/') ? path : `/${path}`}`
+}
+
+const fallbackItems: LocalHelpItem[] = [
+  { image: '/Contact Us.svg', title: 'Contact Us', link: '/contact-us' },
+  { image: '/Queries.svg', title: 'Queries', link: `${base}/queries` },
+  { image: '/Complaints.svg', title: 'Complaints', link: `${base}/complaints` },
+  { image: '/Book Sales.svg', title: 'Book Sales Representative', link: `${base}/book-sales-queries` },
+  { image: '/Donations.svg', title: 'Donation Representative', link: `${base}/donation-queries` },
+  { image: '/Careers.svg', title: 'Careers', link: `${base}/hr-queries` },
+]
+
+interface Props {
+  items?: HelpDeskItem[]
+}
+
+export const HelpDesk = ({ items }: Props) => {
+  const helpItems: LocalHelpItem[] = items && items.length > 0
+    ? items.map((item, i) => ({
+        image: mediaUrl(item.icon, fallbackItems[i]?.image ?? '/Contact Us.svg'),
+        title: item.title || fallbackItems[i]?.title || '',
+        link: getHelpDeskLink(item.title || fallbackItems[i]?.title || ''),
+      }))
+    : fallbackItems
+
+  return (
+    <section className="pb-16">
+      <div className="bg-[#EAF4F6] rounded-3xl w-[92%] lg:w-[82%] mx-auto py-10 px-4 lg:px-10">
+
+        <div className="text-center mb-6">
+          <Heading textSize="text-3xl lg:text-[2.66rem]">
+            Reach Our Help Desk
+          </Heading>
+          <Subtitle className="text-lg lg:text-xl">
+            Click me
+          </Subtitle>
+        </div>
+
+        <div className="flex flex-wrap lg:flex-nowrap justify-center gap-1 w-full lg:w-[70%] mx-auto">
+          {helpItems.map((item, index) => {
+            const isExternal = item.title !== 'Contact Us'
+            return (
+            <Link
+              key={index}
+              href={item.link}
+              className="w-full sm:w-1/2 lg:w-[20%] flex flex-col items-center gap-1 text-center cursor-pointer group"
+              {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
+            >
+              <div className="relative w-16 h-16">
+                <Image
+                  src={item.image}
+                  alt={item.title}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+
+              <span className="mt-2 text-md font-bold text-primary group-hover:underline">
+                {item.title}
+              </span>
+            </Link>
+            )
+          })}
+        </div>
+
+      </div>
+    </section>
+  )
+}

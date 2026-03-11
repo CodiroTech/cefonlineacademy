@@ -16,8 +16,8 @@ type HelpItem = {
 
 /** Paths on cef.org.pk for Help Desk (same as cef.org.pk helpdesk2). Contact Us and Queries stay in-app. */
 const helpDeskPaths: Record<string, string> = {
-  'Contact Us': '/contact',
-  Queries: '/contact#faqs',
+  'Contact Us': '/contact-us',
+  Queries: '/contact-us#faqs',
   Complaints: '/complaints',
   'Book Sales Representative': '/book-sales-queries',
   'Donation Representative': '/donation-queries',
@@ -33,8 +33,8 @@ function getHelpDeskLink(title: string): string {
 }
 
 const fallbackItems: HelpItem[] = [
-  { image: '/Contact Us.svg', title: 'Contact Us', link: '/contact' },
-  { image: '/Queries.svg', title: 'Queries', link: '/contact#faqs' },
+  { image: '/Contact Us.svg', title: 'Contact Us', link: '/contact-us' },
+  { image: '/Queries.svg', title: 'Queries', link: '/contact-us#faqs' },
   { image: '/Complaints.svg', title: 'Complaints', link: `${base}/complaints` },
   { image: '/Book Sales.svg', title: 'Book Sales Representative', link: `${base}/book-sales-queries` },
   { image: '/Donations.svg', title: 'Donation Representative', link: `${base}/donation-queries` },
@@ -65,12 +65,12 @@ export const HelpDesk = ({ items: apiItems }: HelpDeskProps) => {
           Reach Our Help Desk
         </Heading>
 
-        <Text className="text-lg lg:text-xl font-medium text-gray-600">
+        <Text className="text-lg lg:text-xl font-bold text-[#59595c]">
           Click me
         </Text>
       </div>
 
-      <div className="flex flex-wrap lg:flex-nowrap justify-center gap-2 lg:gap-3 w-full lg:max-w-6xl mx-auto">
+      <div className="flex flex-wrap lg:flex-nowrap justify-center gap-0.5 lg:gap-1 w-full lg:max-w-6xl mx-auto">
         {helpItems.map((item, index) => {
           const isExternal = item.title !== 'Contact Us' && item.title !== 'Queries'
           return (
@@ -83,7 +83,7 @@ export const HelpDesk = ({ items: apiItems }: HelpDeskProps) => {
               className="flex flex-col items-center text-center gap-1 group"
               {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
             >
-              <div className="relative w-16 h-16">
+              <div className="relative w-20 h-20">
                 <Image
                   src={item.image}
                   alt={item.title}

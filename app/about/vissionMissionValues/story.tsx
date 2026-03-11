@@ -26,55 +26,37 @@ export const OurStorySection = ({ data }: Props) => {
   )
 
   return (
-    <section className="w-full bg-white px-4 lg:px-12 py-12 lg:py-4 font-poppins">
-      <div className="container mx-auto max-w-7xl">
+    <section className="w-full bg-white py-12 lg:py-4 font-poppins">
+      <div className="w-full max-w-[1600px] mx-auto px-8 lg:px-20">
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] items-stretch gap-x-2 lg:gap-x-3">
 
-          {/* LEFT — IMAGES */}
-          <div
-            className="
-              flex gap-3 justify-center lg:justify-start
-              mb-6 lg:mb-0
-            "
-          >
-            <div
-              className="
-                w-52 sm:w-56 md:w-64 lg:w-75
-                h-130 md:h-130
-                lg:h-180 xl:h-140
-                overflow-hidden shadow-md
-              "
-            >
+          {/* LEFT — IMAGES (equal width, no fill so no height:100%) */}
+          <div className="flex gap-2 lg:gap-3 w-full mb-6 lg:mb-0">
+            <div className="flex-1 min-w-0 relative aspect-[3/4] overflow-hidden shadow-md">
               <Image
                 src={img1}
                 alt="Student learning Quran"
-                width={260}
-                height={320}
-                className="w-full h-full object-cover"
+                width={300}
+                height={400}
+                sizes="(max-width: 1024px) 50vw, 33vw"
+                className="w-full h-auto min-h-full min-w-full object-cover object-center"
               />
             </div>
-
-            <div
-              className="
-                w-52 sm:w-56 md:w-64 lg:w-75
-                h-130 md:h-130
-                lg:h-180 xl:h-140
-                overflow-hidden
-              "
-            >
+            <div className="flex-1 min-w-0 relative aspect-[3/4] overflow-hidden">
               <Image
                 src={img2}
                 alt="Teacher guiding student"
-                width={260}
-                height={320}
-                className="w-full h-full object-cover"
+                width={300}
+                height={400}
+                sizes="(max-width: 1024px) 50vw, 33vw"
+                className="w-full h-auto min-h-full min-w-full object-cover object-center"
               />
             </div>
           </div>
 
           {/* RIGHT — TEXT */}
-          <div className="lg:pl-6 xl:pl-0">
+          <div className="lg:pl-1">
 
             <div className="mb-1">
               <Heading textSize="text-3xl sm:text-4xl md:text-5xl">
@@ -83,7 +65,7 @@ export const OurStorySection = ({ data }: Props) => {
             </div>
 
             <div
-              className="space-y-3 text-justify text-[15px] leading-relaxed text-[#414141]"
+              className="space-y-3 text-justify text-[15px] font-medium leading-[1.4] text-[#414141]"
               dangerouslySetInnerHTML={{ __html: description }}
             />
 

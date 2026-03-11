@@ -20,6 +20,7 @@ type FooterColumn = {
   heading?: string
   links: Array<FooterLink>
   showSocial?: boolean
+  showSocialIconsOnly?: boolean
 }
 
 const footerColumns: Array<FooterColumn> = [
@@ -27,7 +28,7 @@ const footerColumns: Array<FooterColumn> = [
     heading: 'Quick Links',
     links: [
       { label: 'Home', href: '/' },
-      { label: 'About Us', href: '/about/vissionMissionValues' },
+      { label: 'About Us', href: '/about-us' },
       { label: 'Media Center', href: '/media-center/upcomingcourses' },
       { label: 'Contact Us', href: '/Contact' },
     ],
@@ -60,6 +61,7 @@ const footerColumns: Array<FooterColumn> = [
   {
     heading: 'CEF Website',
     links: [{ label: 'CEF Bookshop', href: bookshopUrl }],
+    showSocialIconsOnly: true,
   },
   {
     heading: 'Integrations',
@@ -171,36 +173,37 @@ export const Footer = ({ data }: FooterProps) => {
                       {column.showSocial && (
                         <>
                           <li className="pt-2">
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                              <span className="font-bold text-xs text-white whitespace-nowrap">
-                                Join Us
-                              </span>
-
-                              <div className="flex gap-2 mt-1 sm:mt-0">
-                                {socialLinks.map(({ icon: Icon, url, hoverColor }, idx) => (
-                                  <a
-                                    key={idx}
-                                    href={url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`grid h-7 w-7 place-items-center rounded-full bg-secondary transition-colors ${hoverColor}`}
-                                  >
-                                    <Icon className="h-4 w-4" />
-                                  </a>
-                                ))}
-                              </div>
-                            </div>
+                            <span className="font-bold text-xs text-white whitespace-nowrap">
+                              Join Us
+                            </span>
                           </li>
-
                           <li>
-<Link
-                            href="/career"
-                            className="text-white hover:text-secondary transition-colors"
-                          >
+                            <Link
+                              href="/career"
+                              className="text-white hover:text-secondary transition-colors"
+                            >
                               Career
                             </Link>
                           </li>
                         </>
+                      )}
+
+                      {column.showSocialIconsOnly && (
+                        <li className="pt-2">
+                          <div className="flex gap-2">
+                            {socialLinks.map(({ icon: Icon, url, hoverColor }, idx) => (
+                              <a
+                                key={idx}
+                                href={url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`grid h-7 w-7 place-items-center rounded-full bg-secondary transition-colors ${hoverColor}`}
+                              >
+                                <Icon className="h-4 w-4" />
+                              </a>
+                            ))}
+                          </div>
+                        </li>
                       )}
                     </ul>
                   </div>

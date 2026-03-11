@@ -20,21 +20,22 @@ interface AboutHeaderProps {
    * right → closer to image
    */
   align?: 'left' | 'right'
+
+  /** When true, render only the green box (no outer section wrapper). Use when inside navbar so one wrapper controls left spacing. */
+  embedded?: boolean
 }
 
-export const AboutHeader = ({
+const GreenBannerInner = ({
   title,
   imageSrc,
   imageAlt = title,
-  headingOffset = '20%',
+  headingOffset = '5%',
   align = 'right',
-}: AboutHeaderProps) => {
-  return (
-    <section className="w-full px-4 lg:px-12 pb-1">
-      <div
-        className="relative -z-6 container mx-auto bg-[#EAF7E5] rounded-[20px] px-6 lg:px-14 pt-12 pb-12 overflow-hidden"
-        style={{ ['--heading-offset' as any]: headingOffset }}
-      >
+}: AboutHeaderProps) => (
+  <div
+    className="relative -z-6 w-full bg-[#EAF7E5] rounded-xl px-6 lg:px-14 pt-12 pb-12 overflow-hidden"
+    style={{ ['--heading-offset' as any]: headingOffset }}
+  >
         {/* Decorative Circles */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <div className="absolute bottom-[20%] right-[39%] w-5 h-5 rounded-full bg-[#8BC34A] opacity-40" />
@@ -51,17 +52,10 @@ export const AboutHeader = ({
         {/* Heading */}
         <div className="relative z-20 flex items-center">
           {align === 'right' && (
-            <div
-              className="
-                shrink-0
-                w-(--heading-offset)
-                lg:w-[7%]
-                xl:w-(--heading-offset)
-              "
-            />
+            <div className="shrink-0 w-[19%] lg:w-[13%]" />
           )}
 
-          <div className="flex-1 ml-2 sm:ml-3 lg:ml-0">
+          <div className="flex-1 ml-2 sm:ml-4 lg:ml-6">
             <Heading
               textSize="!text-2xl sm:!text-3xl md:!text-4xl lg:!text-[42px]"
               leading="leading-tight"
@@ -82,7 +76,7 @@ export const AboutHeader = ({
           )}
         </div>
 
-        {/* Right Image */}
+        {/* Right Image - keep as-is (no rounding/border) */}
         <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden lg:block">
           <div className="relative w-28 h-28 sm:w-36 sm:h-36 overflow-hidden">
             <Image
@@ -96,8 +90,31 @@ export const AboutHeader = ({
         </div>
 
         {/* Right Strip */}
-        <div className="absolute top-0 right-0 h-full w-3 sm:w-3 bg-[#bccea4] z-0" />
-      </div>
+        <div className="absolute top-0 right-0 h-full w-3 sm:w-3 bg-[#88bc44a1] z-0" />
+  </div>
+)
+
+export const AboutHeader = ({
+  title,
+  imageSrc,
+  imageAlt = title,
+  headingOffset = '20%',
+  align = 'right',
+  embedded = false,
+}: AboutHeaderProps) => {
+  const inner = (
+    <GreenBannerInner
+      title={title}
+      imageSrc={imageSrc}
+      imageAlt={imageAlt}
+      headingOffset={headingOffset}
+      align={align}
+    />
+  )
+  if (embedded) return inner
+  return (
+    <section className="w-full max-w-7xl mx-auto px-6 pb-1">
+      {inner}
     </section>
   )
 }

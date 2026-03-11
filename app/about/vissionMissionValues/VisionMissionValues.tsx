@@ -26,8 +26,9 @@ export const VisionMissionValues = ({ vision, mission, values }: Props) => {
   const valuesImg = mediaUrl(values?.image, '/Our Values.png')
 
   return (
-    <section className="w-full px-3 lg:px-10 py-12">
-      <div className="relative mx-auto max-w-7xl bg-[#EAF4F6] rounded-[36px] px-5 lg:px-16 py-12 overflow-hidden">
+    <section className="w-full py-12">
+      <div className="w-full max-w-[1600px] mx-auto px-8 lg:px-20">
+        <div className="relative w-full bg-[#EAF4F6] rounded-[36px] px-5 lg:px-16 py-12 overflow-hidden">
 
         <div className="relative z-10 flex flex-col gap-10">
 
@@ -37,7 +38,7 @@ export const VisionMissionValues = ({ vision, mission, values }: Props) => {
               <Heading textSize="text-[1.6rem] lg:text-[2.8rem] text-center">
                 {visionTitle}
               </Heading>
-              <Text className="mt-1 text-[20px] leading-snug max-w-2xl text-start">
+              <Text className="mt-1 text-[20px] font-medium leading-snug max-w-2xl text-start">
                 {visionDesc}
               </Text>
             </div>
@@ -75,7 +76,7 @@ export const VisionMissionValues = ({ vision, mission, values }: Props) => {
               <Heading textSize="text-[1.6rem] lg:text-[2.8rem] text-start">
                 {missionTitle}
               </Heading>
-              <Text className="mt-6 text-[20px] leading-snug max-w-md mx-auto lg:mx-0 text-start">
+              <Text className="mt-6 text-[20px] font-medium leading-snug max-w-md mx-auto lg:mx-0 text-start">
                 {missionDesc}
               </Text>
             </div>
@@ -87,7 +88,7 @@ export const VisionMissionValues = ({ vision, mission, values }: Props) => {
               <Heading textSize="text-[1.6rem] lg:text-[2.8rem] text-end">
                 {valuesTitle}
               </Heading>
-              <Text className="mt-1 text-[20px] leading-snug max-w-md ml-auto text-end">
+              <Text className="mt-1 text-[20px] font-medium leading-snug max-w-md ml-auto text-end">
                 {valuesDesc}
               </Text>
             </div>
@@ -108,6 +109,7 @@ export const VisionMissionValues = ({ vision, mission, values }: Props) => {
 
         </div>
       </div>
+    </div>
     </section>
   )
 }

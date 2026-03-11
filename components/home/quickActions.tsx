@@ -165,7 +165,7 @@ export const QuickActions = ({ items: apiItems }: QuickActionsProps) => {
       </div>
 
       <Link
-        href="/contact"
+        href="/contact-us"
         className="fixed right-0 top-[calc(50%+20rem)] z-50 -translate-y-1/2 cursor-pointer"
       >
         <div

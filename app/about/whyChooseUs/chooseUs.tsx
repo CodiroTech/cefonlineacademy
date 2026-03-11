@@ -23,7 +23,7 @@ export const ChooseUs = ({ data }: Props) => {
           </Heading>
         </div>
 
-        <Text className="max-w-6xl mx-auto text-center px-6 mb-11">
+        <Text className="max-w-6xl mx-auto text-center mb-11 font-medium leading-[1.4]">
           {description}
         </Text>
 

@@ -195,8 +195,9 @@ function isFlatApiResponse(item: unknown): item is CourseDetailApiRaw {
 const DEBUG_COURSE_DETAIL = process.env.NODE_ENV === 'development'
 
 /** Fetch course detail by slug. Returns first element of API array or null if not found/error.
- * Tries exact slug first, then lowercase, since backend may store slugs in lowercase. */
-export async function getCourseDetailBySlug(slug: string): Promise<CourseDetailResponse | null> {
+ * Tries exact slug first, then lowercase, since backend may store slugs in lowercase.
+ * When authToken is provided, sends Bearer token so backend returns auth_role and course_exits for the user. */
+export async function getCourseDetailBySlug(slug: string, authToken?: string | null): Promise<CourseDetailResponse | null> {
   if (DEBUG_COURSE_DETAIL) {
     console.log('[course-detail] getCourseDetailBySlug called with slug:', JSON.stringify(slug))
     console.log('[course-detail] backendBaseUrl:', backendBaseUrl || '(empty - check NEXT_PUBLIC_BACKEND_BASE_URL)')
@@ -207,7 +208,11 @@ export async function getCourseDetailBySlug(slug: string): Promise<CourseDetailR
     const url = `${backendBaseUrl}${path.startsWith('/') ? path : `/${path}`}`
     if (DEBUG_COURSE_DETAIL) console.log('[course-detail] Requesting URL:', url)
 
-    const data = await fetchBackend<CourseDetailResponse[] | CourseDetailResponse | CourseDetailApiRaw | { message?: string }>(path, 0)
+    const data = await fetchBackend<CourseDetailResponse[] | CourseDetailResponse | CourseDetailApiRaw | { message?: string }>(
+      path,
+      0,
+      authToken ? { authToken } : undefined,
+    )
 
     if (DEBUG_COURSE_DETAIL) {
       if (data === null) {

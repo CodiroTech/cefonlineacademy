@@ -13,15 +13,27 @@ import { setAuthCookie } from '@/lib/auth-cookie'
 const BACKEND_BASE = process.env.NEXT_PUBLIC_BACKEND_BASE_URL || 'https://dev.cefonlineacademy.com/api'
 const LOGIN_URL = `${BACKEND_BASE.replace(/\/$/, '')}/login`
 
+export type LoginSuccessContext = {
+  token: string
+  role: string
+  intent?: 'enroll_free' | 'buy' | 'request_enrollment_live'
+  courseId?: number
+  slug?: string
+}
+
 type LoginPopupProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
   portalUrl: string
   stayOnPage?: boolean
   onJoinNow?: () => void
+  /** Called after login when stayOnPage is true. Parent can pass a handler that receives token/role and uses stored intent/courseId/slug to run the next step. */
+  onLoginSuccess?: (ctx: LoginSuccessContext) => void | Promise<void>
+  /** Optional context passed from parent (e.g. intent, courseId, slug) so onLoginSuccess receives it together with token/role. */
+  loginSuccessContext?: Pick<LoginSuccessContext, 'intent' | 'courseId' | 'slug'>
 }
 
-export function LoginPopup({ open, onOpenChange, portalUrl, stayOnPage = false, onJoinNow }: LoginPopupProps) {
+export function LoginPopup({ open, onOpenChange, portalUrl, stayOnPage = false, onJoinNow, onLoginSuccess, loginSuccessContext }: LoginPopupProps) {
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -56,6 +68,17 @@ export function LoginPopup({ open, onOpenChange, portalUrl, stayOnPage = false, 
         setAuthCookie(data.token, String(data.role))
         onOpenChange(false)
         if (stayOnPage) {
+          if (onLoginSuccess) {
+            try {
+              await onLoginSuccess({
+                token: data.token,
+                role: String(data.role),
+                ...loginSuccessContext,
+              })
+            } catch (err) {
+              console.warn('[LoginPopup] onLoginSuccess error', err)
+            }
+          }
           router.refresh()
           return
         }

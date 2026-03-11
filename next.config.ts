@@ -16,7 +16,13 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  /* config options here */
+  async redirects() {
+    return [
+      { source: '/contact', destination: '/contact-us', permanent: true },
+      { source: '/about/vissionMissionValues', destination: '/about-us', permanent: true },
+      { source: '/about/whyChooseUs', destination: '/why-choose-cef', permanent: true },
+    ]
+  },
 };
 
 export default nextConfig;

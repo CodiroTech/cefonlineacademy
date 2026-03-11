@@ -103,7 +103,7 @@ export const TestimonialsSection = ({ items: apiItems }: TestimonialsSectionProp
         </div>
 
         <div className="relative z-10">
-          <Subtitle className="text-lg sm:text-4xl font-semibold bg-linear-to-r from-[#065D80] to-[#8DC63F] bg-clip-text text-transparent">
+          <Subtitle className="text-lg sm:text-4xl font-bold bg-linear-to-r from-[#065D80] to-[#8DC63F] bg-clip-text text-transparent">
             Hear It from the
           </Subtitle>
 
@@ -129,8 +129,8 @@ export const TestimonialsSection = ({ items: apiItems }: TestimonialsSectionProp
             </button>
 
             <div className="flex flex-col lg:flex-row items-stretch gap-6 max-w-xl lg:max-w-2xl mx-auto">
-              <div className="relative w-40 h-40 sm:h-auto shrink-0 flex justify-center mx-auto lg:mx-0">
-                <div className="relative p-2 bg-white w-full h-52">
+              <div className="relative w-48 h-48 sm:h-auto shrink-0 flex justify-center mx-auto lg:mx-0">
+                <div className="relative p-2 bg-white w-full h-60 sm:h-64">
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -147,12 +147,12 @@ export const TestimonialsSection = ({ items: apiItems }: TestimonialsSectionProp
                 <div>
                   <h3 className="text-xl font-extrabold text-[#065D80]">{item.name}</h3>
                   <p className="text-base font-semibold text-[#8DC63F] mb-4">{item.country}</p>
-                  <Text className="text-justify leading-relaxed">
+                  <Text className="text-justify leading-[1.3] text-black">
                     {item.message}
                   </Text>
                 </div>
 
-                <div className="mt-10">
+                <div className="mt-6">
                   <Link
                     href="/media-center/testimonials"
                     className="inline-block px-7 py-2 text-sm font-semibold bg-[#065D80] text-white rounded-full border-2 border-[#065D80] transition-all duration-300 hover:bg-white hover:text-[#065D80]"

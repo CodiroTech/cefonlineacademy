@@ -20,7 +20,7 @@ function NavigationMenu({
       data-slot="navigation-menu"
       data-viewport={viewport}
       className={cn(
-        "group/navigation-menu mt-auto mb-3 relative flex max-w-max flex-1 items-center justify-center",
+        "group/navigation-menu mt-[30px] mb-0 relative z-[200] flex max-w-max flex-1 items-center justify-start",
         className
       )}
       {...props}
@@ -39,7 +39,7 @@ function NavigationMenuList({
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
       className={cn(
-        "group flex flex-1 list-none items-center justify-center gap-1",
+        "group flex flex-1 list-none items-center justify-start gap-1",
         className
       )}
       {...props}
@@ -77,7 +77,7 @@ function NavigationMenuTrigger({
     >
       {children}{" "}
       <ChevronDownIcon
-        className="relative top-px ml-1 size-4 transition duration-300 group-data-[state=open]:rotate-180 text-primary group-hover:text-[#0B5C6B]"
+        className="relative top-px ml-1 size-4 transition duration-300 group-data-[state=open]:rotate-180 text-secondary"
         aria-hidden="true"
       />
     </NavigationMenuPrimitive.Trigger>
@@ -93,7 +93,7 @@ function NavigationMenuContent({
       data-slot="navigation-menu-content"
       className={cn(
         // Main dropdown styles with improved positioning and z-index
-        "absolute left-0 top-full mt-2 min-w-50 z-100 rounded-b-4xl p-4 bg-white shadow-xl border border-gray-200",
+        "absolute left-0 top-full mt-2 min-w-50 z-[9999] rounded-b-4xl p-4 bg-white shadow-xl border border-gray-200",
         // Top border stripes: blue then green, matching the image exactly
         "before:content-[''] before:absolute before:left-0 before:top-0 before:w-full before:h-1 before:bg-[#085c7c] before:rounded-t-4xl before:z-1",
         "after:content-[''] after:absolute after:left-0 after:top-1 after:w-full after:h-1 after:bg-[#88bc44] after:z-1",
@@ -113,7 +113,7 @@ function NavigationMenuViewport({
   return (
     <div
       className={cn(
-        "absolute top-full left-0 isolate z-50 flex justify-center"
+        "absolute top-full left-0 isolate z-[9999] flex justify-center"
       )}
     >
       <NavigationMenuPrimitive.Viewport

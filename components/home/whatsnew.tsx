@@ -78,7 +78,7 @@ export const WhatsNewSection = ({ unlockNew, latestCourses }: WhatsNewSectionPro
   return (
     <section className="w-full px-4 lg:px-10 py-4 lg:py-6">
       <div
-        className="max-w-4xl mx-auto bg-[#EAF4F6]
+        className="max-w-4xl mx-auto bg-[#e6eff2]
         rounded-tl-[40px] rounded-br-[40px]
         px-6 sm:px-8 lg:px-10 py-6 lg:py-8"
       >
@@ -93,7 +93,7 @@ export const WhatsNewSection = ({ unlockNew, latestCourses }: WhatsNewSectionPro
               className="text-center lg:text-left"
             />
 
-            <Text className="text-justify text-[1rem] tracking-[0px]">
+            <Text className="text-justify text-[1rem] tracking-[0px] leading-snug">
               {sectionDesc}
             </Text>
 

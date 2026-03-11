@@ -23,6 +23,8 @@ import {
 } from '@/lib/api/demo'
 import { mediaUrl, stripHtml } from '@/lib/headless'
 import { cn } from '@/lib/utils'
+import { setAuthCookie } from '@/lib/auth-cookie'
+import type { LoginSuccessContext } from '@/components/auth/LoginPopup'
 
 function truncateToWords(text: string, maxWords: number): string {
   const words = text.trim().split(/\s+/)
@@ -98,9 +100,13 @@ type Props = {
   open: boolean
   onOpenChange: (open: boolean) => void
   preselectedCourse?: PreselectedCourse | null
+  /** When backend returns token on signup, run this with token + context to auto-complete next step (enroll/buy/live form). */
+  onSignupSuccess?: (ctx: LoginSuccessContext) => void | Promise<void>
+  /** Intent/courseId/slug passed from parent (e.g. when opened from course-details "Join Now") so onSignupSuccess can run the same next step. */
+  signupSuccessContext?: Pick<LoginSuccessContext, 'intent' | 'courseId' | 'slug'>
 }
 
-export function BookADemoPopup({ open, onOpenChange, preselectedCourse }: Props) {
+export function BookADemoPopup({ open, onOpenChange, preselectedCourse, onSignupSuccess, signupSuccessContext }: Props) {
   const [step, setStep] = useState(1)
   const [slideIndex, setSlideIndex] = useState(0)
   const [countries, setCountries] = useState<CountryItem[]>([])
@@ -303,6 +309,20 @@ export function BookADemoPopup({ open, onOpenChange, preselectedCourse }: Props)
     setSubmitLoading(false)
     if (res.status && res.message) {
       setSuccess(true)
+      if (res.token != null && res.role != null) {
+        setAuthCookie(res.token, String(res.role))
+        if (onSignupSuccess) {
+          try {
+            await onSignupSuccess({
+              token: res.token,
+              role: String(res.role),
+              ...signupSuccessContext,
+            })
+          } catch (err) {
+            console.warn('[BookADemoPopup] onSignupSuccess error', err)
+          }
+        }
+      }
       setTimeout(() => onOpenChange(false), 2500)
     } else {
       const raw =

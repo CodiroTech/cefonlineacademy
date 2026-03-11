@@ -87,7 +87,7 @@ export const InsightsSection = () => {
           </Heading>
         </div>
 
-        <Text className="text-center mb-8">
+        <Text className="text-center mb-8 text-black">
           Explore our latest blogs.
         </Text>
 
@@ -139,7 +139,7 @@ export const InsightsSection = () => {
                     <span className="font-semibold">{post.subtitle}</span>
                   </h3>
 
-                  <Text className="text-justify text-[14px] leading-relaxed">
+                  <Text className="text-justify leading-[1.3] text-black">
                     {post.description}
                   </Text>
                 </div>
