@@ -19,7 +19,7 @@ export function BlogListFromBackend({ blogs }: BlogListFromBackendProps) {
         <h2 className="text-2xl lg:text-3xl font-bold text-[#065D80] mb-6">Latest from the blog</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogs.map((blog) => {
-            const href = blog.slug ? `/blogs/${blog.slug}` : `/blogs/${blog.id}`
+            const href = blog.slug ? `/media-center/blogs/${blog.slug}` : `/media-center/blogs/${blog.id}`
             const imageUrl = blog.image_url || '/placeholder-course.png'
             return (
               <Link key={blog.id} href={href} className="group block bg-[#EAF7E5] rounded-[20px] overflow-hidden">

@@ -31,6 +31,8 @@ export type BackendBlogItem = {
   slug?: string
   excerpt?: string
   content?: string
+  /** Backend returns body as `details` */
+  details?: string
   image_url?: string | null
   author?: string
   published_at?: string
@@ -38,11 +40,23 @@ export type BackendBlogItem = {
 
 type BackendBlogsResponse = { success?: boolean; data?: BackendBlogItem[] }
 
-/** GET /api/academy/blogs */
-export async function getBlogs(): Promise<BackendBlogItem[]> {
-  const res = await fetchBackend<BackendBlogsResponse>('/academy/blogs')
+/** GET /api/academy/blogs — optional limit (backend default is 5). */
+export async function getBlogs(limit?: number): Promise<BackendBlogItem[]> {
+  const qs = limit != null ? `?limit=${Math.max(1, Math.min(500, limit))}` : ''
+  const res = await fetchBackend<BackendBlogsResponse>(`/academy/blogs${qs}`)
   const list = res?.data
   return Array.isArray(list) ? list : []
+}
+
+/** GET /api/academy/blog/{slug} — single blog by slug (backend returns 404 if not found). */
+export async function getBlogBySlug(slug: string): Promise<BackendBlogItem | null> {
+  const raw = (slug || '').trim()
+  if (!raw) return null
+  const path = `/academy/blog/${encodeURIComponent(raw)}`
+  const res = await fetchBackend<BackendBlogsResponse>(path, 60)
+  const data = res as { success?: boolean; data?: BackendBlogItem } | null
+  const one = data?.data
+  return one && !Array.isArray(one) ? (one as BackendBlogItem) : null
 }
 
 export type BackendInstructorItem = {

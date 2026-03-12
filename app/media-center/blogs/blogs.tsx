@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { Text } from '@/components/common/text'
 
 type ArticleCardProps = {
@@ -9,6 +10,7 @@ type ArticleCardProps = {
   author: string
   image: string
   reverse?: boolean
+  slug?: string | null
 }
 
 function ArticleCard({
@@ -17,34 +19,45 @@ function ArticleCard({
   author,
   image,
   reverse = false,
+  slug,
 }: ArticleCardProps) {
+  const content = (
+    <>
+      <div className="relative w-full lg:w-[24%] h-56 lg:h-58 mt-0 lg:-mt-11">
+        <Image
+          src={image}
+          alt={title}
+          fill
+          className="lg:object-cover object-contain"
+        />
+      </div>
+      <div className="w-full lg:w-[76%]">
+        <h2 className="text-[#065D80] font-bold">{title}</h2>
+        <Text className="text-justify text-[13px] lg:mt-6 font-medium leading-tight">
+          {description}
+        </Text>
+        <p className="mt-4 ml-1 font-medium text-[#065D80]">By: {author}</p>
+      </div>
+    </>
+  )
+
+  const wrapperClass = `relative max-w-6xl mx-auto
+    rounded-tr-[60px] rounded-bl-[60px]
+    px-6 lg:px-14 py-4
+    flex flex-col ${
+      reverse ? 'lg:flex-row-reverse bg-[#EAF7E5]' : 'lg:flex-row bg-[#EAF4F6]'
+    }
+    items-center lg:items-start gap-3`
+
   return (
     <section className="w-full px-4 lg:px-0 py-8">
-      <div
-        className={`relative max-w-6xl mx-auto
-        rounded-tr-[60px] rounded-bl-[60px]
-        px-6 lg:px-14 py-4
-        flex flex-col ${
-          reverse ? 'lg:flex-row-reverse bg-[#EAF7E5]' : 'lg:flex-row bg-[#EAF4F6]'
-        }
-        items-center lg:items-start gap-3`}
-      >
-        <div className="relative w-full lg:w-[24%] h-56 lg:h-58 mt-0 lg:-mt-11">
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className="lg:object-cover object-contain"
-          />
-        </div>
-        <div className="w-full lg:w-[76%]">
-          <h2 className="text-[#065D80] font-bold">{title}</h2>
-          <Text className="text-justify text-[13px] lg:mt-6 font-medium leading-tight">
-            {description}
-          </Text>
-          <p className="mt-4 ml-1 font-medium text-[#065D80]">By: {author}</p>
-        </div>
-      </div>
+      {slug ? (
+        <Link href={`/media-center/blogs/${slug}`} className={`block ${wrapperClass} hover:opacity-95 transition-opacity`}>
+          {content}
+        </Link>
+      ) : (
+        <div className={wrapperClass}>{content}</div>
+      )}
     </section>
   )
 }
@@ -61,6 +74,7 @@ export type InspiringMindsArticle = {
   author: string
   image: string
   reverse?: boolean
+  slug?: string | null
 }
 
 type InspiringMindsSectionProps = {
@@ -75,7 +89,7 @@ export default function InspiringMindsSection({ articles }: InspiringMindsSectio
   return (
     <div className="w-full font-poppins">
       {list.map((item, index) => (
-        <ArticleCard key={index} {...item} />
+        <ArticleCard key={item.slug ?? index} {...item} />
       ))}
     </div>
   )

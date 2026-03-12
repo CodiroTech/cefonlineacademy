@@ -24,6 +24,7 @@ const Page = async () => {
           description: stripHtml(b.excerpt ?? b.content ?? ''),
           author: b.author ?? '',
           image: b.image_url ?? '/placeholder-course.png',
+          slug: b.slug ?? null,
         }))
       : null;
 

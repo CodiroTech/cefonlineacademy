@@ -19,6 +19,9 @@ type BlogPost = {
   author: string
 }
 
+/** Max characters for description in the Insights card. Doubled from previous 300. */
+const INSIGHTS_DESCRIPTION_MAX_LENGTH = 600
+
 const FALLBACK_POSTS: BlogPost[] = [
   {
     id: 1,
@@ -49,13 +52,19 @@ const FALLBACK_POSTS: BlogPost[] = [
   },
 ]
 
+function trimDescription(text: string, maxLen: number): string {
+  const t = (text || '').trim()
+  if (t.length <= maxLen) return t
+  return t.slice(0, maxLen).trim() + '…'
+}
+
 function mapApiToPost(items: BlogArticleItem[]): BlogPost[] {
   return items.map((a, i) => ({
     id: i + 1,
     image: mediaUrl(a.image) || '/Insight & Inspiration.png',
     title: a.title ?? '',
     subtitle: '',
-    description: a.description ?? '',
+    description: trimDescription(a.description ?? '', INSIGHTS_DESCRIPTION_MAX_LENGTH),
     author: a.author ?? '',
   })).filter(p => p.title || p.description)
 }
@@ -66,7 +75,7 @@ function mapBackendToPost(blogs: BackendBlogItem[]): BlogPost[] {
     image: b.image_url ?? '/Insight & Inspiration.png',
     title: b.title ?? '',
     subtitle: '',
-    description: stripHtml(b.excerpt ?? b.content ?? ''),
+    description: trimDescription(stripHtml(b.excerpt ?? b.content ?? ''), INSIGHTS_DESCRIPTION_MAX_LENGTH),
     author: b.author ?? '',
   })).filter(p => p.title || p.description)
 }
