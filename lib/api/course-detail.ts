@@ -242,20 +242,25 @@ export async function getCourseDetailBySlug(slug: string, authToken?: string | n
     console.log('[course-detail] backendBaseUrl:', backendBaseUrl || '(empty - check NEXT_PUBLIC_BACKEND_BASE_URL)')
   }
 
-  const trySlug = async (s: string) => {
+  const trySlug = async (s: string, token?: string | null) => {
     const path = `/frontend/course/detail/${encodeURIComponent(s)}`
     const url = `${backendBaseUrl}${path.startsWith('/') ? path : `/${path}`}`
-    if (DEBUG_COURSE_DETAIL) console.log('[course-detail] Requesting URL:', url)
+    if (DEBUG_COURSE_DETAIL) console.log('[course-detail] Requesting URL:', url, token ? '(with auth)' : '(guest)')
 
-    const data = await fetchBackend<CourseDetailResponse[] | CourseDetailResponse | CourseDetailApiRaw | { message?: string }>(
+    let data = await fetchBackend<CourseDetailResponse[] | CourseDetailResponse | CourseDetailApiRaw | { message?: string; data?: unknown }>(
       path,
       0,
-      authToken ? { authToken } : undefined,
+      token?.trim() ? { authToken: token } : undefined,
     )
+
+    // Unwrap if backend returns { data: course } or { data: [course] }
+    if (data != null && typeof data === 'object' && !Array.isArray(data) && 'data' in data && (data as { data?: unknown }).data != null) {
+      data = (data as { data: unknown }).data as typeof data
+    }
 
     if (DEBUG_COURSE_DETAIL) {
       if (data === null) {
-        console.log('[course-detail] Response: null (backend error, non-200, or fetch threw — check [backend] logs above)')
+        console.warn('[course-detail] Response: null — backend returned error or NEXT_PUBLIC_BACKEND_BASE_URL is missing. Check .env.local and backend URL:', backendBaseUrl || '(empty)')
       } else if (Array.isArray(data)) {
         console.log('[course-detail] Response: array length =', data.length, data.length > 0 ? '(first item has course_id: ' + (data[0] && typeof data[0] === 'object' && 'course_id' in data[0]) + ')' : '')
       } else {
@@ -274,7 +279,11 @@ export async function getCourseDetailBySlug(slug: string, authToken?: string | n
     return null
   }
 
-  const result = await trySlug(slug)
+  let result = await trySlug(slug, authToken)
+  if (!result && authToken?.trim()) {
+    if (DEBUG_COURSE_DETAIL) console.log('[course-detail] 401 or error with auth — retrying as guest')
+    result = await trySlug(slug, undefined)
+  }
   if (result) {
     if (DEBUG_COURSE_DETAIL) console.log('[course-detail] Course found with slug:', slug)
     return result
@@ -282,10 +291,13 @@ export async function getCourseDetailBySlug(slug: string, authToken?: string | n
 
   if (DEBUG_COURSE_DETAIL) console.log('[course-detail] Exact slug not found, trying lowercase fallback')
 
-  // Backend often stores slugs in lowercase; try lowercase if exact match failed
   const slugLower = slug.toLowerCase()
   if (slugLower !== slug) {
-    const fallbackResult = await trySlug(slugLower)
+    let fallbackResult = await trySlug(slugLower, authToken)
+    if (!fallbackResult && authToken?.trim()) {
+      if (DEBUG_COURSE_DETAIL) console.log('[course-detail] 401 or error with auth (lowercase) — retrying as guest')
+      fallbackResult = await trySlug(slugLower, undefined)
+    }
     if (fallbackResult) {
       if (DEBUG_COURSE_DETAIL) console.log('[course-detail] Course found with lowercase slug:', slugLower)
       return fallbackResult

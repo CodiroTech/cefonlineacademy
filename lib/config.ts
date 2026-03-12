@@ -7,7 +7,7 @@ export const headlessApiToken =
 export const backendBaseUrl =
   process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? ''
 
-/** Portal (Laravel) base URL. Used for Dashboard, checkout, and auth redirects so user is not asked to log in again. */
+/** Portal (Laravel/SPA) base URL. Used for Dashboard, checkout, and auth redirects so user is not asked to log in again. */
 export const portalUrl =
   process.env.NEXT_PUBLIC_PORTAL_URL?.trim() ?? ''
 

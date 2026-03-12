@@ -10,7 +10,12 @@ export async function fetchBackend<T = unknown>(
   revalidate = 60,
   options?: FetchBackendOptions,
 ): Promise<T | null> {
-  if (!backendBaseUrl) return null
+  if (!backendBaseUrl) {
+    if (path.includes('course/detail')) {
+      console.warn('[backend] NEXT_PUBLIC_BACKEND_BASE_URL is not set — course detail requests will 404. Add it to .env.local')
+    }
+    return null
+  }
 
   const isCourseDetail = path.includes('course/detail')
   const debug = process.env.NODE_ENV === 'development' && isCourseDetail

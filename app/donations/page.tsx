@@ -1,4 +1,4 @@
-import { getDonationsPageData } from '@/lib/api/donations'
+import { getDonationsPageData, getDonationAccordionData } from '@/lib/api/donations'
 import DonationsClient from './DonationsClient'
 
 export const metadata = {
@@ -6,7 +6,15 @@ export const metadata = {
 }
 
 export default async function DonationsPage() {
-  const donationData = await getDonationsPageData()
+  const [donationData, accordionData] = await Promise.all([
+    getDonationsPageData(),
+    getDonationAccordionData(),
+  ])
 
-  return <DonationsClient donationData={donationData} />
+  return (
+    <DonationsClient
+      donationData={donationData}
+      accordionData={accordionData}
+    />
+  )
 }

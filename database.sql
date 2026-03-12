@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 10, 2026 at 09:54 PM
+-- Generation Time: Mar 11, 2026 at 09:06 PM
 -- Server version: 11.8.3-MariaDB-log
 -- PHP Version: 7.2.34
 
@@ -93,7 +93,12 @@ INSERT INTO `collections` (`id`, `name`, `slug`, `project_id`, `order`, `created
 (171, 'Special Series Page', 'special-series-page', 3, 171, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
 (172, 'Mentorship Page', 'mentorship-page', 3, 172, '2026-02-27 03:37:40', '2026-02-27 03:37:40', NULL),
 (173, 'Upcoming Courses Section', 'upcoming-courses-section', 3, 173, '2026-02-27 03:38:01', '2026-02-27 03:38:01', NULL),
-(174, 'Blog Article', 'blog-article', 3, 174, '2026-02-27 03:39:21', '2026-02-27 03:39:21', NULL);
+(174, 'Blog Article', 'blog-article', 3, 174, '2026-02-27 03:39:21', '2026-02-27 03:39:21', NULL),
+(175, 'Donations', 'donations', 3, 175, '2026-03-11 20:38:42', '2026-03-11 20:38:42', NULL),
+(176, 'Donation Banks', 'donation-banks', 3, 176, '2026-03-11 20:39:09', '2026-03-11 20:39:09', NULL),
+(177, 'Donation Sections', 'donation-sections', 3, 177, '2026-03-11 20:44:22', '2026-03-11 20:44:22', NULL),
+(178, 'Donation Categories', 'donation-categories', 3, 178, '2026-03-11 20:45:18', '2026-03-11 20:45:18', NULL),
+(179, 'Donation Causes', 'donation-causes', 3, 179, '2026-03-11 20:46:28', '2026-03-11 20:46:28', NULL);
 
 -- --------------------------------------------------------
 
@@ -286,7 +291,29 @@ INSERT INTO `collection_fields` (`id`, `type`, `label`, `name`, `description`, `
 (1056, 'number', 'Sort order', 'sort_number', NULL, NULL, '{}', '{}', 3, 174, 1056, '2026-02-27 03:39:21', '2026-02-27 03:39:21'),
 (1057, 'media', 'Footer Logo', 'footer-logo', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1057, '2026-03-05 02:17:37', '2026-03-05 02:17:37'),
 (1058, 'text', 'Footer CEF Text', 'footer-cef-text', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1058, '2026-03-05 02:25:47', '2026-03-05 02:25:47'),
-(1059, 'media', 'Footer CEF Logo', 'footer-cef-logo', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1059, '2026-03-05 02:26:38', '2026-03-05 02:26:38');
+(1059, 'media', 'Footer CEF Logo', 'footer-cef-logo', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 121, 1059, '2026-03-05 02:26:38', '2026-03-05 02:26:38'),
+(1060, 'text', 'Bank Name', 'bank-name', NULL, NULL, '{\"enumeration\":[],\"relation\":[],\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 176, 1060, '2026-03-11 20:39:34', '2026-03-11 20:39:34'),
+(1061, 'text', 'account title', 'account-title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 176, 1061, '2026-03-11 20:40:42', '2026-03-11 20:40:42'),
+(1062, 'text', 'IBAN', 'iban', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 176, 1062, '2026-03-11 20:40:46', '2026-03-11 20:40:46'),
+(1063, 'enumeration', 'donation type', 'donation-type', NULL, NULL, '{\"enumeration\":[\"General Donation\",\"Zakat Donation\"],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 176, 1063, '2026-03-11 20:41:14', '2026-03-11 20:41:14'),
+(1064, 'text', 'donation-tittle', 'donation-tittle', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 175, 1064, '2026-03-11 20:41:57', '2026-03-11 20:41:57'),
+(1068, 'slug', 'donation-slug', 'donation-slug', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":{\"field\":null},\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 175, 1068, '2026-03-11 20:42:14', '2026-03-11 20:42:14'),
+(1069, 'richtext', 'donation-desc', 'donation-desc', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 175, 1069, '2026-03-11 20:42:21', '2026-03-11 20:42:21'),
+(1070, 'relation', 'donation- banks relation', 'donation-banks-relation', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":{\"collection\":176,\"type\":\"2\"},\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 175, 1070, '2026-03-11 20:42:42', '2026-03-11 20:42:42'),
+(1071, 'longtext', 'Donations-info', 'donations-info', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 175, 1071, '2026-03-11 20:42:51', '2026-03-11 20:42:51'),
+(1072, 'longtext', 'quires support', 'quires-support', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 175, 1072, '2026-03-11 20:42:59', '2026-03-11 20:42:59'),
+(1073, 'media', 'image', 'image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 175, 1073, '2026-03-11 20:43:06', '2026-03-11 20:43:06'),
+(1074, 'media', 'Header Image', 'header-image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 175, 1074, '2026-03-11 20:43:14', '2026-03-11 20:43:14'),
+(1075, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 177, 1075, '2026-03-11 20:44:42', '2026-03-11 20:44:42'),
+(1076, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 178, 1076, '2026-03-11 20:45:27', '2026-03-11 20:45:27'),
+(1077, 'relation', 'Donation Section', 'donation-section', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":{\"collection\":177,\"type\":1},\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 178, 1077, '2026-03-11 20:46:03', '2026-03-11 20:46:03'),
+(1078, 'text', 'Title', 'title', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 179, 5, '2026-03-11 20:46:38', '2026-03-11 21:00:53'),
+(1079, 'media', 'Image', 'image', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 179, 4, '2026-03-11 20:46:50', '2026-03-11 21:00:53'),
+(1080, 'number', 'Default Amount', 'default-amount', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 179, 1, '2026-03-11 20:47:08', '2026-03-11 21:00:42'),
+(1081, 'boolean', 'Full / Partial', 'full-partial', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 179, 6, '2026-03-11 20:51:40', '2026-03-11 21:00:53'),
+(1082, 'media', 'Certificate', 'certificate', NULL, NULL, '{\"enumeration\":[],\"media\":{\"type\":1},\"relation\":[],\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 175, 1082, '2026-03-11 20:55:17', '2026-03-11 20:55:17'),
+(1083, 'relation', 'Category', 'category', NULL, NULL, '{\"enumeration\":[],\"media\":[],\"relation\":{\"collection\":178,\"type\":1},\"slug\":[],\"timepicker\":false,\"hideInContentList\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 179, 3, '2026-03-11 20:55:57', '2026-03-11 21:00:53'),
+(1084, 'relation', 'Section', 'section', NULL, NULL, '{\"enumeration\":[],\"relation\":{\"collection\":177,\"type\":1},\"slug\":[],\"hideInContentList\":false,\"hiddenInAPI\":false,\"repeatable\":false}', '{\"required\":{\"status\":false,\"message\":null},\"unique\":{\"status\":false,\"message\":null},\"charcount\":{\"status\":false,\"message\":null,\"type\":\"Between\",\"min\":null,\"max\":null}}', 3, 179, 2, '2026-03-11 20:59:01', '2026-03-11 21:00:53');
 
 -- --------------------------------------------------------
 
@@ -403,7 +430,14 @@ INSERT INTO `content` (`id`, `project_id`, `collection_id`, `locale`, `form_id`,
 (832, 3, 130, 'en', NULL, '2026-02-24 06:37:01', 1, '2026-02-24 06:41:52', 1, '2026-02-24 06:41:52', 1, NULL, 1),
 (833, 3, 130, 'en', NULL, '2026-02-24 07:28:26', 1, '2026-02-24 07:28:36', 1, '2026-02-24 07:28:36', 1, NULL, 2),
 (834, 3, 135, 'en', NULL, '2026-02-24 07:47:48', 1, '2026-02-24 07:47:48', NULL, '2026-02-24 07:47:48', 1, NULL, 1),
-(835, 3, 136, 'en', NULL, '2026-03-04 20:35:53', 1, '2026-03-04 20:35:53', NULL, '2026-03-04 20:35:53', 1, NULL, 2);
+(835, 3, 136, 'en', NULL, '2026-03-04 20:35:53', 1, '2026-03-04 20:35:53', NULL, '2026-03-04 20:35:53', 1, NULL, 2),
+(836, 3, 177, 'en', NULL, '2026-03-11 20:56:49', 1, '2026-03-11 20:56:49', NULL, '2026-03-11 20:56:49', 1, NULL, 1),
+(837, 3, 177, 'en', NULL, '2026-03-11 20:57:02', 1, '2026-03-11 20:57:02', NULL, '2026-03-11 20:57:02', 1, NULL, 2),
+(838, 3, 177, 'en', NULL, '2026-03-11 20:57:14', 1, '2026-03-11 20:57:14', NULL, '2026-03-11 20:57:14', 1, NULL, 3),
+(839, 3, 178, 'en', NULL, '2026-03-11 21:02:02', 1, '2026-03-11 21:02:02', NULL, '2026-03-11 21:02:02', 1, NULL, 1),
+(840, 3, 179, 'en', NULL, '2026-03-11 21:02:18', 1, '2026-03-11 21:02:18', NULL, '2026-03-11 21:02:18', 1, NULL, 1),
+(841, 3, 179, 'en', NULL, '2026-03-11 21:02:42', 1, '2026-03-11 21:02:42', NULL, '2026-03-11 21:02:42', 1, NULL, 2),
+(842, 3, 179, 'en', NULL, '2026-03-11 21:05:47', 1, '2026-03-11 21:05:47', NULL, '2026-03-11 21:05:47', 1, NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -812,7 +846,25 @@ INSERT INTO `content_meta` (`id`, `project_id`, `collection_id`, `content_id`, `
 (5777, 3, 136, 831, 'video-url', 'https://youtu.be/2rHVlYii_rc?si=uLXuHuHdlCqcra-F', '2026-03-04 20:36:20', '2026-03-04 20:36:20', NULL),
 (5778, 3, 121, 747, 'footer-logo', '1215', '2026-03-05 02:19:03', '2026-03-05 02:19:03', NULL),
 (5779, 3, 121, 747, 'footer-cef-text', 'Character Education Foundation (CEF) is an independent operational entity registered as a not-for-profit company set up under section 42 of the Companies Act, 2017.', '2026-03-05 02:26:15', '2026-03-05 02:26:15', NULL),
-(5780, 3, 121, 747, 'footer-cef-logo', '1217', '2026-03-05 02:27:25', '2026-03-05 02:27:25', NULL);
+(5780, 3, 121, 747, 'footer-cef-logo', '1217', '2026-03-05 02:27:25', '2026-03-05 02:27:25', NULL),
+(5781, 3, 177, 836, 'sort_number', '1', '2026-03-11 20:56:49', '2026-03-11 20:56:49', NULL),
+(5782, 3, 177, 836, 'title', 'Wherever Most Needed', '2026-03-11 20:56:49', '2026-03-11 20:56:49', NULL),
+(5783, 3, 177, 837, 'sort_number', '2', '2026-03-11 20:57:02', '2026-03-11 20:57:02', NULL),
+(5784, 3, 177, 837, 'title', 'Support the Mission', '2026-03-11 20:57:02', '2026-03-11 20:57:02', NULL),
+(5785, 3, 177, 838, 'title', 'Sponsorships & Appeals', '2026-03-11 20:57:14', '2026-03-11 20:57:14', NULL),
+(5786, 3, 177, 838, 'sort_number', '3', '2026-03-11 20:57:14', '2026-03-11 20:57:14', NULL),
+(5787, 3, 178, 839, 'title', 'Character Building Program', '2026-03-11 21:02:02', '2026-03-11 21:02:02', NULL),
+(5788, 3, 178, 839, 'donation-section', '837', '2026-03-11 21:02:02', '2026-03-11 21:02:02', NULL),
+(5789, 3, 178, 839, 'sort_number', '1', '2026-03-11 21:02:02', '2026-03-11 21:02:02', NULL),
+(5790, 3, 179, 840, 'default-amount', '100000', '2026-03-11 21:02:18', '2026-03-11 21:02:18', NULL),
+(5791, 3, 179, 840, 'section', '836', '2026-03-11 21:02:18', '2026-03-11 21:02:18', NULL),
+(5792, 3, 179, 840, 'sort_number', '1', '2026-03-11 21:02:18', '2026-03-11 21:02:18', NULL),
+(5793, 3, 179, 841, 'sort_number', '2', '2026-03-11 21:02:42', '2026-03-11 21:02:42', NULL),
+(5794, 3, 179, 841, 'default-amount', '50000', '2026-03-11 21:02:42', '2026-03-11 21:02:42', NULL),
+(5795, 3, 179, 841, 'section', '836', '2026-03-11 21:02:42', '2026-03-11 21:02:42', NULL),
+(5796, 3, 179, 842, 'sort_number', '3', '2026-03-11 21:05:47', '2026-03-11 21:05:47', NULL),
+(5797, 3, 179, 842, 'default-amount', '25000', '2026-03-11 21:05:47', '2026-03-11 21:05:47', NULL),
+(5798, 3, 179, 842, 'section', '836', '2026-03-11 21:05:47', '2026-03-11 21:05:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -1358,25 +1410,25 @@ ALTER TABLE `webhook_logs`
 -- AUTO_INCREMENT for table `collections`
 --
 ALTER TABLE `collections`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT for table `collection_fields`
 --
 ALTER TABLE `collection_fields`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1060;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1085;
 
 --
 -- AUTO_INCREMENT for table `content`
 --
 ALTER TABLE `content`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=836;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=843;
 
 --
 -- AUTO_INCREMENT for table `content_meta`
 --
 ALTER TABLE `content_meta`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5781;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5799;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`

@@ -18,8 +18,8 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
-import { getAuthCookie } from '@/lib/auth-cookie'
-import { bookshopUrl, portalUrl as configPortalUrl } from '@/lib/config'
+import { getAuthCookie, clearAuthCookie } from '@/lib/auth-cookie'
+import { bookshopUrl, portalUrl as configPortalUrl, backendBaseUrl } from '@/lib/config'
 import { AboutHeader } from '@/components/common/aboutHeader'
 import { enrollCourse, addToCart } from '@/lib/api/student-actions'
 
@@ -108,6 +108,36 @@ const Navbar01Page = ({ data }: NavbarProps) => {
   useEffect(() => {
     setIsLoggedIn(!!getAuthCookie()?.token)
   }, [])
+
+  const refreshAuthState = () => setIsLoggedIn(!!getAuthCookie()?.token)
+
+  const handleLogout = () => {
+    const auth = getAuthCookie()
+    const token = auth?.token
+    const base = (configPortalUrl || '').replace(/\/$/, '')
+
+    if (token && backendBaseUrl) {
+      const logoutApiUrl = `${backendBaseUrl.replace(/\/$/, '')}/logoutApi`
+      fetch(logoutApiUrl, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
+      }).catch(() => {})
+    }
+
+    clearAuthCookie()
+    setIsLoggedIn(false)
+    setSheetOpen(false)
+    router.refresh()
+
+    if (base) {
+      const portalLogoutUrl = `${base}/logout`
+      const iframe = document.createElement('iframe')
+      iframe.style.display = 'none'
+      iframe.src = portalLogoutUrl
+      document.body.appendChild(iframe)
+      setTimeout(() => document.body.removeChild(iframe), 3000)
+    }
+  }
   useEffect(() => {
     if (isHomePage || !pathname) {
       setPageHeader(null)
@@ -218,6 +248,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
             setLoginOptions(null)
             setLoginOpen(true)
           }}
+          onLogout={handleLogout}
           isLoggedIn={isLoggedIn}
         />
       </div>
@@ -230,9 +261,18 @@ const Navbar01Page = ({ data }: NavbarProps) => {
         <IoMdSearch className="w-5 h-5 lg:w-6 lg:h-6 text-primary cursor-pointer" />
       </Link>
       {isLoggedIn ? (
-        <Link href={portalUrl} target="_blank" rel="noopener noreferrer">
-          <Button variant="primarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Dashboard</Button>
-        </Link>
+        <>
+          <Link href={portalUrl} target="_blank" rel="noopener noreferrer">
+            <Button variant="primarySmall" className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!">Dashboard</Button>
+          </Link>
+          <Button
+            variant="secondarySmall"
+            className="lg:text-[0.45rem]! xl:text-[0.7rem]! 2xl:text-[0.9rem]! cursor-pointer whitespace-nowrap px-1.5! py-0.5! lg:px-2! 2xl:px-3! 2xl:py-1!"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </>
       ) : (
         <>
           <Button
@@ -335,7 +375,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
                   {renderButtons()}
                 </div>
               </div>
-              <div className={`ml-2 flex items-center ${pageHeader ? 'hidden lg:flex' : 'lg:hidden'}`}>
+              <div className="ml-2 flex items-center lg:hidden">
                 <NavigationSheet
                   data={data}
                   open={sheetOpen}
@@ -348,6 +388,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
                     setLoginOptions(null)
                     setLoginOpen(true)
                   }}
+                  onLogout={handleLogout}
                   isLoggedIn={isLoggedIn}
                 />
               </div>
@@ -404,7 +445,10 @@ const Navbar01Page = ({ data }: NavbarProps) => {
         />
         <LoginPopup
           open={loginOpen}
-          onOpenChange={setLoginOpen}
+          onOpenChange={(open) => {
+            setLoginOpen(open)
+            if (!open) refreshAuthState()
+          }}
           portalUrl={portalUrl}
           stayOnPage={loginOptions?.stayOnPage ?? false}
           loginSuccessContext={

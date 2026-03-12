@@ -3,17 +3,24 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { Heading } from '@/components/common/heading'
+import { Button } from '@/components/ui/button'
+import { AboutHeader } from '@/components/common/aboutHeader'
 import DonationSection2 from '@/components/donations/DonationSection2'
 import { DonationSubtotal } from '@/components/donations/DonationSubtotal'
 import { DonationCartModal } from '@/components/donations/DonationCartModal'
 import { useDonationCart } from '@/context/DonationCartContext'
+import { sanitizeApiContent } from '@/lib/sanitizeApiContent'
 import type { DonationsResponse } from '@/lib/types/donations'
+import type { DonationAccordionData } from '@/lib/api/donations'
+
+const DEFAULT_HEADER_IMAGE = '/About Us Header.png'
 
 interface Props {
   donationData: DonationsResponse | null
+  accordionData: DonationAccordionData
 }
 
-export default function DonationsClient({ donationData }: Props) {
+export default function DonationsClient({ donationData, accordionData }: Props) {
   const { setCartModalOpen, isCartModalOpen } = useDonationCart()
   const [fatwOpen, setFatwOpen] = useState(false)
 
@@ -26,22 +33,25 @@ export default function DonationsClient({ donationData }: Props) {
 
   const certImage = donationData?.image?.full_url || ''
   const headerImage = typeof donationData?.['header-image'] === 'string' ? donationData['header-image'] : donationData?.['header-image']?.full_url || ''
+  const pageHeaderImage = headerImage || DEFAULT_HEADER_IMAGE
 
   return (
     <>
       <DonationCartModal isOpen={isCartModalOpen} onOpenChange={setCartModalOpen} />
 
       <div className="min-h-screen">
+        {/* Cart bar first (donations-only), then same green page header as other pages (same width container as navbar) */}
         <DonationSubtotal onOpenCart={() => setCartModalOpen(true)} />
-
-        {headerImage && (
-          <div className="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden">
-            <Image src={headerImage} alt="Donations" fill className="object-cover" />
-            <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white">Donations</h1>
-            </div>
+        <div className="w-full max-w-[1600px] mx-auto px-0 lg:px-20">
+          <div className="relative z-[100] mt-2 pb-1">
+            <AboutHeader
+              title="Donations"
+              imageSrc={pageHeaderImage}
+              imageAlt="Donations"
+              embedded
+            />
           </div>
-        )}
+        </div>
 
         <div className="container mx-auto w-[90%] py-8 sm:py-12">
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
@@ -49,18 +59,18 @@ export default function DonationsClient({ donationData }: Props) {
               {description && (
                 <div className="mb-8 sm:mb-12">
                   <div className="text-[#414141] font-medium text-base 2xl:text-lg leading-snug text-justify"
-                    dangerouslySetInnerHTML={{ __html: description }} />
+                    dangerouslySetInnerHTML={{ __html: sanitizeApiContent(description) }} />
                 </div>
               )}
 
               <Heading textSize="text-2xl sm:text-3xl">For Donations Via Bank To Bank Transfer</Heading>
 
               {generalDonations.length > 0 && (
-                <div className="mb-2 mt-2">
+                <div className="mb-2 mt-2 animate-slide-left delay-500">
                   <h2 className="text-xl sm:text-2xl lg:text-2xl font-bold mb-2">
-                    <span className="text-[#065D80] font-bold">For General Donations</span>
+                    <span className="text-secondary font-bold">For General Donations</span>
                   </h2>
-                  <div className="overflow-x-auto -mx-4 xl:-mx-2 px-4 sm:mx-0 sm:px-0">
+                  <div className="overflow-x-auto scrollbar-hide -mx-4 xl:-mx-2 px-4 sm:mx-0 sm:px-0">
                     <table className="w-full min-w-[600px] 2xl:min-w-[650px] sm:min-w-0">
                       <thead>
                         <tr>
@@ -84,11 +94,11 @@ export default function DonationsClient({ donationData }: Props) {
               )}
 
               {zakatDonations.length > 0 && (
-                <div className="mb-2">
+                <div className="mb-2 animate-slide-left delay-500">
                   <h2 className="text-xl sm:text-2xl lg:text-2xl font-bold">
-                    <span className="text-[#065D80]">For Zakat Donations</span>
+                    <span className="text-secondary">For Zakat Donations</span>
                   </h2>
-                  <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 xl:-mx-2 sm:px-0">
+                  <div className="overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 xl:-mx-2 sm:px-0">
                     <table className="w-full min-w-[600px] 2xl:min-w-[650px] sm:min-w-0">
                       <thead>
                         <tr>
@@ -113,16 +123,16 @@ export default function DonationsClient({ donationData }: Props) {
             </div>
 
             {certImage && (
-              <div className="w-full lg:w-[20%] flex flex-col items-center mt-8 lg:mt-0">
+              <div className="w-full lg:w-[20%] flex flex-col items-center mt-8 lg:mt-0 animate-zoom-in delay-700">
                 <div className="relative mb-2">
-                  <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-60 lg:h-[22rem] 2xl:w-70 2xl:h-[24rem] bg-[#88bc44] rounded-full flex items-center justify-center p-2 sm:p-4">
-                    <Image src={certImage} alt="Certificate" width={300} height={400} className="w-[90%] 2xl:w-[85%] h-[80%] object-cover" />
+                  <div className="w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-60 lg:h-[22rem] 2xl:w-70 2xl:h-[24rem] bg-secondary rounded-full flex items-center justify-center p-2 sm:p-4">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={certImage} alt="Certificate" className="w-[90%] 2xl:w-[85%] h-[80%] object-cover" />
                   </div>
                 </div>
-                <button onClick={() => setFatwOpen(true)}
-                  className="bg-[#065D80] cursor-pointer text-white px-4 2xl:px-3 2xl:text-[14px] rounded-full font-bold text-xs">
+                <Button type="button" variant="primary" onClick={() => setFatwOpen(true)} className="rounded-full px-4 2xl:px-3 text-xs 2xl:text-[14px]">
                   View Fatwa for Zakat
-                </button>
+                </Button>
               </div>
             )}
           </div>
@@ -137,7 +147,7 @@ export default function DonationsClient({ donationData }: Props) {
 
           {infoText && (
             <div className="mt-2 border-b lg:pl-10 border-gray-400">
-              <div className="bg-[#065D80] mx-auto text-white px-3 sm:py-1 rounded-lg mb-3">
+              <div className="bg-primary mx-auto text-white px-3 sm:py-1 rounded-lg mb-3">
                 <p className="lg:text-[13px] text-xs 2xl:text-[16px] xl:text-center lg:whitespace-nowrap font-medium leading-relaxed">{infoText}</p>
               </div>
               <div className="mb-6 lg:mb-8">
@@ -146,7 +156,7 @@ export default function DonationsClient({ donationData }: Props) {
             </div>
           )}
 
-          <DonationSection2 onCartOpenChange={setCartModalOpen} />
+          <DonationSection2 accordionData={accordionData} onCartOpenChange={setCartModalOpen} />
         </div>
       </div>
     </>

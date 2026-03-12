@@ -33,13 +33,14 @@ export type NavigationSheetProps = {
   }
   onBookDemoOpen?: () => void
   onLoginOpen?: () => void
+  onLogout?: () => void
   isLoggedIn?: boolean
   /** Controlled mode: when set, sheet open state is controlled and no default trigger is rendered (caller renders trigger(s)). */
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }
 
-export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn, open, onOpenChange }: NavigationSheetProps) => {
+export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, onLogout, isLoggedIn, open, onOpenChange }: NavigationSheetProps) => {
   const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
@@ -124,20 +125,30 @@ export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn,
           <div className="border-t border-gray-200 pt-6 mt-6">
             <div className="flex flex-col gap-3">
 
-              {/* Dashboard (when logged in) or Student Login + Book a Demo */}
+              {/* Dashboard + Logout (when logged in) or Student Login + Book a Demo */}
               {isLoggedIn ? (
-                <Link
-                  href={(data?.['portal-url']?.trim() && /^https?:\/\//i.test(data['portal-url'].trim())) ? data['portal-url'].trim()! : 'https://cefonlineacademy.com/'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full"
-                >
-                  <Button
-                    className="w-full py-2.5 text-sm bg-[#0B5C6B] hover:bg-[#094a56] text-white cursor-pointer"
+                <>
+                  <Link
+                    href={(data?.['portal-url']?.trim() && /^https?:\/\//i.test(data['portal-url'].trim())) ? data['portal-url'].trim()! : 'https://cefonlineacademy.com/'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full"
                   >
-                    Dashboard
-                  </Button>
-                </Link>
+                    <Button
+                      className="w-full py-2.5 text-sm bg-[#0B5C6B] hover:bg-[#094a56] text-white cursor-pointer"
+                    >
+                      Dashboard
+                    </Button>
+                  </Link>
+                  {onLogout && (
+                    <Button
+                      className="w-full py-2.5 text-sm bg-[#8BC34A] hover:bg-[#79ad3f] text-white cursor-pointer"
+                      onClick={onLogout}
+                    >
+                      Logout
+                    </Button>
+                  )}
+                </>
               ) : (
                 <>
                   {onLoginOpen ? (
@@ -158,22 +169,21 @@ export const NavigationSheet = ({ data, onBookDemoOpen, onLoginOpen, isLoggedIn,
                   )}
                   {/* Book a Demo – GREEN */}
                   {onBookDemoOpen ? (
-                <Button
-                  className="w-full py-2.5 text-sm bg-[#8BC34A] hover:bg-[#79ad3f] text-white cursor-pointer"
-                  onClick={onBookDemoOpen}
-                >
-                  Book a Demo
-                </Button>
-              ) : (
-                <Link href="/book-demo" className="w-full">
-                  <Button
-                    className="w-full py-2.5 text-sm bg-[#8BC34A] hover:bg-[#79ad3f] text-white cursor-pointer"
-                  >
-                    Book a Demo
-                  </Button>
-                </Link>
-              )}
-
+                    <Button
+                      className="w-full py-2.5 text-sm bg-[#8BC34A] hover:bg-[#79ad3f] text-white cursor-pointer"
+                      onClick={onBookDemoOpen}
+                    >
+                      Book a Demo
+                    </Button>
+                  ) : (
+                    <Link href="/book-demo" className="w-full">
+                      <Button
+                        className="w-full py-2.5 text-sm bg-[#8BC34A] hover:bg-[#79ad3f] text-white cursor-pointer"
+                      >
+                        Book a Demo
+                      </Button>
+                    </Link>
+                  )}
                 </>
               )}
 
