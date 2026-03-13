@@ -54,14 +54,14 @@ export const Card = ({
   descriptionClassName,
   className: wrapperClass,
 }: CardProps) => {
-  return (
-    <div
-      className={`flex-1 mx-auto lg:mx-0
-                  ${growFullWidth ? 'min-w-0' : wrapperClass?.includes('max-w-') ? '' : 'max-w-sm'}
-                  ${bgVariants[variant]}
-                  rounded-tr-[60px] rounded-bl-[60px]
-                  ${paddingX} ${paddingY} min-h-130 flex flex-col ${wrapperClass ?? ''}`}
-    >
+  const cardClassName = `flex-1 mx-auto lg:mx-0
+    ${growFullWidth ? 'min-w-0' : wrapperClass?.includes('max-w-') ? '' : 'max-w-sm'}
+    ${bgVariants[variant]}
+    rounded-tr-[60px] rounded-bl-[60px]
+    ${paddingX} ${paddingY} min-h-130 flex flex-col ${wrapperClass ?? ''}`
+
+  const content = (
+    <>
       {/* IMAGE */}
       <div className="w-full flex items-center justify-center mb-6">
         <div
@@ -99,7 +99,7 @@ export const Card = ({
         {description}
       </Text>
 
-      {/* LEARN MORE - button (opens modal) or link */}
+      {/* LEARN MORE - button (opens modal) or span when whole card is link */}
       {(onLearnMore || link) && (
         <div className="text-center mt-auto">
           {onLearnMore ? (
@@ -111,17 +111,23 @@ export const Card = ({
             >
               Learn More
             </button>
-          ) : link ? (
-            <Link
-              href={link}
-              className="inline-block text-[#8DC63F] font-semibold text-sm
-                         hover:text-[#7CB342] transition-colors underline"
-            >
+          ) : (
+            <span className="inline-block text-[#8DC63F] font-semibold text-sm">
               Learn More
-            </Link>
-          ) : null}
+            </span>
+          )}
         </div>
       )}
-    </div>
+    </>
   )
+
+  if (link && !onLearnMore) {
+    return (
+      <Link href={link} className={`${cardClassName} block cursor-pointer hover:opacity-95 transition-opacity`}>
+        {content}
+      </Link>
+    )
+  }
+
+  return <div className={cardClassName}>{content}</div>
 }

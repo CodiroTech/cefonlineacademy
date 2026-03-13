@@ -17,6 +17,7 @@ type BlogPost = {
   subtitle: string
   description: string
   author: string
+  slug?: string | null
 }
 
 /** Max characters for description in the Insights card. Doubled from previous 300. */
@@ -77,6 +78,7 @@ function mapBackendToPost(blogs: BackendBlogItem[]): BlogPost[] {
     subtitle: '',
     description: trimDescription(stripHtml(b.excerpt ?? b.content ?? ''), INSIGHTS_DESCRIPTION_MAX_LENGTH),
     author: b.author ?? '',
+    slug: b.slug ?? null,
   })).filter(p => p.title || p.description)
 }
 
@@ -160,52 +162,75 @@ export const InsightsSection = ({ items: apiItems, backendBlogs }: InsightsSecti
             <ChevronLeft size={22} />
           </button>
 
-          {/* Background Card */}
-          <div
-            className="
-              flex-1
-              bg-[#EAF7E5]
-              rounded-tr-[70px] rounded-bl-[70px]
-              px-8 lg:px-12
-              py-5 lg:py-6   /* 🔥 reduced height */
-              mx-auto
-            "
-            style={{ maxWidth: '100%' }} /* 🔥 wider card */
-          >
-            <div className="flex flex-col lg:flex-row items-stretch gap-6 lg:gap-4">
-              
-              {/* Image */}
-              <div className="w-full lg:w-[45%] shrink-0">
-                <div className="relative w-full h-104 lg:h-110 xl:h-100"> {/* 🔥 increased image height */}
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                  />
+          {/* Background Card - full card clickable when post has slug */}
+          {post.slug ? (
+            <Link
+              href={`/media-center/blogs/${post.slug}`}
+              className="flex-1 block mx-auto cursor-pointer hover:opacity-95 transition-opacity bg-[#EAF7E5] rounded-tr-[70px] rounded-bl-[70px] px-8 lg:px-12 py-5 lg:py-6"
+              style={{ maxWidth: '100%' }}
+            >
+              <div className="flex flex-col lg:flex-row items-stretch gap-6 lg:gap-4">
+                <div className="w-full lg:w-[45%] shrink-0">
+                  <div className="relative w-full h-104 lg:h-110 xl:h-100">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
-              </div>
-
-              {/* Text */}
-              <div className="w-full lg:w-[55%] flex flex-col justify-between py-1">
-                <div className="space-y-4">
-                  <h3 className="text-xl sm:text-2xl lg:text-[20px] font-bold text-[#065D80] leading-tight">
-                    {post.title}
-                    <br />
-                    <span className="font-semibold">{post.subtitle}</span>
-                  </h3>
-
-                  <Text className="text-justify leading-[1.3] text-black">
-                    {post.description}
+                <div className="w-full lg:w-[55%] flex flex-col justify-between py-1">
+                  <div className="space-y-4">
+                    <h3 className="text-xl sm:text-2xl lg:text-[20px] font-bold text-[#065D80] leading-tight">
+                      {post.title}
+                      <br />
+                      <span className="font-semibold">{post.subtitle}</span>
+                    </h3>
+                    <Text className="text-justify leading-[1.3] text-black">
+                      {post.description}
+                    </Text>
+                  </div>
+                  <Text className="font-semibold mt-3">
+                    By: {post.author}
                   </Text>
                 </div>
-
-                <Text className=" font-semibold mt-3">
-                  By: {post.author}
-                </Text>
+              </div>
+            </Link>
+          ) : (
+            <div
+              className="flex-1 bg-[#EAF7E5] rounded-tr-[70px] rounded-bl-[70px] px-8 lg:px-12 py-5 lg:py-6 mx-auto"
+              style={{ maxWidth: '100%' }}
+            >
+              <div className="flex flex-col lg:flex-row items-stretch gap-6 lg:gap-4">
+                <div className="w-full lg:w-[45%] shrink-0">
+                  <div className="relative w-full h-104 lg:h-110 xl:h-100">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+                <div className="w-full lg:w-[55%] flex flex-col justify-between py-1">
+                  <div className="space-y-4">
+                    <h3 className="text-xl sm:text-2xl lg:text-[20px] font-bold text-[#065D80] leading-tight">
+                      {post.title}
+                      <br />
+                      <span className="font-semibold">{post.subtitle}</span>
+                    </h3>
+                    <Text className="text-justify leading-[1.3] text-black">
+                      {post.description}
+                    </Text>
+                  </div>
+                  <Text className="font-semibold mt-3">
+                    By: {post.author}
+                  </Text>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Right Arrow */}
           <button

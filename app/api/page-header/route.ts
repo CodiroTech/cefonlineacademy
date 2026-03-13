@@ -17,7 +17,7 @@ function getSlugOrFetcher(pathname: string): string | 'about' | 'contact' | 'med
   if (path.startsWith('media-center/podcasts') || path.startsWith('media-center/testimonials'))
     return 'media-center'
   if (path.startsWith('media-center/blogs')) return 'blogs-page'
-  if (path.startsWith('media-center/upcomingcourses')) return 'upcoming-courses-page'
+  if (path.startsWith('media-center/upcoming-courses') || path.startsWith('media-center/upcomingcourses')) return 'upcoming-courses-page'
   if (path === 'bookshop') return 'bookshop-page'
   if (path.startsWith('courses/quran-tutoring-courses')) return 'quran-tutoring-courses-page'
   if (path.startsWith('courses/other-courses')) return 'other-courses-page'

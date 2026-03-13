@@ -6,11 +6,24 @@
 const COOKIE_NAME = 'cef_auth'
 const MAX_AGE_DAYS = 7
 
+/** Sanctum tokens are long strings (e.g. 40+ chars); reject short numeric values that are likely user id. */
+export function isLikelySanctumToken(value: string | null | undefined): boolean {
+  if (!value || typeof value !== 'string') return false
+  const t = value.trim()
+  if (t.length < 20) return false
+  if (/^\d+$/.test(t)) return false
+  return true
+}
+
 function getAuthDomain(): string {
-  if (typeof process === 'undefined' || !process.env.NEXT_PUBLIC_CEF_AUTH_DOMAIN) {
-    return ''
+  if (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_CEF_AUTH_DOMAIN) {
+    return process.env.NEXT_PUBLIC_CEF_AUTH_DOMAIN.trim()
   }
-  return process.env.NEXT_PUBLIC_CEF_AUTH_DOMAIN.trim()
+  // In dev, share cookie across localhost:3000 (academy) and localhost:5173 (portal) so enrollment state is consistent
+  if (typeof window !== 'undefined' && window.location?.hostname === 'localhost') {
+    return 'localhost'
+  }
+  return ''
 }
 
 /**
@@ -19,6 +32,7 @@ function getAuthDomain(): string {
  */
 export function setAuthCookie(token: string, role: string): void {
   if (typeof document === 'undefined') return
+  if (!isLikelySanctumToken(token)) return
   const domain = getAuthDomain()
   const value = encodeURIComponent(`${token}|${role}`)
   const maxAge = MAX_AGE_DAYS * 24 * 60 * 60
@@ -39,7 +53,18 @@ export function getAuthCookie(): { token: string; role: string } | null {
   if (!match) return null
   try {
     const decoded = decodeURIComponent(match[1])
-    const [token, role] = decoded.split('|')
+    const parts = decoded.split('|').map((s) => s?.trim() ?? '')
+    let token: string
+    let role: string
+    if (parts.length >= 3) {
+      token = `${parts[0]}|${parts[1]}`
+      role = parts[2]
+    } else if (parts.length === 2) {
+      token = parts[0]
+      role = parts[1]
+    } else {
+      return null
+    }
     if (token && role) return { token, role }
   } catch {
     // ignore malformed

@@ -29,7 +29,7 @@ const footerColumns: Array<FooterColumn> = [
     links: [
       { label: 'Home', href: '/' },
       { label: 'About Us', href: '/about-us' },
-      { label: 'Media Center', href: '/media-center/upcomingcourses' },
+      { label: 'Media Center', href: '/media-center/upcoming-courses' },
       { label: 'Contact Us', href: '/Contact' },
     ],
   },

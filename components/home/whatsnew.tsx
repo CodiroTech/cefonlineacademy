@@ -99,7 +99,7 @@ export const WhatsNewSection = ({ unlockNew, latestCourses }: WhatsNewSectionPro
 
             <div className="w-full flex justify-center pt-4">
               <Link
-                href="/media-center/upcomingcourses"
+                href="/media-center/upcoming-courses"
                 className="inline-block text-[#8DC63F] font-semibold text-sm sm:text-base
                 hover:text-[#065D80] transition-colors
                 border-b-2 border-[#8DC63F] hover:border-[#065D80] pb-0.5"

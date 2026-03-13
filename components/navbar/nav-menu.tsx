@@ -83,7 +83,7 @@ const navigationItems: Array<NavigationItem> = [
     label: 'Media Center',
     hasDropdown: true,
     dropdownLinks: [
-      { label: 'Upcoming Courses/sessions', to: '/media-center/upcomingcourses' },
+      { label: 'Upcoming Courses/sessions', to: '/media-center/upcoming-courses' },
       { label: 'Testimonials', to: '/media-center/testimonials' },
       { label: 'Blogs', to: '/media-center/blogs' },
       { label: 'Podcasts', to: '/media-center/podcasts' },

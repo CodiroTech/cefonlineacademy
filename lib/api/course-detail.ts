@@ -159,6 +159,10 @@ export type CourseDetailApiRaw = {
   btn_text?: string | null
   btn_api_route?: string | null
   students_enrolled?: number
+  course_exits?: 'enrolled' | 'cartList' | 0
+  auth_role?: number | null
+  already_requested_enrollment?: boolean
+  course_learner_accessibility?: string | null
 }
 
 /** Map flat API response (overview, lessons, reviews, instructors) to CourseDetailResponse. */
@@ -205,6 +209,7 @@ function normalizeCourseDetailResponse(raw: CourseDetailApiRaw): CourseDetailRes
     course_video_lectures: overview.total_lessons != null ? String(overview.total_lessons) : null,
     course_accessPeriod: overview.duration ?? undefined,
     students_enrolled: raw.students_enrolled,
+    course_learner_accessibility: raw.course_learner_accessibility ?? undefined,
   }
   return {
     course_id: raw.course_id,
@@ -212,10 +217,10 @@ function normalizeCourseDetailResponse(raw: CourseDetailApiRaw): CourseDetailRes
     course_cover_image: raw.course_image ?? '',
     course_details_left_content_area: left,
     course_details_right_content_area: right,
-    course_exits: 0,
-    auth_role: null,
+    course_exits: raw.course_exits !== undefined ? raw.course_exits : 0,
+    auth_role: raw.auth_role !== undefined ? raw.auth_role : null,
     auth_user_student_id: null,
-    already_requested_enrollment: false,
+    already_requested_enrollment: raw.already_requested_enrollment ?? false,
     btn_text: raw.btn_text ?? null,
     btn_api_route: raw.btn_api_route ?? null,
   }
@@ -233,10 +238,20 @@ function isFlatApiResponse(item: unknown): item is CourseDetailApiRaw {
 
 const DEBUG_COURSE_DETAIL = process.env.NODE_ENV === 'development'
 
+export type GetCourseDetailOptions = {
+  /** When true, do not retry as guest on 401; return null so caller can keep server state. Use from client CTA refetch. */
+  noGuestFallback?: boolean
+}
+
 /** Fetch course detail by slug. Returns first element of API array or null if not found/error.
  * Tries exact slug first, then lowercase, since backend may store slugs in lowercase.
  * When authToken is provided, sends Bearer token so backend returns auth_role and course_exits for the user. */
-export async function getCourseDetailBySlug(slug: string, authToken?: string | null): Promise<CourseDetailResponse | null> {
+export async function getCourseDetailBySlug(
+  slug: string,
+  authToken?: string | null,
+  options?: GetCourseDetailOptions,
+): Promise<CourseDetailResponse | null> {
+  const noGuestFallback = options?.noGuestFallback === true
   if (DEBUG_COURSE_DETAIL) {
     console.log('[course-detail] getCourseDetailBySlug called with slug:', JSON.stringify(slug))
     console.log('[course-detail] backendBaseUrl:', backendBaseUrl || '(empty - check NEXT_PUBLIC_BACKEND_BASE_URL)')
@@ -280,7 +295,7 @@ export async function getCourseDetailBySlug(slug: string, authToken?: string | n
   }
 
   let result = await trySlug(slug, authToken)
-  if (!result && authToken?.trim()) {
+  if (!result && authToken?.trim() && !noGuestFallback) {
     if (DEBUG_COURSE_DETAIL) console.log('[course-detail] 401 or error with auth — retrying as guest')
     result = await trySlug(slug, undefined)
   }
@@ -294,7 +309,7 @@ export async function getCourseDetailBySlug(slug: string, authToken?: string | n
   const slugLower = slug.toLowerCase()
   if (slugLower !== slug) {
     let fallbackResult = await trySlug(slugLower, authToken)
-    if (!fallbackResult && authToken?.trim()) {
+    if (!fallbackResult && authToken?.trim() && !noGuestFallback) {
       if (DEBUG_COURSE_DETAIL) console.log('[course-detail] 401 or error with auth (lowercase) — retrying as guest')
       fallbackResult = await trySlug(slugLower, undefined)
     }

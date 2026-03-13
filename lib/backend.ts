@@ -1,4 +1,5 @@
 import { backendBaseUrl } from './config'
+import { isLikelySanctumToken } from './auth-cookie'
 
 export type FetchBackendOptions = {
   /** When set, sends Authorization: Bearer <token> so backend returns auth-dependent data (e.g. course_exits, auth_role). */
@@ -21,8 +22,9 @@ export async function fetchBackend<T = unknown>(
   const debug = process.env.NODE_ENV === 'development' && isCourseDetail
 
   const headers: HeadersInit = {}
-  if (options?.authToken?.trim()) {
-    headers['Authorization'] = `Bearer ${options.authToken.trim()}`
+  const token = options?.authToken?.trim()
+  if (token && isLikelySanctumToken(token)) {
+    headers['Authorization'] = `Bearer ${token}`
   }
 
   try {

@@ -19,7 +19,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { getAuthCookie, clearAuthCookie } from '@/lib/auth-cookie'
-import { bookshopUrl, portalUrl as configPortalUrl, backendBaseUrl } from '@/lib/config'
+import { bookshopUrl, backendBaseUrl, portalUrl as configPortalUrl } from '@/lib/config'
+import { getCheckoutUrlWithAuth } from '@/lib/portal-urls'
 import { AboutHeader } from '@/components/common/aboutHeader'
 import { enrollCourse, addToCart } from '@/lib/api/student-actions'
 
@@ -50,20 +51,6 @@ type PageHeaderData = { title: string; imageSrc: string } | null
 
 function getBackendBase(): string {
   return process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? ''
-}
-
-/** Checkout URL on the portal (NEXT_PUBLIC_PORTAL_URL) so user is not asked to log in again. */
-function getCheckoutUrl(): string {
-  const base = (configPortalUrl || '').replace(/\/$/, '')
-  return base ? `${base}/student/checkout` : ''
-}
-
-/** Checkout URL with token and role in hash so the portal restores session and does not show login. */
-function getCheckoutUrlWithAuth(token: string, role: string): string {
-  const base = getCheckoutUrl()
-  if (!base) return ''
-  const hash = `token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}`
-  return `${base}#${hash}`
 }
 
 function getLiveEnrollmentFormUrl(slug: string): string {

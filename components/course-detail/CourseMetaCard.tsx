@@ -33,43 +33,20 @@ const metaItems = (
   return items
 }
 
-const iconClass = 'w-4 h-4 shrink-0 text-gray-600'
+const iconClass = 'w-4 h-4 shrink-0'
+const IconImg = ({ src, alt }: { src: string; alt: string }) => (
+  <img src={src} alt={alt} className={iconClass} aria-hidden />
+)
 const icons: Record<string, React.ReactNode> = {
-  Classes: (
-    <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-    </svg>
-  ),
-  Duration: (
-    <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  ),
-  Category: (
-    <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-    </svg>
-  ),
-  Language: (
-    <span className="text-xs font-bold text-gray-600 shrink-0 w-4 text-center">Aa</span>
-  ),
-  Access: (
-    <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2m0 0V11m0-2.5v-1a7.5 7.5 0 0115 0v1m-15 0a7.5 7.5 0 0015 0" />
-    </svg>
-  ),
-  Certificate: (
-    <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-    </svg>
-  ),
-  Resource: (
-    <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-    </svg>
-  ),
+  Classes: <IconImg src="/course-details/Classes-01.svg" alt="" />,
+  Duration: <IconImg src="/course-details/Duration-01.svg" alt="" />,
+  Category: <IconImg src="/course-details/Category-01.svg" alt="" />,
+  Language: <IconImg src="/course-details/Language-01.svg" alt="" />,
+  Access: <IconImg src="/course-details/Access-01.svg" alt="" />,
+  Certificate: <IconImg src="/course-details/Certificate-01.svg" alt="" />,
+  Resource: <IconImg src="/course-details/Resourse-01.svg" alt="" />,
   'Students enrolled': (
-    <svg className={iconClass} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <svg className={`${iconClass} text-gray-600`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
     </svg>
   ),

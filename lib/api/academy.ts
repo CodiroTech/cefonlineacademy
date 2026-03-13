@@ -12,14 +12,22 @@ export type BackendCourseItem = {
   short_description?: string
   description?: string
   image_url?: string | null
+  instructor_name?: string | null
 }
 
 type BackendCoursesResponse = { success?: boolean; data?: BackendCourseItem[] }
 
-/** GET /api/academy/courses?limit=&sort=newest */
-export async function getUpcomingCourses(limit = 6): Promise<BackendCourseItem[]> {
+/** GET /api/academy/courses — optional category_name to filter by category name (e.g. "Upcoming Courses"). */
+export async function getUpcomingCourses(
+  limit = 6,
+  categoryName?: string,
+): Promise<BackendCourseItem[]> {
+  const params = new URLSearchParams()
+  params.set('limit', String(limit))
+  params.set('sort', 'newest')
+  if (categoryName?.trim()) params.set('category_name', categoryName.trim())
   const res = await fetchBackend<BackendCoursesResponse>(
-    `/academy/courses?limit=${limit}&sort=newest`,
+    `/academy/courses?${params.toString()}`,
   )
   const list = res?.data
   return Array.isArray(list) ? list : []

@@ -5,17 +5,20 @@ import { getCoursesWithDetails } from '@/lib/api/demo'
 import { CourseCard } from '@/components/courses/CourseCard'
 import { CourseDetailLayout } from '@/components/course-detail/CourseDetailLayout'
 import { mediaUrl } from '@/lib/headless'
+import { isLikelySanctumToken } from '@/lib/auth-cookie'
 
 const AUTH_COOKIE_NAME = 'cef_auth'
 
-/** Parse cef_auth cookie (value is token|role) and return the token part, or null. */
+/** Parse cef_auth cookie. Supports "token|role" or "userId|token|role". Returns full Bearer token (for 3 parts: "userId|token"), or null. */
 function getAuthTokenFromCookie(cookieStore: Awaited<ReturnType<typeof cookies>>): string | null {
   const value = cookieStore.get(AUTH_COOKIE_NAME)?.value
   if (!value) return null
   try {
     const decoded = decodeURIComponent(value)
-    const [token] = decoded.split('|')
-    return token?.trim() || null
+    const parts = decoded.split('|').map((s) => s?.trim() ?? '')
+    const token = parts.length >= 3 ? `${parts[0]}|${parts[1]}` : parts[0]
+    const t = token?.trim() || null
+    return t && isLikelySanctumToken(t) ? t : null
   } catch {
     return null
   }

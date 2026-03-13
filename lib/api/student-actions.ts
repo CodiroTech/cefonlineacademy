@@ -3,6 +3,8 @@
  * Used after login/signup to auto-perform the next step from course details.
  */
 
+import { isLikelySanctumToken } from '../auth-cookie'
+
 function getBackendBase(): string {
   if (typeof window !== 'undefined') {
     return process.env.NEXT_PUBLIC_BACKEND_BASE_URL ?? ''
@@ -16,6 +18,9 @@ export type StudentActionResult = { ok: boolean; message?: string; redirectUrl?:
 export async function enrollCourse(courseId: number, token: string): Promise<StudentActionResult> {
   const base = getBackendBase()
   if (!base) return { ok: false, message: 'Backend URL not configured' }
+  const t = token?.trim()
+  if (!t) return { ok: false, message: 'Not logged in. Please log in and try again.' }
+  if (!isLikelySanctumToken(t)) return { ok: false, message: 'Session invalid. Please log in again.' }
   const url = `${base.replace(/\/$/, '')}/student/enroll-course`
   try {
     const res = await fetch(url, {
@@ -23,13 +28,14 @@ export async function enrollCourse(courseId: number, token: string): Promise<Stu
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${t}`,
       },
       body: JSON.stringify({ course_id: courseId }),
     })
     const data = await res.json().catch(() => null)
     if (!res.ok) {
-      return { ok: false, message: (data as { message?: string })?.message ?? 'Enroll failed' }
+      const msg = (data as { message?: string })?.message
+      return { ok: false, message: msg === 'Unauthenticated.' ? 'Session expired. Please log in again.' : (msg ?? 'Enroll failed') }
     }
     return { ok: true, message: (data as { message?: string })?.message }
   } catch (e) {
@@ -41,6 +47,9 @@ export async function enrollCourse(courseId: number, token: string): Promise<Stu
 export async function addToCart(courseId: number, token: string): Promise<StudentActionResult> {
   const base = getBackendBase()
   if (!base) return { ok: false, message: 'Backend URL not configured' }
+  const t = token?.trim()
+  if (!t) return { ok: false, message: 'Not logged in. Please log in and try again.' }
+  if (!isLikelySanctumToken(t)) return { ok: false, message: 'Session invalid. Please log in again.' }
   const url = `${base.replace(/\/$/, '')}/student/cart/add`
   try {
     const res = await fetch(url, {
@@ -48,7 +57,7 @@ export async function addToCart(courseId: number, token: string): Promise<Studen
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${t}`,
       },
       body: JSON.stringify({ course_id: courseId }),
     })

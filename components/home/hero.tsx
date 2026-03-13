@@ -124,7 +124,7 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
               </button>
             </Link>
 
-            <Link href="/media-center/upcomingcourses">
+            <Link href="/media-center/upcoming-courses">
               <button type="button" className="rounded-full bg-linear-to-r from-[#065D80] to-[#8DC63F] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:scale-105 transition cursor-pointer">
                 What's New
               </button>

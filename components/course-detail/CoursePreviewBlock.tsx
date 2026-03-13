@@ -35,8 +35,8 @@ export function CoursePreviewBlock({ course }: Props) {
       <button
         type="button"
         onClick={handleClick}
-        className="w-full text-left rounded-t-xl overflow-hidden bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#065D80] focus:ring-inset"
-        aria-label="Click to enlarge course preview"
+        className="w-full rounded-t-xl overflow-hidden bg-gray-100 focus:outline-none focus:ring-2 focus:ring-[#065D80] focus:ring-inset"
+        aria-label="Enlarge course preview"
       >
         <div className="relative w-full aspect-video">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -51,9 +51,6 @@ export function CoursePreviewBlock({ course }: Props) {
             </div>
           )}
         </div>
-        <p className="text-xs sm:text-sm text-gray-600 font-medium py-2 px-4 bg-white">
-          Click to enlarge
-        </p>
       </button>
 
       <CoursePreviewModal
