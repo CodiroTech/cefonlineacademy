@@ -83,7 +83,7 @@ export function CourseCTA({ course }: Props) {
 
   // Server may have returned guest data (e.g. 401 fallback). If we have a valid token, refetch with auth to get real enrollment state (no guest fallback).
   useEffect(() => {
-    if (!hasValidClientAuth?.token?.trim()) {
+    if (!hasValidClientAuth || !clientAuth?.token?.trim()) {
       setEnrollmentCheckDone(true)
       return
     }
@@ -92,12 +92,12 @@ export function CourseCTA({ course }: Props) {
       return
     }
     setEnrollmentCheckDone(false)
-    getCourseDetailBySlug(course.course_slug, hasValidClientAuth.token, { noGuestFallback: true })
+    getCourseDetailBySlug(course.course_slug, clientAuth.token, { noGuestFallback: true })
       .then((res) => {
         if (res && (res.course_exits === 'enrolled' || res.course_exits === 'cartList')) setRefetchedCourse(res)
       })
       .finally(() => setEnrollmentCheckDone(true))
-  }, [hasValidClientAuth?.token, course.course_slug, course.course_exits])
+  }, [hasValidClientAuth, clientAuth?.token, course.course_slug, course.course_exits])
 
   const effectiveCourse = refetchedCourse ?? course
   const slug = effectiveCourse.course_slug

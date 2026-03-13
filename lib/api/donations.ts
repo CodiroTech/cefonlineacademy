@@ -210,7 +210,7 @@ export async function getDonationsPageData(): Promise<DonationsResponse | null> 
         if (page?.attributes && typeof page.attributes === 'object') page = { ...page, ...(page.attributes as object), attributes: undefined }
       } else page = data as Record<string, unknown>
     }
-    if (!page || typeof page !== 'object') return page as DonationsResponse
+    if (!page || typeof page !== 'object') return null
 
     const relationRaw = page['donation-banks-relation'] ?? page.donation_banks_relation
     const relationArr = Array.isArray(relationRaw) ? relationRaw : []
@@ -220,16 +220,16 @@ export async function getDonationsPageData(): Promise<DonationsResponse | null> 
       const allBanksRaw = await fetchCollection<Record<string, unknown>>('donation-banks', 300)
       const banksById = new Map(allBanksRaw.map((b) => [Number(b.id) || 0, normalizeBankItem(b)]))
       const resolved = normalizeDonationBanksRelation(relationRaw, banksById)
-      return { ...page, 'donation-banks-relation': resolved } as DonationsResponse
+      return { ...page, 'donation-banks-relation': resolved } as unknown as DonationsResponse
     }
 
     if (relationArr.length > 0 && relationRaw != null) {
       const banksById = new Map<number, DonationBankItem>()
       const resolved = normalizeDonationBanksRelation(relationRaw, banksById)
-      if (resolved.length > 0) return { ...page, 'donation-banks-relation': resolved } as DonationsResponse
+      if (resolved.length > 0) return { ...page, 'donation-banks-relation': resolved } as unknown as DonationsResponse
     }
 
-    return page as DonationsResponse
+    return page as unknown as DonationsResponse
   } catch {
     return null
   }

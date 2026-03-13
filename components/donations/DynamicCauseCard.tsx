@@ -58,7 +58,7 @@ export function DynamicCauseCard({
       paymentFrequency: selectedPayment,
       donationType: selectedDonationType,
       quantity: 1,
-      image: cause.imageUrl,
+      image: cause.imageUrl ?? undefined,
       accordionId: sectionId,
       sponsor_type: cause.fullPartial ? (sponsorType === 'full' ? 'full_sponsor' : 'partial_sponsor') : undefined,
     })
