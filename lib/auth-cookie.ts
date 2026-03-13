@@ -77,12 +77,16 @@ export function getAuthCookie(): { token: string; role: string } | null {
 }
 
 /**
- * Clear auth cookie (e.g. on logout in dashboard).
+ * Clear auth cookie (e.g. on logout). Must use same path/domain as when set, so we clear both
+ * host-only (no domain) and domain-scoped (e.g. domain=localhost) to cover all cases.
  */
 export function clearAuthCookie(): void {
   if (typeof document === 'undefined') return
   const domain = getAuthDomain()
-  let cookie = `${COOKIE_NAME}=; path=/; max-age=0`
-  if (domain) cookie += `; domain=${domain}`
-  document.cookie = cookie
+  // Clear host-only cookie (no domain) – matches when cookie was set without domain
+  document.cookie = `${COOKIE_NAME}=; path=/; max-age=0`
+  // Clear domain-scoped cookie – matches when cookie was set with domain= (e.g. localhost)
+  if (domain) {
+    document.cookie = `${COOKIE_NAME}=; path=/; max-age=0; domain=${domain}`
+  }
 }

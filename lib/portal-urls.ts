@@ -27,3 +27,12 @@ export function getPortalCourseUrlWithAuth(slug: string, token: string, role: st
   const hash = `token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}`
   return `${path}#${hash}`
 }
+
+/** Portal billing page URL with token and role in hash and checkout=1 so the portal restores session and opens checkout sidebar. */
+export function getBillingUrlWithAuth(token: string, role: string): string {
+  const base = getPortalBase()
+  if (!base) return ''
+  const path = `${base}/billing`
+  const hash = `token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}&checkout=1`
+  return `${path}#${hash}`
+}

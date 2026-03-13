@@ -20,7 +20,7 @@ import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { getAuthCookie, clearAuthCookie } from '@/lib/auth-cookie'
 import { bookshopUrl, backendBaseUrl, portalUrl as configPortalUrl } from '@/lib/config'
-import { getCheckoutUrlWithAuth, getPortalCourseUrlWithAuth } from '@/lib/portal-urls'
+import { getCheckoutUrlWithAuth, getPortalCourseUrlWithAuth, getBillingUrlWithAuth } from '@/lib/portal-urls'
 import { AboutHeader } from '@/components/common/aboutHeader'
 import { enrollCourse, addToCart } from '@/lib/api/student-actions'
 import { getCourseDetailBySlug } from '@/lib/api/course-detail'
@@ -81,9 +81,9 @@ async function runNextStepAfterAuth(
     }
   }
 
-  // 3. In cart and intent was buy → send to checkout
+  // 3. In cart and intent was buy → send to billing screen with checkout open
   if (courseExits === 'cartList' && intent === 'buy') {
-    const url = getCheckoutUrlWithAuth(token, role)
+    const url = getBillingUrlWithAuth(token, role)
     if (url) {
       window.location.href = url
       return
@@ -108,7 +108,7 @@ async function runNextStepAfterAuth(
   if (intent === 'buy' && courseId != null) {
     const result = await addToCart(courseId, token)
     if (result.ok) {
-      const url = getCheckoutUrlWithAuth(token, role)
+      const url = getBillingUrlWithAuth(token, role)
       if (url) {
         window.location.href = url
         return
@@ -476,8 +476,13 @@ const Navbar01Page = ({ data }: NavbarProps) => {
               : undefined
           }
           onSignupSuccess={
-            demoPreselectedCourse && (loginOptions?.intent != null || loginOptions?.courseId != null)
-              ? (ctx) => runNextStepAfterAuth(ctx, router)
+            demoPreselectedCourse
+              ? (ctx) => {
+                  // New signup from course details: log in on academy (cookie set in popup), then go to portal billing with checkout open
+                  const url = getBillingUrlWithAuth(ctx.token, ctx.role)
+                  if (url) window.location.href = url
+                  else router.refresh()
+                }
               : undefined
           }
         />

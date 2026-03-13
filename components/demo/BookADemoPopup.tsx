@@ -310,7 +310,7 @@ export function BookADemoPopup({ open, onOpenChange, preselectedCourse, onSignup
     if (res.status && res.message) {
       setSuccess(true)
       if (res.token != null && res.role != null) {
-        setAuthCookie(res.token, String(res.role))
+        setAuthCookie(res.token, String(res.role), { fromLogin: true })
         if (onSignupSuccess) {
           try {
             await onSignupSuccess({
@@ -666,37 +666,49 @@ export function BookADemoPopup({ open, onOpenChange, preselectedCourse, onSignup
               : course !== ''
                 ? fullCourses.find((c) => c.id === Number(course))
                 : null
+            const isPreselectedFromCourseDetails = !!preselectedCourse && !!displayCourse
             return (
               <div className="w-full max-w-full md:w-72 shrink-0 bg-[#EAF7E5] rounded-b-2xl md:rounded-b-none md:rounded-r-2xl flex flex-col justify-center p-4 sm:p-6 min-h-[200px] md:min-h-0 min-w-0">
                 {displayCourse ? (
                   <div className="flex flex-col gap-3">
-                    <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden bg-gradient-to-br from-[#065D80]/20 to-[#8DC63F]/20">
+                    <div className={cn(
+                      'relative w-full overflow-hidden bg-gradient-to-br from-[#065D80]/20 to-[#8DC63F]/20',
+                      isPreselectedFromCourseDetails ? 'rounded-none' : 'aspect-[16/10] rounded-xl'
+                    )}>
                       {displayCourse.image_url ? (
                         /* eslint-disable-next-line @next/next/no-img-element */
                         <img
                           src={typeof displayCourse.image_url === 'string' && displayCourse.image_url.startsWith('http') ? displayCourse.image_url : mediaUrl(displayCourse.image_url)}
                           alt=""
-                          className="object-cover w-full h-full"
+                          className={isPreselectedFromCourseDetails ? 'w-full h-auto object-contain' : 'object-cover w-full h-full'}
                         />
                       ) : (
-                        <div className="absolute inset-0 flex items-center justify-center text-[#065D80]/60 text-sm font-medium">
+                        <div className={cn(
+                          'flex items-center justify-center text-[#065D80]/60 text-sm font-medium',
+                          isPreselectedFromCourseDetails ? 'min-h-[120px] w-full' : 'absolute inset-0'
+                        )}>
                           {displayCourse.title}
                         </div>
                       )}
                     </div>
-                    <h3 className="text-base font-semibold text-[#065D80] line-clamp-2">
+                    <h3 className={cn(
+                      'text-base font-semibold text-[#065D80]',
+                      !isPreselectedFromCourseDetails && 'line-clamp-2'
+                    )}>
                       {displayCourse.title}
                     </h3>
-                    <p className="text-[13px] leading-relaxed text-gray-700 line-clamp-4">
-                      {truncateToWords(
-                        stripHtml(
-                          displayCourse.short_description ||
-                            (displayCourse as CourseWithDetails).description ||
-                            ''
-                        ) || 'Explore this course.',
-                        40
-                      )}
-                    </p>
+                    {!isPreselectedFromCourseDetails && (
+                      <p className="text-[13px] leading-relaxed text-gray-700 line-clamp-4">
+                        {truncateToWords(
+                          stripHtml(
+                            displayCourse.short_description ||
+                              (displayCourse as CourseWithDetails).description ||
+                              ''
+                          ) || 'Explore this course.',
+                          40
+                        )}
+                      </p>
+                    )}
                   </div>
                 ) : (
                   <>

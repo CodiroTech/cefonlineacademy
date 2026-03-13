@@ -7,7 +7,7 @@ import { getCourseDetailBySlug } from '@/lib/api/course-detail'
 import type { PreselectedCourse } from '@/components/demo/BookADemoPopup'
 import { cn } from '@/lib/utils'
 import { getAuthCookie, isLikelySanctumToken } from '@/lib/auth-cookie'
-import { getCheckoutUrlWithAuth } from '@/lib/portal-urls'
+import { getBillingUrlWithAuth } from '@/lib/portal-urls'
 import { addToCart, enrollCourse } from '@/lib/api/student-actions'
 import { portalUrl } from '@/lib/config'
 
@@ -271,7 +271,7 @@ export function CourseCTA({ course }: Props) {
     try {
       const result = await addToCart(effectiveCourse.course_id, auth.token)
       if (result.ok) {
-        const url = getCheckoutUrlWithAuth(auth.token, auth.role)
+        const url = getBillingUrlWithAuth(auth.token, auth.role)
         if (url) window.location.href = url
       } else {
         setBuyNowError(result.message ?? 'Could not add to cart')
