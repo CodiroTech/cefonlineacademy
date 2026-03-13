@@ -29,12 +29,16 @@ function getAuthDomain(): string {
 /**
  * Set auth cookie (token + role) so academy navbar shows "Dashboard" when logged in.
  * Call after successful login in academy popup or dashboard login page.
+ * @param options.fromLogin - When true, always set the cookie with whatever token the backend returned (so academy stays logged in); otherwise only set if token looks like a Sanctum token.
  */
-export function setAuthCookie(token: string, role: string): void {
+export function setAuthCookie(token: string, role: string, options?: { fromLogin?: boolean }): void {
   if (typeof document === 'undefined') return
-  if (!isLikelySanctumToken(token)) return
+  const t = token?.trim()
+  const r = role?.trim()
+  if (!t || !r) return
+  if (!options?.fromLogin && !isLikelySanctumToken(t)) return
   const domain = getAuthDomain()
-  const value = encodeURIComponent(`${token}|${role}`)
+  const value = encodeURIComponent(`${t}|${r}`)
   const maxAge = MAX_AGE_DAYS * 24 * 60 * 60
   const secure = typeof window !== 'undefined' && window.location?.protocol === 'https:'
   let cookie = `${COOKIE_NAME}=${value}; path=/; max-age=${maxAge}; SameSite=Lax`

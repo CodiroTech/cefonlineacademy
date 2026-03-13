@@ -1,8 +1,13 @@
 import { portalUrl } from './config'
 
+/** Portal base URL without trailing slash. */
+function getPortalBase(): string {
+  return (portalUrl || '').trim().replace(/\/$/, '')
+}
+
 /** Portal checkout URL (e.g. /student/checkout) so user can complete billing. */
 export function getCheckoutUrl(): string {
-  const base = (portalUrl || '').replace(/\/$/, '')
+  const base = getPortalBase()
   return base ? `${base}/student/checkout` : ''
 }
 
@@ -12,4 +17,13 @@ export function getCheckoutUrlWithAuth(token: string, role: string): string {
   if (!base) return ''
   const hash = `token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}`
   return `${base}#${hash}`
+}
+
+/** Portal course page URL (e.g. /mycourses/{slug}) with token and role in hash so the portal restores session. */
+export function getPortalCourseUrlWithAuth(slug: string, token: string, role: string): string {
+  const base = getPortalBase()
+  if (!base) return ''
+  const path = `${base}/mycourses/${encodeURIComponent(slug)}`
+  const hash = `token=${encodeURIComponent(token)}&role=${encodeURIComponent(role)}`
+  return `${path}#${hash}`
 }

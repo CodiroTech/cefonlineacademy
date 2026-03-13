@@ -20,9 +20,10 @@ import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 import { getAuthCookie, clearAuthCookie } from '@/lib/auth-cookie'
 import { bookshopUrl, backendBaseUrl, portalUrl as configPortalUrl } from '@/lib/config'
-import { getCheckoutUrlWithAuth } from '@/lib/portal-urls'
+import { getCheckoutUrlWithAuth, getPortalCourseUrlWithAuth } from '@/lib/portal-urls'
 import { AboutHeader } from '@/components/common/aboutHeader'
 import { enrollCourse, addToCart } from '@/lib/api/student-actions'
+import { getCourseDetailBySlug } from '@/lib/api/course-detail'
 
 type LoginPopupCourseIntent = 'enroll_free' | 'buy' | 'request_enrollment_live'
 
@@ -62,22 +63,72 @@ async function runNextStepAfterAuth(
   ctx: LoginSuccessContext,
   router: ReturnType<typeof useRouter>,
 ): Promise<void> {
-  const { token, intent, courseId, slug } = ctx
+  const { token, role, intent, courseId, slug } = ctx
+
+  // 1. If we have slug + token, fetch course state to decide the right action (enrolled → Go to Course, etc.)
+  let courseExits: 'enrolled' | 'cartList' | 0 = 0
+  if (slug && token) {
+    const course = await getCourseDetailBySlug(slug, token, { noGuestFallback: true })
+    if (course && typeof course.course_exits !== 'undefined') courseExits = course.course_exits as 'enrolled' | 'cartList' | 0
+  }
+
+  // 2. Already enrolled → redirect to portal course page with auth hash so portal restores session
+  if (courseExits === 'enrolled' && slug) {
+    const url = getPortalCourseUrlWithAuth(slug, token, role)
+    if (url) {
+      window.location.href = url
+      return
+    }
+  }
+
+  // 3. In cart and intent was buy → send to checkout
+  if (courseExits === 'cartList' && intent === 'buy') {
+    const url = getCheckoutUrlWithAuth(token, role)
+    if (url) {
+      window.location.href = url
+      return
+    }
+  }
+
+  // 4. Not enrolled: perform the intended action
   if (intent === 'enroll_free' && courseId != null) {
     const result = await enrollCourse(courseId, token)
-    if (result.ok) router.refresh()
-  } else if (intent === 'buy' && courseId != null) {
+    if (result.ok && slug) {
+      const url = getPortalCourseUrlWithAuth(slug, token, role)
+      if (url) {
+        window.location.href = url
+        return
+      }
+    }
+    if (result.ok) {
+      router.refresh()
+      return
+    }
+  }
+  if (intent === 'buy' && courseId != null) {
     const result = await addToCart(courseId, token)
     if (result.ok) {
-      const url = getCheckoutUrlWithAuth(token, ctx.role)
-      if (url) window.location.href = url
-      else router.refresh()
+      const url = getCheckoutUrlWithAuth(token, role)
+      if (url) {
+        window.location.href = url
+        return
+      }
     }
-  } else if (intent === 'request_enrollment_live' && slug) {
-    const url = getLiveEnrollmentFormUrl(slug)
-    if (url !== '#') window.location.href = url
-    else router.refresh()
+    if (result.ok) {
+      router.refresh()
+      return
+    }
   }
+  if (intent === 'request_enrollment_live' && slug) {
+    const url = getLiveEnrollmentFormUrl(slug)
+    if (url !== '#') {
+      window.location.href = url
+      return
+    }
+  }
+
+  // 5. Fallback: refresh so CTA updates (e.g. Go to Course / Enroll Now / Buy Now)
+  router.refresh()
 }
 
 const Navbar01Page = ({ data }: NavbarProps) => {
@@ -439,7 +490,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
           portalUrl={portalUrl}
           stayOnPage={loginOptions?.stayOnPage ?? false}
           loginSuccessContext={
-            loginOptions?.intent != null || loginOptions?.courseId != null || loginOptions?.slug != null
+            (loginOptions?.intent != null || loginOptions?.courseId != null || loginOptions?.slug != null)
               ? {
                   intent: loginOptions?.intent,
                   courseId: loginOptions?.courseId,
@@ -448,7 +499,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
               : undefined
           }
           onLoginSuccess={
-            loginOptions?.stayOnPage && (loginOptions?.intent ?? loginOptions?.courseId != null)
+            loginOptions?.stayOnPage && (loginOptions?.intent != null || loginOptions?.courseId != null || loginOptions?.slug != null)
               ? (ctx) => runNextStepAfterAuth(ctx, router)
               : undefined
           }

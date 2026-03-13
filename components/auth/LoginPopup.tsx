@@ -65,7 +65,7 @@ export function LoginPopup({ open, onOpenChange, portalUrl, stayOnPage = false, 
         return
       }
       if (data.token && data.role != null) {
-        setAuthCookie(data.token, String(data.role))
+        setAuthCookie(data.token, String(data.role), { fromLogin: true })
         onOpenChange(false)
         if (stayOnPage) {
           if (onLoginSuccess) {
