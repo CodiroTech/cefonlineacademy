@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { Heading } from '@/components/common/heading'
 import { useForm } from 'react-hook-form'
 import {
@@ -17,10 +18,59 @@ type FormValues = {
 }
 
 export default function ContactSection() {
-  const { register, handleSubmit } = useForm<FormValues>()
+  const { register, handleSubmit, reset } = useForm<FormValues>()
+  const [isLoading, setIsLoading] = useState(false)
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
-  const onSubmit = (data: FormValues) => {
-    console.log(data)
+  const onSubmit = async (data: FormValues) => {
+    if (
+      !data.fullName?.trim() ||
+      !data.phone?.trim() ||
+      !data.email?.trim() ||
+      !data.message?.trim()
+    ) {
+      setMessage({ type: 'error', text: 'Please fill in all required fields' })
+      setTimeout(() => setMessage(null), 3000)
+      return
+    }
+
+    setIsLoading(true)
+    setMessage(null)
+
+    try {
+      const response = await fetch('/api/contact-form', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: data.fullName.trim(),
+          phone: data.phone.trim(),
+          email: data.email.trim(),
+          message: data.message.trim(),
+        }),
+      })
+
+      const result = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        setMessage({ type: 'error', text: result.message ?? 'Failed to send message' })
+        setTimeout(() => setMessage(null), 3000)
+        return
+      }
+
+      setMessage({ type: 'success', text: result.message ?? 'Message sent successfully!' })
+      reset({
+        fullName: '',
+        phone: '',
+        email: '',
+        message: '',
+      })
+      setTimeout(() => setMessage(null), 3000)
+    } catch {
+      setMessage({ type: 'error', text: 'Error sending message' })
+      setTimeout(() => setMessage(null), 3000)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -34,7 +84,7 @@ export default function ContactSection() {
         </Heading>
       </div>
 
-      <div className="max-w-7xl mx-auto px-11 grid grid-cols-1 lg:grid-cols-12 lg:gap-12 items-start">
+      <div className="w-full max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-20 grid grid-cols-1 lg:grid-cols-12 lg:gap-12 items-start">
         {/* ================= LEFT FORM ================= */}
         <div className="lg:col-span-7">
           <h2 className="text-[#065D80] text-2xl font-bold mb-2">
@@ -86,11 +136,19 @@ export default function ContactSection() {
               />
             </div>
 
+            {message && (
+              <p
+                className={`mt-2 text-sm ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}
+              >
+                {message.text}
+              </p>
+            )}
             <button
               type="submit"
-              className="mt-1 inline-flex items-center justify-center rounded-full bg-[#065D80] px-7 py-2 text-white font-medium hover:opacity-90 hover:bg-white hover:text-[#065D80] border-2 cursor-pointer transition"
+              disabled={isLoading}
+              className="mt-1 inline-flex items-center justify-center rounded-full bg-[#065D80] px-7 py-2 text-white font-medium hover:opacity-90 hover:bg-white hover:text-[#065D80] border-2 cursor-pointer transition disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Send Message
+              {isLoading ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         </div>

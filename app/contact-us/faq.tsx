@@ -35,8 +35,8 @@ const FAQSection = ({ faqs }: Props) => {
   }
 
   return (
-    <section id="faqs" className="w-full bg-white py-10 px-6 sm:px-20">
-      <div className="mx-auto max-w-7xl">
+    <section id="faqs" className="w-full bg-white py-10">
+      <div className="w-full max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-20">
 
         <div className="text-center mb-10">
           <Heading textSize="text-3xl lg:text-[2.5rem] font-bold" leading="leading-tight">

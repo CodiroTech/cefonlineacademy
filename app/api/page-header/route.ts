@@ -75,12 +75,18 @@ function getFallbackTitle(key: string, pathname: string): string {
 
 export async function GET(request: NextRequest) {
   const pathname = request.nextUrl.searchParams.get('path') || ''
+  console.log('[page-header] GET pathname:', JSON.stringify(pathname))
+
   if (!pathname || pathname === '/') {
+    console.log('[page-header] early return: empty pathname')
     return NextResponse.json({ title: null, imageSrc: null })
   }
 
   const key = getSlugOrFetcher(pathname)
+  console.log('[page-header] resolved key:', key)
+
   if (!key) {
+    console.log('[page-header] early return: no key for pathname')
     return NextResponse.json({ title: null, imageSrc: null })
   }
 
@@ -95,6 +101,8 @@ export async function GET(request: NextRequest) {
     data = await getPageHeader(key)
   }
 
+  console.log('[page-header] headless data:', data == null ? 'null' : { title: data?.title, hasHeaderImage: !!data?.['header-image'] })
+
   const rawTitle = data?.title
   const title = (rawTitle != null && String(rawTitle).trim() !== '')
     ? String(rawTitle).trim()
@@ -102,6 +110,8 @@ export async function GET(request: NextRequest) {
   const imageSrc = data?.['header-image']
     ? mediaUrl(data['header-image'], DEFAULT_IMAGE)
     : DEFAULT_IMAGE
+
+  console.log('[page-header] response:', { title, imageSrc: imageSrc?.slice(0, 60) + (imageSrc && imageSrc.length > 60 ? '...' : '') })
 
   return NextResponse.json({ title, imageSrc })
 }

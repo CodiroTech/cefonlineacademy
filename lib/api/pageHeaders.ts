@@ -20,6 +20,7 @@ export async function getContactPageHeader() {
 /** Generic page header by collection slug (bookshop-page, quran-tutoring-courses-page, etc.) */
 export async function getPageHeader(slug: string): Promise<PageHeader | null> {
   const data = await fetchSingleContent<PageHeader>(slug)
+  console.log('[pageHeaders.getPageHeader] slug:', slug, 'data:', data == null ? 'null' : { title: data?.title, hasHeaderImage: !!data?.['header-image'] })
   return data && (data.title != null || data['header-image'] != null) ? data : null
 }
 

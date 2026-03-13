@@ -24,27 +24,26 @@ export const Podcasts = ({ items }: Props) => {
 
   return (
     <>
-      <section className="w-full px-16 sm:pl-16 pt-16 sm:pt-20">
-        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-4 xl:gap-2">
+      <section className="w-full pt-8 sm:pt-10 pb-0">
+        <div className="w-full max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-20 flex flex-col lg:flex-row gap-8 lg:gap-4">
 
-          <div className="flex flex-col lg:w-[28%]">
+          <div className="w-full flex flex-col flex-shrink-0 lg:w-[30%] text-center lg:text-left">
             <Heading
-              textSize="text-lg sm:text-[21px] lg:text-[20px] xl:text-[27px] font-semibold"
+              textSize="text-xl sm:text-2xl lg:text-[23px] xl:text-[34px] font-bold"
               leading="leading-snug"
             >
               <span className="whitespace-nowrap">{firstPart}</span>
             </Heading>
-
             <Heading
-              textSize="text-6xl sm:text-7xl lg:text-[70px] xl:text-[90px] font-bold"
-              leading="leading-none"
+              textSize="text-6xl sm:text-7xl lg:text-[70px] xl:text-[96px]"
+              leading="leading-snug"
             >
               {lastWord}
             </Heading>
           </div>
 
-          <div className="lg:w-[70%] space-y-6 -mt-5">
-            <Text className="text-justify lg:mt-4 xl:mt-10 leading-relaxed">
+          <div className="min-w-0 lg:flex-1 space-y-6 mt-4 lg:mt-2">
+            <Text className="text-justify leading-snug font-medium">
               {description}
             </Text>
           </div>

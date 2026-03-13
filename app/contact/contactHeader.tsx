@@ -15,13 +15,21 @@ export default function OfficeInfoSection({ data }: Props) {
   const phone = data?.phone || '+92-51-8435553, +92-51-8435554, +92 300 8594256'
   const email = data?.email || 'info@cef.org.pk'
 
+  const mapShareUrl = 'https://maps.app.goo.gl/xDDRTY7GtmDr7AHE7'
+  const mapAddressHtml = data?.['map-address'] ?? ''
+  const mapEmbedSrc =
+    (typeof mapAddressHtml === 'string' && /src=["']([^"']+)["']/.test(mapAddressHtml))
+      ? (mapAddressHtml.match(/src=["']([^"']+)["']/) ?? [])[1]
+      : ''
+  const mapIframeSrc = mapEmbedSrc && mapEmbedSrc.startsWith('http') ? mapEmbedSrc : mapShareUrl
+
   return (
     <section className="w-full py-6 font-poppins">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
 
         <div className="flex flex-col lg:flex-row items-center lg:items-end gap-6">
 
-          <div className="shrink-0 flex items-end pt-6 lg:pt-14">
+          <div className="shrink-0 flex items-end pt-2 lg:pt-4">
             <div className="relative w-40 h-36 sm:w-48 sm:h-40 lg:w-55 lg:h-48">
               <Image
                 src="/Boy and Girl.png"
@@ -40,8 +48,8 @@ export default function OfficeInfoSection({ data }: Props) {
                 <Image
                   src="/Faisal Mosque.png"
                   alt="Faisal Mosque"
-                  width={50}
-                  height={50}
+                  width={80}
+                  height={80}
                   className="object-contain"
                 />
               </div>
@@ -92,13 +100,27 @@ export default function OfficeInfoSection({ data }: Props) {
               </div>
 
               <div className="shrink-0 self-end">
-                <div className="relative w-28 h-24 sm:w-44 sm:h-32 lg:w-50 lg:h-35">
-                  <Image
-                    src="/contactmap.png"
-                    alt="Map"
-                    fill
-                    className="object-contain"
-                  />
+                <div className="relative w-28 h-24 sm:w-44 sm:h-32 lg:w-50 lg:h-35 rounded overflow-hidden border border-gray-200">
+                  <iframe
+                      src={mapIframeSrc}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="Head Office location on Google Maps"
+                      className="absolute inset-0 w-full h-full"
+                    />
+                    <a
+                      href={mapShareUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute bottom-0.5 right-0.5 z-10 px-1.5 py-0.5 bg-black/60 hover:bg-black/80 text-white text-[10px] rounded opacity-90"
+                      aria-label="Open in Google Maps"
+                    >
+                      Open in new tab
+                    </a>
                 </div>
               </div>
 

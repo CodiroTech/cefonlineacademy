@@ -9,6 +9,7 @@ export type ContactInfo = {
   phone?: string
   email?: string
   description?: string
+  'map-address'?: string
 }
 
 export type FaqItem = {

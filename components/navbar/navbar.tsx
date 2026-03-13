@@ -178,24 +178,37 @@ const Navbar01Page = ({ data }: NavbarProps) => {
   }
   useEffect(() => {
     if (isHomePage || !pathname) {
+      console.log('[navbar page-header] skip fetch:', { isHomePage, pathname })
       setPageHeader(null)
       return
     }
     let cancelled = false
-    fetch(`/api/page-header?path=${encodeURIComponent(pathname)}`)
-      .then((res) => res.json())
+    const url = `/api/page-header?path=${encodeURIComponent(pathname)}`
+    console.log('[navbar page-header] fetch:', url)
+    fetch(url)
+      .then((res) => {
+        console.log('[navbar page-header] response status:', res.status, res.statusText)
+        return res.json()
+      })
       .then((body: { title?: string | null; imageSrc?: string | null }) => {
         if (cancelled) return
+        console.log('[navbar page-header] body:', body)
         const title = body?.title ?? null
         const imageSrc = body?.imageSrc ?? null
-        if (title || imageSrc)
-          setPageHeader({
+        if (title || imageSrc) {
+          const payload = {
             title: title || 'About Us',
             imageSrc: imageSrc || '/About Us Header.png',
-          })
-        else setPageHeader(null)
+          }
+          console.log('[navbar page-header] setPageHeader:', payload)
+          setPageHeader(payload)
+        } else {
+          console.log('[navbar page-header] setPageHeader(null) — no title or imageSrc')
+          setPageHeader(null)
+        }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.warn('[navbar page-header] fetch error:', err)
         if (!cancelled) setPageHeader(null)
       })
     return () => {
@@ -352,7 +365,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
       <>
         <div className="mt-[30px] w-full shrink-0">
           <nav className="h-16 sm:h-20 md:h-24 mb-0 bg-transparent navbar-shrink w-full">
-            <div className="h-full flex items-center justify-start gap-6 max-w-[1600px] mx-auto px-8 lg:px-20">
+            <div className="h-full flex items-center justify-between gap-6 max-w-[1600px] mx-auto px-8 lg:px-20">
             <div className="shrink-0 mt-28 pl-6 lg:pl-8">
               <Link href="/" className="cursor-pointer">
                 {logoSrc ? (
@@ -369,8 +382,8 @@ const Navbar01Page = ({ data }: NavbarProps) => {
                 )}
               </Link>
             </div>
-            <NavMenu className="hidden lg:block" data={data} applyMenuTopMargin />
-            {renderRightSection(true)}
+            <NavMenu className="hidden lg:block flex-1 min-w-0" data={data} applyMenuTopMargin />
+            <div className="shrink-0 ml-auto">{renderRightSection(true)}</div>
           </div>
         </nav>
         </div>
@@ -384,7 +397,7 @@ const Navbar01Page = ({ data }: NavbarProps) => {
       <header className="mt-0 lg:mt-10 w-full navbar-shrink">
         {/* Wider header container than homepage; no side padding on mobile */}
         <div className="w-full max-w-[1600px] mx-auto px-0 lg:px-20">
-          {/* Top row: social icons — hidden on mobile (shown in menu drawer), visible from lg */}
+          {/* Top row: social icons — hidden on mobile (shown in menu drawer), visible from lg, always right-aligned */}
           <div className="relative z-[120] -mb-[17px] w-full hidden lg:flex justify-end items-center py-0.5 min-h-0">
             {renderSocialIcons('flex')}
           </div>
@@ -407,9 +420,9 @@ const Navbar01Page = ({ data }: NavbarProps) => {
                   )}
                 </Link>
               </div>
-              <div className="hidden lg:flex flex-1 items-center justify-between gap-2">
-                <NavMenu className="flex-1" data={data} />
-                <div className="flex items-center gap-1 flex-wrap justify-end shrink-0">
+              <div className="hidden lg:flex flex-1 items-center gap-2 min-w-0">
+                <NavMenu className="flex-1 min-w-0" data={data} />
+                <div className="flex items-center gap-1 flex-wrap justify-end shrink-0 ml-auto">
                   {renderButtons()}
                 </div>
               </div>

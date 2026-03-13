@@ -46,17 +46,19 @@ interface Props {
 }
 
 export const HelpDesk = ({ items }: Props) => {
-  const helpItems: LocalHelpItem[] = items && items.length > 0
+  const helpItems: LocalHelpItem[] = (items && items.length > 0
     ? items.map((item, i) => ({
         image: mediaUrl(item.icon, fallbackItems[i]?.image ?? '/Contact Us.svg'),
         title: item.title || fallbackItems[i]?.title || '',
         link: getHelpDeskLink(item.title || fallbackItems[i]?.title || ''),
       }))
     : fallbackItems
+  ).filter((item) => item.title !== 'Contact Us')
 
   return (
     <section className="pb-16">
-      <div className="bg-[#EAF4F6] rounded-3xl w-[92%] lg:w-[82%] mx-auto py-10 px-4 lg:px-10">
+      <div className="w-full max-w-[1600px] mx-auto px-6 sm:px-8 lg:px-20">
+        <div className="bg-[#f6faf0] rounded-3xl py-10 px-4 lg:px-10">
 
         <div className="text-center mb-6">
           <Heading textSize="text-3xl lg:text-[2.66rem]">
@@ -67,17 +69,17 @@ export const HelpDesk = ({ items }: Props) => {
           </Subtitle>
         </div>
 
-        <div className="flex flex-wrap lg:flex-nowrap justify-center gap-1 w-full lg:w-[70%] mx-auto">
+        <div className="flex flex-wrap lg:flex-nowrap justify-center gap-0.5 w-full lg:w-[50%] mx-auto">
           {helpItems.map((item, index) => {
             const isExternal = item.title !== 'Contact Us'
             return (
             <Link
               key={index}
               href={item.link}
-              className="w-full sm:w-1/2 lg:w-[20%] flex flex-col items-center gap-1 text-center cursor-pointer group"
+              className="w-full sm:w-1/2 lg:w-[20%] flex flex-col items-center gap-0.5 text-center cursor-pointer group py-1"
               {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
             >
-              <div className="relative w-16 h-16">
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24">
                 <Image
                   src={item.image}
                   alt={item.title}
@@ -86,7 +88,7 @@ export const HelpDesk = ({ items }: Props) => {
                 />
               </div>
 
-              <span className="mt-2 text-md font-bold text-primary group-hover:underline">
+              <span className="mt-1 text-md font-bold text-primary group-hover:underline">
                 {item.title}
               </span>
             </Link>
@@ -94,6 +96,7 @@ export const HelpDesk = ({ items }: Props) => {
           })}
         </div>
 
+        </div>
       </div>
     </section>
   )
