@@ -83,13 +83,13 @@ export function CourseCard({
         <span className="ml-0.5">{String(averageRating)}</span>
       </p>
 
-      {/* 4. Image – uniform size across all cards */}
-      <div className="relative w-full aspect-[4/3] mt-2 mb-2 overflow-hidden rounded">
+      {/* 4. Image – full image visible (no crop); letterboxing uses neutral bg */}
+      <div className="relative mt-2 mb-2 flex w-full aspect-[4/3] items-center justify-center overflow-hidden rounded bg-neutral-100">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-full object-cover"
+          className="max-h-full max-w-full object-contain"
         />
       </div>
 

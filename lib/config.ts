@@ -1,6 +1,10 @@
 export const headlessBaseUrl =
   process.env.NEXT_PUBLIC_HEADLESS_BASE_URL ?? ''
 
+/** When set, collection URLs are built as baseUrl/projectId/slug (headless API expects UUID in path). */
+export const headlessProjectId =
+  process.env.NEXT_PUBLIC_HEADLESS_PROJECT_ID ?? ''
+
 export const headlessApiToken =
   process.env.HEADLESS_API_TOKEN ?? ''
 

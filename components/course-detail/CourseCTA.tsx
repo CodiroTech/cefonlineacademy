@@ -46,6 +46,14 @@ function buildCourseForDemo(course: CourseDetailResponse): PreselectedCourse {
 
 export type LoginPopupCourseIntent = 'enroll_free' | 'buy' | 'request_enrollment_live'
 
+/** Append formatted price for Buy / Buy Now CTAs when API sends course_price */
+function labelWithBuyPrice(label: string, priceDisplay: string | null | undefined): string {
+  const trimmed = label.trim()
+  if (!priceDisplay) return label
+  if (!/buy/i.test(trimmed)) return label
+  return `${trimmed} — ${priceDisplay}`
+}
+
 function openLoginPopupFromCourse(
   courseForDemo: PreselectedCourse,
   intent: LoginPopupCourseIntent,
@@ -238,6 +246,7 @@ export function CourseCTA({ course }: Props) {
   const courseForDemo = buildCourseForDemo(effectiveCourse)
   const primaryIntent = 'intent' in primary ? primary.intent : undefined
   const primaryLabel = effectiveCourse.btn_text ?? primary.label
+  const displayPrimaryLabel = labelWithBuyPrice(primaryLabel, right?.course_price ?? null)
   const isLoggedInBuyNow =
     !isGuest && isPaid && (primaryLabel === 'Buy Now' || primary.label === 'Buy Now')
   const isLoggedInEnrollNow =
@@ -314,7 +323,7 @@ export function CourseCTA({ course }: Props) {
           onClick={() => openLoginPopupFromCourse(courseForDemo, primaryIntent ?? 'enroll_free', effectiveCourse.course_id, slug)}
           className={primaryButtonClass}
         >
-          {primaryLabel}
+          {displayPrimaryLabel}
         </button>
       ) : isLoggedInBuyNow ? (
         <div className="flex flex-col gap-1">
@@ -324,7 +333,7 @@ export function CourseCTA({ course }: Props) {
             disabled={buyNowLoading}
             className={cn(primaryButtonClass, buyNowLoading && 'opacity-70 cursor-wait')}
           >
-            {buyNowLoading ? 'Adding…' : primaryLabel}
+            {buyNowLoading ? 'Adding…' : displayPrimaryLabel}
           </button>
           {buyNowError && (
             <p className="text-sm text-red-600" role="alert">
@@ -340,7 +349,7 @@ export function CourseCTA({ course }: Props) {
             disabled={enrollNowLoading}
             className={cn(primaryButtonClass, enrollNowLoading && 'opacity-70 cursor-wait')}
           >
-            {enrollNowLoading ? 'Enrolling…' : primaryLabel}
+            {enrollNowLoading ? 'Enrolling…' : displayPrimaryLabel}
           </button>
           {enrollNowError && (
             <p className="text-sm text-red-600" role="alert">
@@ -358,7 +367,7 @@ export function CourseCTA({ course }: Props) {
             : { href }
           return (
             <PrimaryTag {...primaryProps} className={primaryButtonClass}>
-              {primaryLabel}
+              {displayPrimaryLabel}
             </PrimaryTag>
           )
         })()

@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import Image from 'next/image'
+import { Copy, Check } from 'lucide-react'
 import { Heading } from '@/components/common/heading'
 import { Button } from '@/components/ui/button'
 import { AboutHeader } from '@/components/common/aboutHeader'
@@ -10,10 +11,69 @@ import { DonationSubtotal } from '@/components/donations/DonationSubtotal'
 import { DonationCartModal } from '@/components/donations/DonationCartModal'
 import { useDonationCart } from '@/context/DonationCartContext'
 import { sanitizeApiContent } from '@/lib/sanitizeApiContent'
-import type { DonationsResponse } from '@/lib/types/donations'
+import type { DonationsResponse, DonationBankItem } from '@/lib/types/donations'
 import type { DonationAccordionData } from '@/lib/api/donations'
 
 const DEFAULT_HEADER_IMAGE = '/About Us Header.png'
+
+function bankDetailsClipboardText(bank: DonationBankItem): string {
+  const parts = [
+    bank['bank-name']?.trim() && `Bank: ${bank['bank-name'].trim()}`,
+    bank['account-title']?.trim() && `Account Title: ${bank['account-title'].trim()}`,
+    bank.iban?.trim() && `IBAN: ${bank.iban.trim()}`,
+  ].filter(Boolean) as string[]
+  return parts.join('\n')
+}
+
+function BankTransferTableRows({
+  banks,
+  section,
+  copiedKey,
+  onCopied,
+}: {
+  banks: DonationBankItem[]
+  section: string
+  copiedKey: string | null
+  onCopied: (key: string) => void
+}) {
+  const copyRow = useCallback(
+    async (bank: DonationBankItem, index: number) => {
+      const text = bankDetailsClipboardText(bank)
+      if (!text) return
+      const key = `${section}-${bank.id ?? index}`
+      try {
+        await navigator.clipboard.writeText(text)
+        onCopied(key)
+      } catch {
+        // ignore
+      }
+    },
+    [section, onCopied],
+  )
+
+  return banks.map((bank, i) => {
+    const rowKey = `${section}-${bank.id ?? i}`
+    const isCopied = copiedKey === rowKey
+    return (
+      <tr key={rowKey} className="group border-b border-gray-100/80 last:border-0 hover:bg-gray-50/90">
+        <td className="py-2 px-1 sm:px-2 font-bold text-[#065D80] text-xs sm:text-sm 2xl:text-lg">{bank['bank-name'] || ''}</td>
+        <td className="py-2 px-1 sm:px-2 font-bold text-[#414141] text-xs sm:text-sm 2xl:text-lg">{bank['account-title'] || ''}</td>
+        <td className="py-2 px-1 sm:px-2 font-bold text-[#414141] text-xs sm:text-sm 2xl:text-lg">{bank.iban || ''}</td>
+        <td className="w-11 sm:w-12 py-2 px-1 align-middle text-center">
+          <button
+            type="button"
+            onClick={() => copyRow(bank, i)}
+            className="inline-flex items-center justify-center rounded-md p-1.5 text-[#065D80] transition-opacity hover:bg-[#065D80]/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#065D80] opacity-70 md:opacity-0 md:group-hover:opacity-100"
+            aria-label="Copy bank account details"
+            title="Copy account details"
+          >
+            {isCopied ? <Check className="h-4 w-4 shrink-0 text-[#88bc44]" aria-hidden /> : <Copy className="h-4 w-4 shrink-0" aria-hidden />}
+          </button>
+        </td>
+      </tr>
+    )
+  })
+}
 
 interface Props {
   donationData: DonationsResponse | null
@@ -23,6 +83,13 @@ interface Props {
 export default function DonationsClient({ donationData, accordionData }: Props) {
   const { setCartModalOpen, isCartModalOpen } = useDonationCart()
   const [fatwOpen, setFatwOpen] = useState(false)
+  const [copiedBankKey, setCopiedBankKey] = useState<string | null>(null)
+  const handleBankCopied = useCallback((key: string) => {
+    setCopiedBankKey(key)
+    window.setTimeout(() => {
+      setCopiedBankKey((k) => (k === key ? null : k))
+    }, 2000)
+  }, [])
 
   const description = donationData?.['donation-desc'] || ''
   const infoText = donationData?.['donations-info'] || ''
@@ -77,16 +144,18 @@ export default function DonationsClient({ donationData, accordionData }: Props) 
                           <th className="text-left py-2 px-1 sm:px-2 font-bold text-[#88bc44] text-xs sm:text-sm xl:text-xl 2xl:text-2xl">Bank</th>
                           <th className="text-left py-2 px-1 sm:px-2 font-bold text-[#88bc44] text-xs sm:text-sm xl:text-xl 2xl:text-2xl">Account Title</th>
                           <th className="text-left py-2 px-1 sm:px-2 font-bold text-[#88bc44] text-xs sm:text-sm xl:text-xl 2xl:text-2xl">IBAN #</th>
+                          <th className="w-11 sm:w-12 py-2 px-1 text-center font-bold text-[#88bc44] text-xs sm:text-sm">
+                            <span className="sr-only">Copy details</span>
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {generalDonations.map((bank, i) => (
-                          <tr key={i}>
-                            <td className="py-2 px-1 sm:px-2 font-bold text-[#065D80] text-xs sm:text-sm 2xl:text-lg">{bank['bank-name'] || ''}</td>
-                            <td className="py-2 px-1 sm:px-2 font-bold text-[#414141] text-xs sm:text-sm 2xl:text-lg">{bank['account-title'] || ''}</td>
-                            <td className="py-2 px-1 sm:px-2 font-bold text-[#414141] text-xs sm:text-sm 2xl:text-lg">{bank.iban || ''}</td>
-                          </tr>
-                        ))}
+                        <BankTransferTableRows
+                          banks={generalDonations}
+                          section="general"
+                          copiedKey={copiedBankKey}
+                          onCopied={handleBankCopied}
+                        />
                       </tbody>
                     </table>
                   </div>
@@ -105,16 +174,18 @@ export default function DonationsClient({ donationData, accordionData }: Props) 
                           <th className="text-left py-2 px-1 sm:px-2 font-bold text-[#88bc44] text-xs sm:text-sm xl:text-xl 2xl:text-2xl">Bank</th>
                           <th className="text-left py-2 px-1 sm:px-2 font-bold text-[#88bc44] text-xs sm:text-sm xl:text-xl 2xl:text-2xl">Account Title</th>
                           <th className="text-left py-2 px-1 sm:px-2 font-bold text-[#88bc44] text-xs sm:text-sm xl:text-xl 2xl:text-2xl">IBAN #</th>
+                          <th className="w-11 sm:w-12 py-2 px-1 text-center font-bold text-[#88bc44] text-xs sm:text-sm">
+                            <span className="sr-only">Copy details</span>
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {zakatDonations.map((bank, i) => (
-                          <tr key={i}>
-                            <td className="py-2 px-1 sm:px-2 font-bold text-[#065D80] text-xs sm:text-sm 2xl:text-lg">{bank['bank-name'] || ''}</td>
-                            <td className="py-2 px-1 sm:px-2 font-bold text-[#414141] text-xs sm:text-sm 2xl:text-lg">{bank['account-title'] || ''}</td>
-                            <td className="py-2 px-1 sm:px-2 font-bold text-[#414141] text-xs sm:text-sm 2xl:text-lg">{bank.iban || ''}</td>
-                          </tr>
-                        ))}
+                        <BankTransferTableRows
+                          banks={zakatDonations}
+                          section="zakat"
+                          copiedKey={copiedBankKey}
+                          onCopied={handleBankCopied}
+                        />
                       </tbody>
                     </table>
                   </div>
@@ -130,7 +201,12 @@ export default function DonationsClient({ donationData, accordionData }: Props) 
                     <img src={certImage} alt="Certificate" className="w-[90%] 2xl:w-[85%] h-[80%] object-cover" />
                   </div>
                 </div>
-                <Button type="button" variant="primary" onClick={() => setFatwOpen(true)} className="rounded-full px-4 2xl:px-3 text-xs 2xl:text-[14px]">
+                <Button
+                  type="button"
+                  variant="primary"
+                  onClick={() => setFatwOpen(true)}
+                  className="rounded-full px-4 2xl:px-3 text-xs 2xl:text-[14px] border border-primary hover:!bg-white hover:!text-[#065D80] hover:border-[#065D80]"
+                >
                   View Fatwa for Zakat
                 </Button>
               </div>
@@ -138,7 +214,10 @@ export default function DonationsClient({ donationData, accordionData }: Props) 
           </div>
 
           {fatwOpen && certImage && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60" onClick={() => setFatwOpen(false)}>
+            <div
+              className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+              onClick={() => setFatwOpen(false)}
+            >
               <div className="bg-white rounded-lg w-[90%] sm:w-[30%] h-[70%] relative flex items-center justify-center p-4" onClick={(e) => e.stopPropagation()}>
                 <Image src={certImage} alt="Certificate Large" width={600} height={800} className="max-w-full max-h-full object-contain rounded-md" />
               </div>

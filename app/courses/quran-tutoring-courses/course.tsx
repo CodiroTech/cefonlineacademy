@@ -6,15 +6,17 @@ import { Text } from '@/components/common/text'
 export default function QuranTutoringCoursesSection() {
   return (
     <section className="w-full bg-white px-4 lg:px-12 pt-8 lg:pt-10 pb-0 font-poppins">
-      <div className="container mx-auto max-w-6xl text-center lg:px-14">
+      <div className="container mx-auto max-w-[1200px] lg:px-14">
 
-        {/* HEADING */}
-        <Heading textSize="text-3xl sm:text-4xl md:text-4xl mb-0">
-          Discover Our Quran Tutoring Courses
-        </Heading>
+        {/* HEADING — same block rhythm as about/speakers */}
+        <div className="text-center mb-2">
+          <Heading textSize="text-3xl sm:text-4xl md:text-5xl">
+            Discover Our Quran Tutoring Courses
+          </Heading>
+        </div>
 
-        {/* DESCRIPTION */}
-        <Text className="leading-relaxed md:text-center mt-4 mb-5">
+        {/* DESCRIPTION — same text style as MeetOurSpeakers */}
+        <Text className="max-w-6xl mx-auto text-center mb-11 font-medium leading-[1.4]">
           At CEF Online Academy, our Quran tutoring courses are thoughtfully
           designed to help students connect revealed knowledge with acquired
           knowledge. Through a structured and engaging approach, students not

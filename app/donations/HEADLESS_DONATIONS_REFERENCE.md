@@ -4,8 +4,12 @@ The donations page loads **one** collection from the headless API. All sections 
 
 ## Endpoint
 
-- **URL:** `GET {NEXT_PUBLIC_HEADLESS_BASE_URL}/donations`
-- **Response:** Single donation page object (or array; the app uses the first item).
+- **URL:** `GET {NEXT_PUBLIC_HEADLESS_BASE_URL}/{NEXT_PUBLIC_HEADLESS_PROJECT_ID}/donations?populate[donation-banks-relation]=*`  
+  When `NEXT_PUBLIC_HEADLESS_PROJECT_ID` is **not** set, the path is `{BASE}/donations?...` (no project segment).
+- **Auth:** If `HEADLESS_API_TOKEN` is set, requests send `Authorization: Bearer …` (same as other headless calls).
+- **Response:** Single donation page object (or array; the app uses the first item). Bank rows may be returned as a flat array, as numeric IDs (resolved via `donation-banks` collection), or as Strapi-style `{ data: [{ id, attributes }] }` — the app normalizes all of these.
+
+**Donation FAQs page:** `GET {BASE}/{projectId}/donation-faqs` (or `{BASE}/donation-faqs` without project ID), with the same optional Bearer token.
 
 ## Collection / field mapping
 

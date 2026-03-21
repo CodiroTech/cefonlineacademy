@@ -15,7 +15,7 @@ export function PaymentStatusOverlay({ result, onClose }: PaymentStatusOverlayPr
   const paymentDate = txDetails?.meezan_payment_date || txDetails?.faysal_payment_date || txDetails?.order_date || new Date().toLocaleDateString()
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden relative">
         <div className={`p-8 flex flex-col items-center justify-center ${isSuccess ? 'bg-green-50' : 'bg-red-50'}`}>
           <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">

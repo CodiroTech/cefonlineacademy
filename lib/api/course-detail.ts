@@ -12,7 +12,12 @@ export type OverviewTab = {
   what_you_will_learn?: string[]
   course_description?: string
   total_lessons?: number
+  /** courses.classes — session/class count for sidebar */
+  classes?: number
+  /** Instructional duration label, e.g. "48hrs" (not access period) */
+  instructional_duration?: string | null
   level?: string
+  /** Enrollment access period text (weeks / lifetime) */
   duration?: string
   language?: string
   skills?: string[]
@@ -101,7 +106,10 @@ export type CourseDetailsRightContentArea = {
   course_quizzes?: string
   course_assignments?: string
   course_downloads?: string
+  /** Enrollment window (e.g. weeks) — optional second line in sidebar */
   course_accessPeriod?: string
+  /** Raw price from backend (0 = free) */
+  course_price_amount?: number
   add_to_wishlist_web_route?: string
   add_to_wishlist_api_route?: string
   share_course_api_route?: string
@@ -136,6 +144,8 @@ export type CourseDetailApiRaw = {
     title?: string
     description?: string
     total_lessons?: number
+    classes?: number
+    instructional_duration?: string | null
     level?: string
     duration?: string
     language?: string
@@ -189,6 +199,8 @@ function normalizeCourseDetailResponse(raw: CourseDetailApiRaw): CourseDetailRes
       description: overview.description,
       course_description: overview.description,
       total_lessons: overview.total_lessons,
+      classes: overview.classes,
+      instructional_duration: overview.instructional_duration ?? undefined,
       level: overview.level,
       duration: overview.duration,
       language: overview.language,
@@ -198,18 +210,32 @@ function normalizeCourseDetailResponse(raw: CourseDetailApiRaw): CourseDetailRes
     review_tab: raw.reviews,
     instructor_tab: raw.instructors?.length ? raw.instructors : undefined,
   }
+  /** Prefer courses.classes; fall back to total_lessons for older API payloads */
+  const rawClasses = overview.classes ?? overview.total_lessons
+  const classesCount =
+    rawClasses != null && rawClasses !== undefined ? Number(rawClasses) : undefined
+  const instructionalDuration =
+    overview.instructional_duration != null && String(overview.instructional_duration).trim() !== ''
+      ? String(overview.instructional_duration)
+      : null
+
   const right: CourseDetailsRightContentArea = {
     course_image: raw.course_image,
     course_type: raw.course_type,
     course_preview_src: raw.course_preview_src,
     course_preview_src_type: raw.course_preview_src_type,
-    course_duration: overview.duration ?? null,
+    /** Sidebar "Duration" = instructional length, not access period */
+    course_duration: instructionalDuration,
     course_level: overview.level ?? null,
     course_language: overview.language,
-    course_video_lectures: overview.total_lessons != null ? String(overview.total_lessons) : null,
+    /** Sidebar "Classes" = courses.classes from API */
+    course_video_lectures:
+      classesCount !== undefined && !Number.isNaN(classesCount) ? String(classesCount) : null,
     course_accessPeriod: overview.duration ?? undefined,
     students_enrolled: raw.students_enrolled,
     course_learner_accessibility: raw.course_learner_accessibility ?? undefined,
+    course_price: raw.course_price ?? null,
+    course_price_amount: raw.price !== undefined && raw.price !== null ? Number(raw.price) : undefined,
   }
   return {
     course_id: raw.course_id,

@@ -66,7 +66,7 @@ export async function getTestimonialItems(): Promise<TestimonialItem[]> {
 }
 
 export async function getPodcastItems() {
-  return fetchCollection<PodcastItem>('listen-and-learn')
+  return fetchCollection<PodcastItem>('listen-and-learn', 0)
 }
 
 // --------------- Aggregate fetchers ---------------

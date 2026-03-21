@@ -15,9 +15,41 @@ export function isLikelySanctumToken(value: string | null | undefined): boolean 
   return true
 }
 
+/**
+ * Normalize env value to a valid cookie domain (hostname only; leading dot for subdomain sharing).
+ * Strips protocol/path so values like https://cefonlineacademy.com become .cefonlineacademy.com.
+ */
+function normalizeCookieDomain(raw: string): string {
+  const s = raw.trim()
+  if (!s) return ''
+  try {
+    if (/^https?:\/\//i.test(s)) {
+      const hostname = new URL(s).hostname
+      if (!hostname) return ''
+      if (hostname === 'localhost') return 'localhost'
+      return hostname.startsWith('.') ? hostname : `.${hostname}`
+    }
+    if (s === 'localhost') return 'localhost'
+    return s.startsWith('.') ? s : `.${s}`
+  } catch {
+    return ''
+  }
+}
+
+/**
+ * True if the current host is the configured domain or a subdomain of it (so setting the cookie is allowed).
+ */
+function currentHostMatchesDomain(cookieDomain: string): boolean {
+  if (typeof window === 'undefined' || !cookieDomain) return false
+  const hostname = window.location.hostname
+  const base = cookieDomain.startsWith('.') ? cookieDomain.slice(1) : cookieDomain
+  return hostname === base || hostname.endsWith(`.${base}`)
+}
+
 function getAuthDomain(): string {
   if (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_CEF_AUTH_DOMAIN) {
-    return process.env.NEXT_PUBLIC_CEF_AUTH_DOMAIN.trim()
+    const normalized = normalizeCookieDomain(process.env.NEXT_PUBLIC_CEF_AUTH_DOMAIN)
+    if (normalized) return normalized
   }
   // In dev, share cookie across localhost:3000 (academy) and localhost:5173 (portal) so enrollment state is consistent
   if (typeof window !== 'undefined' && window.location?.hostname === 'localhost') {
@@ -37,7 +69,9 @@ export function setAuthCookie(token: string, role: string, options?: { fromLogin
   const r = role?.trim()
   if (!t || !r) return
   if (!options?.fromLogin && !isLikelySanctumToken(t)) return
-  const domain = getAuthDomain()
+  const configuredDomain = getAuthDomain()
+  const domain =
+    configuredDomain && currentHostMatchesDomain(configuredDomain) ? configuredDomain : ''
   const value = encodeURIComponent(`${t}|${r}`)
   const maxAge = MAX_AGE_DAYS * 24 * 60 * 60
   const secure = typeof window !== 'undefined' && window.location?.protocol === 'https:'

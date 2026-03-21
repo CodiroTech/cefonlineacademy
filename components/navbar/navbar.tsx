@@ -8,7 +8,6 @@ import {
   FaYoutube,
 } from 'react-icons/fa'
 import { IoMdSearch } from 'react-icons/io'
-import { Menu } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { NavMenu } from './nav-menu'
 import { NavigationSheet } from './navigation-sheet'
@@ -402,9 +401,11 @@ const Navbar01Page = ({ data }: NavbarProps) => {
             {renderSocialIcons('flex')}
           </div>
           {/* Main nav row: same vertical alignment as homepage (centered in row) */}
-          <nav className="h-16 sm:h-20 md:h-24 -mb-1 bg-white border-b border-gray-100">
+          <nav
+            className="h-16 sm:h-20 md:h-24 -mb-1 bg-white border-b border-gray-100"
+          >
             <div className="h-full flex items-center justify-between gap-2">
-              <div className="relative z-[110] shrink-0 mt-22 ml-8 lg:ml-10">
+              <div className="relative z-[119] shrink-0 mt-22 ml-8 lg:ml-10">
                 <Link href="/" className="cursor-pointer">
                   {logoSrc ? (
                     <Image
@@ -420,13 +421,19 @@ const Navbar01Page = ({ data }: NavbarProps) => {
                   )}
                 </Link>
               </div>
-              <div className="hidden lg:flex flex-1 items-center gap-2 min-w-0">
+              <div className="relative z-[119] hidden lg:flex flex-1 items-center gap-2 min-w-0">
                 <NavMenu className="flex-1 min-w-0" data={data} />
                 <div className="flex items-center gap-1 flex-wrap justify-end shrink-0 ml-auto">
                   {renderButtons()}
                 </div>
               </div>
-              <div className="ml-2 flex items-center lg:hidden">
+              <div
+                className={
+                  pageHeader
+                    ? 'hidden'
+                    : 'ml-2 flex items-center lg:hidden'
+                }
+              >
                 <NavigationSheet
                   data={data}
                   open={sheetOpen}
@@ -447,23 +454,12 @@ const Navbar01Page = ({ data }: NavbarProps) => {
           </nav>
           {/* Green page header — on top, pulled up toward nav; on mobile hamburger inside green area top right */}
           {pageHeader && (
-            <div className="relative z-[100] -mt-5 pb-1">
-              <div className="lg:hidden absolute top-3 right-3 z-30">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  className="border-[#065D80] text-[#065D80] hover:bg-[#065D80] hover:text-white cursor-pointer shrink-0"
-                  onClick={() => setSheetOpen(true)}
-                  aria-label="Open menu"
-                >
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </div>
+            <div className="relative z-[100] mt-0 pb-1 pointer-events-none lg:z-[115] lg:-mt-5">
               <AboutHeader
                 title={pageHeader.title}
                 imageSrc={pageHeader.imageSrc}
                 embedded
+                onMobileMenuOpen={() => setSheetOpen(true)}
               />
             </div>
           )}

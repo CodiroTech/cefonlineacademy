@@ -31,10 +31,23 @@ export type CategoryItem = {
   id: number
   name: string
   slug: string
+  /** Lower = first in academy lists. */
+  sort_order?: number
+}
+
+export type SubcategoryItem = {
+  id: number
+  name: string
+  slug: string
+  category_id: number
+  category_slug: string | null
+  /** Display order from backend (lower first). */
+  sort_order?: number
 }
 
 export type CategoryCoursesFilters = {
   category_slug: string
+  subcategory_slug?: string
   keyword?: string
   sortBy_id?: 1 | 2 | 3  // 1 All, 2 Newest, 3 Oldest
   categoryId?: number
@@ -44,6 +57,9 @@ export type CategoryCoursesFilters = {
   durationId?: number  // 1–4
   limit?: number
 }
+
+/** Max courses returned per category-courses request (backend supports any positive limit). */
+export const CATEGORY_COURSES_LIST_LIMIT = 20
 
 function getBackendBase(): string {
   if (typeof window !== 'undefined') {
@@ -60,6 +76,7 @@ export async function fetchCategoryCourses(
 
   const params = new URLSearchParams()
   params.set('category_slug', filters.category_slug)
+  if (filters.subcategory_slug?.trim()) params.set('subcategory_slug', filters.subcategory_slug.trim())
   if (filters.keyword?.trim()) params.set('keyword', filters.keyword.trim())
   if (filters.sortBy_id) params.set('sortBy_id', String(filters.sortBy_id))
   if (filters.categoryId) params.set('categoryId', String(filters.categoryId))
@@ -67,7 +84,10 @@ export async function fetchCategoryCourses(
   if (filters.ratingId !== undefined && filters.ratingId !== null) params.set('ratingId', String(filters.ratingId))
   if (filters.learnerAccessibilityType) params.set('learnerAccessibilityType', filters.learnerAccessibilityType)
   if (filters.durationId) params.set('durationId', String(filters.durationId))
-  if (filters.limit != null && filters.limit > 0) params.set('limit', String(filters.limit))
+  // Default 20; pass limit > 0 to override (e.g. smaller preview).
+  const lim =
+    filters.limit != null && filters.limit > 0 ? filters.limit : CATEGORY_COURSES_LIST_LIMIT
+  params.set('limit', String(lim))
 
   const url = `${base.replace(/\/$/, '')}/academy/category-courses?${params.toString()}`
   try {
@@ -97,28 +117,18 @@ export async function fetchCategories(categoryType?: 1 | 2): Promise<CategoryIte
   }
 }
 
-/** GET /api/academy/courses?featured=1&limit=1 – one featured course, mapped to CategoryCourseItem shape */
-export async function fetchFeaturedCourse(): Promise<CategoryCourseItem | null> {
+/** GET /api/academy/subcategories?type=1|2 – list of subcategories (id, name, slug, category_id, category_slug) for given category type */
+export async function fetchSubcategories(categoryType: 1 | 2): Promise<SubcategoryItem[] | null> {
   const base = getBackendBase()
   if (!base) return null
-  const url = `${base.replace(/\/$/, '')}/academy/courses?featured=1&limit=1`
+  const params = new URLSearchParams()
+  params.set('type', String(categoryType))
+  const url = `${base.replace(/\/$/, '')}/academy/subcategories?${params.toString()}`
   try {
     const res = await fetch(url, { cache: 'no-store' })
-    const json = (await res.json()) as { success?: boolean; data?: Array<Record<string, unknown>> }
-    if (!res.ok || !json.success || !Array.isArray(json.data) || json.data.length === 0) return null
-    const c = json.data[0]
-    return {
-      id: (c?.id as number) ?? 0,
-      slug: (c?.slug as string) ?? '',
-      title: (c?.title as string) ?? '',
-      subtitle: (c?.subtitle as string) ?? (c?.short_description as string) ?? '',
-      language_name: (c?.category as { name?: string })?.name ?? 'English',
-      average_rating: 0,
-      image_url: (c?.image_url as string) ?? '',
-      price: Number(c?.price) ?? 0,
-      classes: 0,
-      currency_symbol: 'Rs',
-    }
+    const json = (await res.json()) as { success?: boolean; data?: SubcategoryItem[] }
+    if (!res.ok || !json.success || !Array.isArray(json.data)) return null
+    return json.data
   } catch {
     return null
   }

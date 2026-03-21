@@ -1,4 +1,4 @@
-import { headlessBaseUrl, headlessApiToken } from './config'
+import { headlessBaseUrl, headlessProjectId, headlessApiToken } from './config'
 
 export type HeadlessMedia = {
   id: number
@@ -24,7 +24,9 @@ export async function fetchCollection<T = Record<string, unknown>>(
   if (!headlessBaseUrl) return []
 
   try {
-    let url = `${headlessBaseUrl}/${slug}`
+    const base = headlessBaseUrl.replace(/\/$/, '')
+    const path = headlessProjectId ? `${headlessProjectId}/${slug}` : slug
+    let url = `${base}/${path}`
     const params = new URLSearchParams()
     if (options?.search?.trim()) params.set('search', options.search.trim())
     if (options?.limit != null && options.limit > 0) params.set('limit', String(options.limit))
@@ -34,11 +36,16 @@ export async function fetchCollection<T = Record<string, unknown>>(
     if (headlessApiToken) {
       headers['Authorization'] = `Bearer ${headlessApiToken}`
     }
-    const res = await fetch(url, {
-      next: { revalidate },
+    const fetchOptions: RequestInit = {
       headers,
-    })
-    if (!res.ok) return []
+      cache: revalidate === 0 ? 'no-store' : undefined,
+      next: revalidate > 0 ? { revalidate } : undefined,
+    }
+    const res = await fetch(url, fetchOptions)
+    if (!res.ok) {
+      console.warn('[headless API]', url, 'status', res.status, res.statusText)
+      return []
+    }
     const data = await res.json()
     // Unwrap common API shapes: array, { data: [] }, { contents: [] }, { items: [] }
     let items: unknown[] = []
@@ -51,7 +58,8 @@ export async function fetchCollection<T = Record<string, unknown>>(
       else items = [data]
     }
     return items as T[]
-  } catch {
+  } catch (e) {
+    console.warn('[headless API] fetch failed', slug, e)
     return []
   }
 }
@@ -75,7 +83,8 @@ export async function fetchCollectionWithSearch<T = Record<string, unknown>>(
   params.set('limit', String(limit))
 
   try {
-    const url = `${headlessBaseUrl}/${slug}?${params.toString()}`
+    const path = headlessProjectId ? `${headlessProjectId}/${slug}` : slug
+    const url = `${headlessBaseUrl}/${path}?${params.toString()}`
     console.log('[headless API] GET', url)
     const headers: HeadersInit = {}
     if (headlessApiToken) {

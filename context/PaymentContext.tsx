@@ -67,6 +67,7 @@ export const PaymentProvider: React.FC<{ children: React.ReactNode }> = ({ child
           ...formData,
           cart_session_id: cartSessionId,
           payment_method: method === 'payfast' ? 'faysal_bank' : 'meezan_bank',
+          return_base_url: window.location.origin,
           success_url: `${window.location.origin}/payment-status/success/${cartSessionId}`,
           cancel_url: `${window.location.origin}/payment-status/failure/${cartSessionId}`,
         }),

@@ -76,6 +76,7 @@ export const MeetOurTeachersSection = ({ sectionHeader, teachers }: Props) => {
                 onLearnMore={() => setSelectedTeacher(teacher)}
                 descriptionClassName="text-sm"
                 growFullWidth
+                imageSquareMobile
               />
             )
           })}

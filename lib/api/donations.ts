@@ -1,8 +1,50 @@
 import { fetchCollection } from '@/lib/headless'
+import {
+  headlessBaseUrl,
+  headlessProjectId,
+  headlessApiToken,
+} from '@/lib/config'
 import type { DonationsResponse, DonationBankItem } from '@/lib/types/donations'
 
-const HEADLESS_BASE = process.env.NEXT_PUBLIC_HEADLESS_BASE_URL || ''
 const BACKEND_BASE = process.env.NEXT_PUBLIC_BACKEND_BASE_URL || 'https://dev.cefonlineacademy.com/api'
+
+function headlessContentUrl(slug: string, searchParams?: string): string {
+  const base = headlessBaseUrl.replace(/\/$/, '')
+  const path = headlessProjectId ? `${headlessProjectId}/${slug}` : slug
+  const q = searchParams?.trim() ? `?${searchParams.trim()}` : ''
+  return `${base}/${path}${q}`
+}
+
+function headlessAuthHeaders(): HeadersInit {
+  const headers: HeadersInit = {}
+  if (headlessApiToken) headers.Authorization = `Bearer ${headlessApiToken}`
+  return headers
+}
+
+/** Unwrap Strapi-style `{ data: [...] }` and flatten `{ id, attributes }` entries. */
+function flattenDonationBanksRelation(relationRaw: unknown): Record<string, unknown>[] {
+  let inner: unknown = relationRaw
+  if (
+    inner &&
+    typeof inner === 'object' &&
+    !Array.isArray(inner) &&
+    Array.isArray((inner as { data?: unknown[] }).data)
+  ) {
+    inner = (inner as { data: unknown[] }).data
+  }
+  if (!Array.isArray(inner)) return []
+  return inner
+    .map((item): Record<string, unknown> | null => {
+      if (typeof item === 'number') return { id: item }
+      if (item == null || typeof item !== 'object') return null
+      const o = item as Record<string, unknown>
+      if (o.attributes && typeof o.attributes === 'object') {
+        return { ...(o.attributes as object), id: o.id } as Record<string, unknown>
+      }
+      return o as Record<string, unknown>
+    })
+    .filter((x): x is Record<string, unknown> => x != null)
+}
 
 /* ---------- Dynamic accordion (Donate Online Now) ---------- */
 
@@ -162,8 +204,13 @@ export type DonationFAQResponse = {
 }
 
 export async function getDonationFAQPageData(): Promise<DonationFAQResponse | null> {
+  if (!headlessBaseUrl) return null
   try {
-    const res = await fetch(`${HEADLESS_BASE}/donation-faqs`, { next: { revalidate: 300 } })
+    const url = headlessContentUrl('donation-faqs')
+    const res = await fetch(url, {
+      headers: headlessAuthHeaders(),
+      next: { revalidate: 300 },
+    })
     if (!res.ok) return null
     const data = await res.json()
     return Array.isArray(data) ? data[0] || null : data
@@ -195,10 +242,14 @@ function normalizeDonationBanksRelation(
 }
 
 export async function getDonationsPageData(): Promise<DonationsResponse | null> {
+  if (!headlessBaseUrl) return null
   try {
     const populateParam = 'populate[donation-banks-relation]=*'
-    const url = `${HEADLESS_BASE}/donations?${populateParam}`
-    const res = await fetch(url, { next: { revalidate: 300 } })
+    const url = headlessContentUrl('donations', populateParam)
+    const res = await fetch(url, {
+      headers: headlessAuthHeaders(),
+      next: { revalidate: 300 },
+    })
     if (!res.ok) return null
     const data = await res.json()
     let page: Record<string, unknown> | null = null
@@ -207,26 +258,37 @@ export async function getDonationsPageData(): Promise<DonationsResponse | null> 
       if (data.data != null && typeof data.data === 'object') {
         const d = data.data as Record<string, unknown>
         page = (Array.isArray(d) ? d[0] : d) as Record<string, unknown>
-        if (page?.attributes && typeof page.attributes === 'object') page = { ...page, ...(page.attributes as object), attributes: undefined }
+        if (page?.attributes && typeof page.attributes === 'object')
+          page = { ...page, ...(page.attributes as object), attributes: undefined }
       } else page = data as Record<string, unknown>
     }
     if (!page || typeof page !== 'object') return null
 
     const relationRaw = page['donation-banks-relation'] ?? page.donation_banks_relation
-    const relationArr = Array.isArray(relationRaw) ? relationRaw : []
-    const needsResolve = relationArr.length > 0 && relationArr.some((x: unknown) => typeof x === 'number' || (x != null && typeof x === 'object' && !('bank-name' in x) && !('bank_name' in x)))
+    const relationFlat = flattenDonationBanksRelation(relationRaw)
+    const needsResolve =
+      relationFlat.length > 0 &&
+      relationFlat.some(
+        (x) =>
+          typeof x === 'number' ||
+          (x != null &&
+            typeof x === 'object' &&
+            !('bank-name' in x) &&
+            !('bank_name' in x)),
+      )
 
-    if (needsResolve && relationArr.length > 0) {
+    if (needsResolve && relationFlat.length > 0) {
       const allBanksRaw = await fetchCollection<Record<string, unknown>>('donation-banks', 300)
       const banksById = new Map(allBanksRaw.map((b) => [Number(b.id) || 0, normalizeBankItem(b)]))
-      const resolved = normalizeDonationBanksRelation(relationRaw, banksById)
+      const resolved = normalizeDonationBanksRelation(relationFlat, banksById)
       return { ...page, 'donation-banks-relation': resolved } as unknown as DonationsResponse
     }
 
-    if (relationArr.length > 0 && relationRaw != null) {
+    if (relationFlat.length > 0) {
       const banksById = new Map<number, DonationBankItem>()
-      const resolved = normalizeDonationBanksRelation(relationRaw, banksById)
-      if (resolved.length > 0) return { ...page, 'donation-banks-relation': resolved } as unknown as DonationsResponse
+      const resolved = normalizeDonationBanksRelation(relationFlat, banksById)
+      if (resolved.length > 0)
+        return { ...page, 'donation-banks-relation': resolved } as unknown as DonationsResponse
     }
 
     return page as unknown as DonationsResponse

@@ -13,7 +13,7 @@ export const Heading = ({
 }) => {
   return (
     <span
-      className={`${textSize} ${leading} font-extrabold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent ${className}`}
+      className={`${textSize} ${leading} font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent ${className}`}
     >
       {children}
     </span>

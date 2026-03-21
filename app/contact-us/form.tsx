@@ -17,7 +17,21 @@ type FormValues = {
   message: string
 }
 
-export default function ContactSection() {
+type SocialUrls = {
+  'facebook-url'?: string
+  'insta-url'?: string
+  'youtube-url'?: string
+  'linkedin-url'?: string
+}
+
+const socialConfig = [
+  { key: 'facebook-url' as const, Icon: FaFacebookF },
+  { key: 'insta-url' as const, Icon: FaInstagram },
+  { key: 'youtube-url' as const, Icon: FaYoutube },
+  { key: 'linkedin-url' as const, Icon: FaLinkedinIn },
+]
+
+export default function ContactSection({ socialUrls }: { socialUrls?: SocialUrls }) {
   const { register, handleSubmit, reset } = useForm<FormValues>()
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
@@ -160,21 +174,26 @@ export default function ContactSection() {
               Follow Us
             </h3>
 
-            {/* ✅ RESPONSIVE ICON ROW */}
+            {/* Social links from backend (same as header nav) */}
             <div className="flex gap-4 sm:gap-6 flex-wrap justify-center">
-              {[
-                FaFacebookF,
-                FaInstagram,
-                FaYoutube,
-                FaLinkedinIn,
-              ].map((Icon, index) => (
-                <div
-                  key={index}
-                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#8DC63F] flex items-center justify-center text-white text-lg sm:text-xl cursor-pointer hover:scale-105 transition"
-                >
-                  <Icon />
-                </div>
-              ))}
+              {socialConfig
+                .filter(({ key }) => socialUrls?.[key]?.trim())
+                .map(({ key, Icon }) => {
+                  const url = socialUrls?.[key]?.trim()
+                  if (!url) return null
+                  return (
+                  <a
+                    key={key}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#8DC63F] flex items-center justify-center text-white text-lg sm:text-xl cursor-pointer hover:scale-105 transition"
+                    aria-label={key.replace('-url', '')}
+                  >
+                    <Icon />
+                  </a>
+                  )
+                })}
             </div>
           </div>
         </div>

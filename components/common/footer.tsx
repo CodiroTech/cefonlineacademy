@@ -1,9 +1,11 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Text } from '../common/text'
 import { bookshopUrl } from '@/lib/config'
+import { getAuthCookie } from '@/lib/auth-cookie'
 import {
   FaFacebookF,
   FaInstagram,
@@ -41,14 +43,8 @@ const footerColumns: Array<FooterColumn> = [
     ],
   },
   {
-    heading: 'Other Offerings',
-    links: [
-      { label: 'Weekly Sessions', href: '/offerings/weeklySessions' },
-      { label: 'Special Series', href: '/offerings/specialSeries' },
-      { label: 'Webinars', href: '/offerings/webinars' },
-      { label: 'Workshops', href: '/offerings/workshops' },
-      { label: 'Mentorship Circles', href: '/offerings/mentorship' },
-    ],
+    heading: 'Policies',
+    links: [], // filled from data.policies (API)
   },
   {
     heading: 'Donate',
@@ -63,14 +59,12 @@ const footerColumns: Array<FooterColumn> = [
     links: [{ label: 'CEF Bookshop', href: bookshopUrl }],
     showSocialIconsOnly: true,
   },
-  {
-    heading: 'Integrations',
-    links: [{ label: 'think-cell', href: '/think-cell' }],
-  },
 ]
 
 const DEFAULT_FOOTER_TEXT =
   'Character Education Foundation (CEF) is an independent operational entity registered as a not-for-profit company set up under section 42 of the Companies Act, 2017.'
+
+type PolicyLink = { id: number; title: string }
 
 type FooterProps = {
   data?: {
@@ -84,16 +78,34 @@ type FooterProps = {
     'insta-url'?: string
     'youtube-url'?: string
     'linkedin-url'?: string
+    policies?: PolicyLink[]
   }
 }
 
 export const Footer = ({ data }: FooterProps) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  useEffect(() => {
+    setIsLoggedIn(!!getAuthCookie()?.token)
+  }, [])
+
+  const policyLinks: Array<FooterLink> = (data?.policies ?? []).map((p) => ({
+    label: p.title,
+    href: `/policies/${p.id}`,
+  }))
+  const columnsWithPolicies = footerColumns.map((col) =>
+    col.heading === 'Policies' ? { ...col, links: policyLinks } : col
+  )
+
+  const openBookDemo = () => {
+    window.dispatchEvent(new CustomEvent('cef-open-demo-popup'))
+  }
+
   const socialLinks = [
-    { icon: FaFacebookF, url: data?.['facebook-url'] ?? '#', hoverColor: 'hover:bg-[#1877F2]' },
-    { icon: FaInstagram, url: data?.['insta-url'] ?? '#', hoverColor: 'hover:bg-[#E4405F]' },
-    { icon: FaYoutube, url: data?.['youtube-url'] ?? '#', hoverColor: 'hover:bg-[#FF0000]' },
-    { icon: FaLinkedinIn, url: data?.['linkedin-url'] ?? '#', hoverColor: 'hover:bg-[#0A66C2]' },
-  ]
+    { icon: FaFacebookF, url: data?.['facebook-url'] || '', hoverColor: 'hover:bg-[#1877F2]' },
+    { icon: FaInstagram, url: data?.['insta-url'] || '', hoverColor: 'hover:bg-[#E4405F]' },
+    { icon: FaYoutube, url: data?.['youtube-url'] || '', hoverColor: 'hover:bg-[#FF0000]' },
+    { icon: FaLinkedinIn, url: data?.['linkedin-url'] || '', hoverColor: 'hover:bg-[#0A66C2]' },
+  ].filter(({ url }) => url.startsWith('http'))
 
   return (
     <footer className="font-poppins relative overflow-hidden">
@@ -146,7 +158,7 @@ export const Footer = ({ data }: FooterProps) => {
 
               {/* FOOTER LINKS */}
               <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-x-4 lg:mt-2 gap-y-4">
-                {footerColumns.map((column) => (
+                {columnsWithPolicies.map((column) => (
                   <div key={column.heading ?? column.links[0]?.label}>
                     {column.heading && (
                       <h4 className="mb-3 text-xs font-bold text-white">
@@ -157,6 +169,20 @@ export const Footer = ({ data }: FooterProps) => {
                     <ul className="space-y-2 text-xs">
                       {column.links.map((l) => {
                         const isBookshop = l.label === 'CEF Bookshop'
+                        if (l.label === 'Enroll Now') {
+                          if (isLoggedIn) return null
+                          return (
+                            <li key={l.label}>
+                              <button
+                                type="button"
+                                onClick={openBookDemo}
+                                className="text-white hover:text-secondary transition-colors cursor-pointer text-left bg-transparent border-0 p-0 font-inherit"
+                              >
+                                {l.label}
+                              </button>
+                            </li>
+                          )
+                        }
                         return (
                         <li key={l.label}>
                           <Link

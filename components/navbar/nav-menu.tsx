@@ -83,7 +83,7 @@ const navigationItems: Array<NavigationItem> = [
     label: 'Media Center',
     hasDropdown: true,
     dropdownLinks: [
-      { label: 'Upcoming Courses/sessions', to: '/media-center/upcoming-courses' },
+      // { label: 'Upcoming Courses/sessions', to: '/media-center/upcoming-courses' },
       { label: 'Testimonials', to: '/media-center/testimonials' },
       { label: 'Blogs', to: '/media-center/blogs' },
       { label: 'Podcasts', to: '/media-center/podcasts' },
@@ -305,7 +305,9 @@ export const NavMenu = ({
               ) : (
                 <Link
                   className={`text-primary font-medium cursor-pointer whitespace-nowrap lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-medium ${
-                    isVertical ? 'w-full block p-3' : ''
+                    isVertical
+                      ? 'w-full block p-1 text-left text-base'
+                      : ''
                   }`}
                   href={item.to!}
                 >
@@ -485,7 +487,9 @@ export const NavMenu = ({
               <NavigationMenuLink asChild>
                 <Link
                   className={`text-primary font-medium cursor-pointer whitespace-nowrap lg:text-[0.6rem]! xl:text-[0.8rem]! 2xl:text-[0.9rem]! hover:text-[#0B5C6B] hover:font-medium ${
-                    isVertical ? 'w-full block p-3' : ''
+                    isVertical
+                      ? 'w-full block p-1 text-left text-base'
+                      : ''
                   }`}
                   href={item.to!}
                 >

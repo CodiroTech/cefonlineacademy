@@ -92,38 +92,51 @@ export const WhyChooseUs = ({ stats: apiStats }: WhyChooseUsProps) => {
           </Heading>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-0">
-          {stats.map((item, index) => (
-            <div key={item.label} className="flex items-center">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 justify-items-center sm:flex sm:flex-row sm:flex-nowrap sm:items-start sm:justify-center sm:gap-0">
+          {stats.map((item, index) => {
+            const isLastOdd =
+              stats.length % 2 === 1 && index === stats.length - 1
+            return (
+              <div
+                key={item.label}
+                className={`flex items-center sm:contents ${isLastOdd ? 'col-span-2 justify-center w-full sm:col-span-auto sm:w-auto sm:justify-start' : ''}`}
+              >
+                <div
+                  className={`flex flex-col items-center text-center px-2 sm:px-6 w-full max-w-[160px] sm:max-w-none ${isLastOdd ? 'mx-auto sm:mx-0' : ''}`}
+                >
+                  <div
+                    className={`flex items-center justify-center mb-2 ${item.label.toLowerCase().includes('student') ? 'h-16' : 'h-14'}`}
+                  >
+                    <Image
+                      src={item.icon}
+                      alt={item.label}
+                      width={
+                        item.label.toLowerCase().includes('student') ? 86 : 60
+                      }
+                      height={
+                        item.label.toLowerCase().includes('student') ? 86 : 60
+                      }
+                      className="object-contain"
+                    />
+                  </div>
 
-              <div className="flex flex-col items-center text-center px-6">
+                  <div className="text-3xl sm:text-4xl lg:text-7xl font-bold text-[#065D80] leading-none">
+                    {counters[index]}+
+                  </div>
 
-                <div className={`flex items-center justify-center mb-2 ${item.label.toLowerCase().includes('student') ? 'h-16' : 'h-14'}`}>
-                  <Image
-                    src={item.icon}
-                    alt={item.label}
-                    width={item.label.toLowerCase().includes('student') ? 86 : 60}
-                    height={item.label.toLowerCase().includes('student') ? 86 : 60}
-                    className="object-contain"
-                  />
+                  <div className="text-sm sm:text-base text-[#414141] font-medium leading-tight mt-1">
+                    {item.label}
+                  </div>
                 </div>
 
-                <div className="text-3xl sm:text-4xl lg:text-7xl font-bold text-[#065D80] leading-none">
-                  {counters[index]}+
-                </div>
-
-                <div className="text-sm sm:text-base text-[#414141] font-medium leading-tight mt-1">
-                  {item.label}
-                </div>
+                {index !== stats.length - 1 && (
+                  <div className="hidden sm:flex items-center self-stretch pt-2">
+                    <div className="h-23 w-px bg-[#065D80] opacity-40" />
+                  </div>
+                )}
               </div>
-
-              {index !== stats.length - 1 && (
-                <div className="hidden sm:flex items-center">
-                  <div className="h-23 w-px bg-[#065D80] opacity-40" />
-                </div>
-              )}
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

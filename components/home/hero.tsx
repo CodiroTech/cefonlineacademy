@@ -67,10 +67,10 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
 
   return (
     <section className="w-full pt-1 pb-5">
-      <div className="max-w-[1600px] mx-auto px-8 lg:px-20">
-        <div className="w-full bg-[#EAF7E5] rounded-[36px] pt-7 lg:pt-10 pb-3 lg:pb-6 pr-6 lg:pr-8 flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0">
+      <div className="max-w-[1600px] mx-auto px-[10px] sm:px-6 md:px-8 lg:px-20">
+        <div className="w-full min-w-0 bg-[#EAF7E5] rounded-[36px] pt-7 lg:pt-10 pb-3 lg:pb-6 px-[10px] sm:px-4 md:px-6 lg:px-8 flex flex-col lg:flex-row items-stretch gap-8 lg:gap-0 overflow-x-hidden">
 
-        <div className="relative z-20 w-full lg:w-[53%] space-y-4 pt-15 lg:pt-23 sm:pt-23 pl-6 pr-6 lg:pl-8 lg:pr-8">
+        <div className="relative z-20 w-full min-w-0 lg:w-[53%] space-y-4 pt-15 lg:pt-23 sm:pt-23 lg:pr-6">
           <Heading
             textSize="!text-xl sm:!text-2xl md:!text-3xl lg:!text-[39.5px]"
           >
@@ -100,33 +100,45 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
           <Button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent('cef-open-demo-popup'))}
-            className="rounded-full px-3 sm:px-5 py-4 sm:py-5 text-xs lg:text-[16px] font-semibold bg-linear-to-r from-[#065D80] to-[#8DC63F] text-white hover:opacity-90 cursor-pointer"
+            className="max-w-full w-full sm:w-auto !whitespace-normal text-center leading-snug rounded-full px-3 sm:px-5 py-3 sm:py-4 lg:py-5 text-xs lg:text-[16px] font-semibold bg-linear-to-r from-[#065D80] to-[#8DC63F] text-white hover:opacity-90 cursor-pointer"
           >
             Register for Free Demo — Start Your Journey
           </Button>
 
-          <div className="flex flex-wrap gap-2 sm:gap-2 pt-1">
-            <Link href="/courses/quran-tutoring-courses">
-              <button type="button" className="rounded-full border bg-[#065D80] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer">
+          <div className="grid grid-cols-2 gap-2 pt-1 w-full sm:flex sm:flex-wrap sm:gap-2">
+            <Link href="/courses/quran-tutoring-courses" className="min-w-0 w-full sm:w-auto">
+              <button
+                type="button"
+                className="w-full rounded-full border bg-[#065D80] px-2 sm:px-3 py-3 sm:py-2 text-xs sm:text-[16px] font-semibold sm:font-bold text-white text-center leading-tight hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer"
+              >
                 Our Courses
               </button>
             </Link>
 
-            <Link href="/offerings/workshops">
-              <button type="button" className="rounded-full border bg-[#8DC63F] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#8DC63F] transition cursor-pointer">
+            <Link href="/offerings/workshops" className="min-w-0 w-full sm:w-auto">
+              <button
+                type="button"
+                className="w-full rounded-full border bg-[#8DC63F] px-2 sm:px-3 py-3 sm:py-2 text-xs sm:text-[16px] font-semibold sm:font-bold text-white text-center leading-tight hover:bg-white hover:text-[#8DC63F] transition cursor-pointer"
+              >
                 Our Offerings
               </button>
             </Link>
 
-            <Link href={bookshopUrl} target="_blank" rel="noopener noreferrer">
-              <button type="button" className="rounded-full border bg-[#065D80] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer">
+            <Link href={bookshopUrl} target="_blank" rel="noopener noreferrer" className="min-w-0 w-full sm:w-auto">
+              <button
+                type="button"
+                className="w-full rounded-full border bg-[#065D80] px-2 sm:px-3 py-3 sm:py-2 text-xs sm:text-[16px] font-semibold sm:font-bold text-white text-center leading-tight hover:bg-white hover:text-[#0B5C6B] transition cursor-pointer"
+              >
                 CEF Bookshop
               </button>
             </Link>
 
-            <Link href="/media-center/upcoming-courses">
-              <button type="button" className="rounded-full bg-linear-to-r from-[#065D80] to-[#8DC63F] px-3 sm:px-3 py-1.5 sm:py-2 text-[16px] font-bold text-white hover:scale-105 transition cursor-pointer">
-                What's New
+            <Link href="/media-center/upcoming-courses" className="min-w-0 w-full sm:w-auto">
+              <button
+                type="button"
+                className="w-full rounded-full bg-linear-to-r from-[#065D80] to-[#8DC63F] px-2 sm:px-3 py-3 sm:py-2 text-xs sm:text-[16px] font-semibold sm:font-bold text-white text-center leading-tight hover:scale-105 transition cursor-pointer"
+              >
+                What&apos;s New
               </button>
             </Link>
           </div>
@@ -145,7 +157,7 @@ export const Header = ({ hero, steps: apiSteps }: HeaderProps) => {
           </div>
 
           {/* STEPS -- mobile */}
-          <div className="relative z-10 flex flex-col items-center w-full max-w-md mx-auto lg:hidden bg-white rounded-2xl py-6 px-4">
+          <div className="relative z-10 flex flex-col items-center w-full max-w-md mx-auto lg:hidden bg-white rounded-2xl py-6 px-[10px] sm:px-4">
             <div className="mb-4 px-5 py-2.5 rounded-full bg-linear-to-r from-[#88bc44] to-[#6b9e36] text-white text-sm font-bold border border-[#5a8a2e]/60 shadow-sm">
               4 Easy Steps
             </div>

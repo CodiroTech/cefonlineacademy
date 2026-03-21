@@ -20,6 +20,8 @@ type CardProps = {
   paddingY?: string    // optional Tailwind class e.g. "py-6"
   growFullWidth?: boolean  // when true, card grows to fill flex container (no max-w-sm)
   imageSquare?: boolean    // when true, image container is square (aspect-square)
+  /** Below lg: square frame (like desktop “tile”); lg+: full column width × fixed height */
+  imageSquareMobile?: boolean
   /** When set, description is clamped to this many lines (e.g. 3). */
   descriptionLineClamp?: number
   /** When set, "Learn more" is a button that calls this instead of linking. */
@@ -49,6 +51,7 @@ export const Card = ({
   paddingY = 'py-6',
   growFullWidth = false,
   imageSquare = false,
+  imageSquareMobile = false,
   descriptionLineClamp,
   onLearnMore,
   descriptionClassName,
@@ -65,14 +68,33 @@ export const Card = ({
       {/* IMAGE */}
       <div className="w-full flex items-center justify-center mb-6">
         <div
-          className={`relative w-full ${imageSquare ? 'aspect-square' : ''}`}
-          style={!imageSquare ? { height: imageHeight ? `${imageHeight}px` : '18rem' } : undefined}
+          className={[
+            'relative w-full',
+            imageSquare && 'aspect-square',
+            !imageSquare &&
+              imageSquareMobile &&
+              'max-lg:mx-auto max-lg:aspect-square max-lg:max-w-[min(100%,18rem)] lg:h-[18rem]',
+            !imageSquare && !imageSquareMobile && (imageHeight ? '' : 'h-[18rem]'),
+          ]
+            .filter(Boolean)
+            .join(' ')}
+          style={
+            !imageSquare && !imageSquareMobile && imageHeight
+              ? { height: `${imageHeight}px` }
+              : undefined
+          }
         >
           <Image
             src={image}
             alt={title}
             fill
-            className={imageSquare ? 'object-cover' : 'object-fill'}
+            className={
+              imageSquare
+                ? 'object-cover'
+                : imageSquareMobile
+                  ? 'object-cover lg:object-fill'
+                  : 'object-fill'
+            }
             style={imageWidth && !imageSquare ? { width: `${imageWidth}px` } : {}}
           />
         </div>

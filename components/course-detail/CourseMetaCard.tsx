@@ -13,6 +13,17 @@ function getRightArea(props: Props): CourseDetailsRightContentArea | undefined {
   return r && typeof r === 'object' ? (r as CourseDetailsRightContentArea) : undefined
 }
 
+/** Free vs paid from numeric price when API sends it; else learner_accessibility. */
+function accessFreeOrPaid(right: CourseDetailsRightContentArea): 'Free' | 'Paid' {
+  const amt = right.course_price_amount
+  if (amt !== undefined && amt !== null && !Number.isNaN(Number(amt))) {
+    return Number(amt) <= 0 ? 'Free' : 'Paid'
+  }
+  if (right.course_learner_accessibility === 'free') return 'Free'
+  if (right.course_learner_accessibility === 'paid') return 'Paid'
+  return 'Free'
+}
+
 const metaItems = (
   right: CourseDetailsRightContentArea | undefined
 ): { label: string; value: string | number | null | undefined }[] => {
@@ -24,7 +35,9 @@ const metaItems = (
       items.push({ label: 'Duration', value: right.course_duration })
     if (right.course_level) items.push({ label: 'Category', value: right.course_level })
     if (right.course_language) items.push({ label: 'Language', value: right.course_language })
-    if (right.course_accessPeriod) items.push({ label: 'Access', value: right.course_accessPeriod })
+    items.push({ label: 'Access', value: accessFreeOrPaid(right) })
+    if (right.course_accessPeriod)
+      items.push({ label: 'Enrollment period', value: right.course_accessPeriod })
     if (right.course_downloads) items.push({ label: 'Resource', value: right.course_downloads })
     if (typeof right.students_enrolled === 'number' && right.students_enrolled > 0)
       items.push({ label: 'Students enrolled', value: right.students_enrolled })
@@ -43,6 +56,7 @@ const icons: Record<string, React.ReactNode> = {
   Category: <IconImg src="/course-details/Category-01.svg" alt="" />,
   Language: <IconImg src="/course-details/Language-01.svg" alt="" />,
   Access: <IconImg src="/course-details/Access-01.svg" alt="" />,
+  'Enrollment period': <IconImg src="/course-details/Access-01.svg" alt="" />,
   Certificate: <IconImg src="/course-details/Certificate-01.svg" alt="" />,
   Resource: <IconImg src="/course-details/Resourse-01.svg" alt="" />,
   'Students enrolled': (

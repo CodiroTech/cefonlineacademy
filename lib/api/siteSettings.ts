@@ -18,10 +18,10 @@ export type SiteSettings = {
 
 const DEFAULT_LOGO = '/CEF Logo-01.png'
 const DEFAULT_FAVICON = '/favicon.ico'
-const DEFAULT_FACEBOOK = 'https://facebook.com/'
-const DEFAULT_INSTAGRAM = 'https://instagram.com/'
-const DEFAULT_YOUTUBE = 'https://youtube.com/'
-const DEFAULT_LINKEDIN = 'https://linkedin.com/'
+const DEFAULT_FACEBOOK = ''
+const DEFAULT_INSTAGRAM = ''
+const DEFAULT_YOUTUBE = ''
+const DEFAULT_LINKEDIN = ''
 const DEFAULT_PORTAL_URL = 'http://localhost:5174/'
 
 /** When set (e.g. in .env.local), overrides portal-url from API so local login redirects to your dashboard. */
